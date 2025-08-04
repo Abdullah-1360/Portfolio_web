@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:responsive_framework/responsive_framework.dart';
 import '../widgets/custom_app_bar.dart';
 import '../widgets/projects_section.dart';
 import '../providers/portfolio_provider.dart';
