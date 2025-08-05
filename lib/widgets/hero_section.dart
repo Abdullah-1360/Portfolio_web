@@ -34,30 +34,31 @@ class _HeroSectionState extends State<HeroSection>
   void initState() {
     super.initState();
     
+    // Optimized animation controllers with better performance
     _floatingController = AnimationController(
-      duration: const Duration(seconds: 3),
+      duration: const Duration(seconds: 4),
       vsync: this,
     )..repeat(reverse: true);
     
     _pulseController = AnimationController(
-      duration: const Duration(seconds: 2),
+      duration: const Duration(seconds: 3),
       vsync: this,
     )..repeat(reverse: true);
     
     _floatingAnimation = Tween<double>(
-      begin: -10,
-      end: 10,
+      begin: -8,
+      end: 8,
     ).animate(CurvedAnimation(
       parent: _floatingController,
-      curve: Curves.easeInOut,
+      curve: Curves.easeInOutSine,
     ));
     
     _pulseAnimation = Tween<double>(
       begin: 1.0,
-      end: 1.1,
+      end: 1.05,
     ).animate(CurvedAnimation(
       parent: _pulseController,
-      curve: Curves.easeInOut,
+      curve: Curves.easeInOutSine,
     ));
     
     _riveController = SimpleAnimation('idle');
@@ -71,6 +72,17 @@ class _HeroSectionState extends State<HeroSection>
     super.dispose();
   }
 
+  // Helper method for responsive font sizing
+  double _getResponsiveFontSize(BuildContext context, double desktop, double tablet, double mobile) {
+    if (ResponsiveBreakpoints.of(context).largerThan(TABLET)) {
+      return desktop;
+    } else if (ResponsiveBreakpoints.of(context).equals(TABLET)) {
+      return tablet;
+    } else {
+      return mobile;
+    }
+  }
+
   Future<void> _launchUrl(String url) async {
     final uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
@@ -81,14 +93,23 @@ class _HeroSectionState extends State<HeroSection>
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     final isDesktop = ResponsiveBreakpoints.of(context).largerThan(TABLET);
     final isMobile = ResponsiveBreakpoints.of(context).equals(MOBILE);
+    final isTablet = ResponsiveBreakpoints.of(context).equals(TABLET);
+    
+    // Responsive padding calculation
+    final horizontalPadding = isDesktop 
+        ? (screenWidth > 1440 ? 120.0 : 80.0)
+        : (isMobile ? 20.0 : 40.0);
     
     return Container(
-      height: MediaQuery.of(context).size.height,
+      height: screenHeight,
+      width: double.infinity,
       padding: EdgeInsets.symmetric(
-        horizontal: isDesktop ? 80 : (isMobile ? 20 : 40),
-        vertical: 40,
+        horizontal: horizontalPadding,
+        vertical: isDesktop ? 60 : (isTablet ? 50 : 40),
       ),
       child: isDesktop ? _buildDesktopLayout(theme) : _buildMobileLayout(theme),
     );
@@ -144,7 +165,7 @@ class _HeroSectionState extends State<HeroSection>
         
         const SizedBox(height: 8),
         
-        // Name with animated text
+        // Name with optimized animated text
         AnimatedTextKit(
           animatedTexts: [
             TypewriterAnimatedText(
@@ -152,17 +173,20 @@ class _HeroSectionState extends State<HeroSection>
               textStyle: theme.textTheme.displayLarge?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: theme.colorScheme.onBackground,
-                fontSize: ResponsiveBreakpoints.of(context).equals(MOBILE) ? 32 : 48,
+                fontSize: _getResponsiveFontSize(context, 48, 36, 32),
+                height: 1.2,
               ),
-              speed: const Duration(milliseconds: 100),
+              speed: const Duration(milliseconds: 80),
             ),
           ],
           totalRepeatCount: 1,
-        ).animate().fadeIn(delay: 300.ms),
+          displayFullTextOnTap: true,
+          stopPauseOnTap: true,
+        ).animate().fadeIn(delay: 200.ms).slideX(begin: -0.2, curve: Curves.easeOutCubic),
         
         const SizedBox(height: 16),
         
-        // Title with animated text
+        // Title with optimized animated text
         AnimatedTextKit(
           animatedTexts: [
             FadeAnimatedText(
@@ -170,31 +194,35 @@ class _HeroSectionState extends State<HeroSection>
               textStyle: theme.textTheme.headlineMedium?.copyWith(
                 color: theme.colorScheme.primary,
                 fontWeight: FontWeight.w600,
-                fontSize: ResponsiveBreakpoints.of(context).equals(MOBILE) ? 24 : 32,
+                fontSize: _getResponsiveFontSize(context, 32, 28, 24),
+                height: 1.3,
               ),
-              duration: const Duration(milliseconds: 2000),
+              duration: const Duration(milliseconds: 2500),
             ),
             FadeAnimatedText(
               'Mobile App Developer',
               textStyle: theme.textTheme.headlineMedium?.copyWith(
                 color: theme.colorScheme.primary,
                 fontWeight: FontWeight.w600,
-                fontSize: ResponsiveBreakpoints.of(context).equals(MOBILE) ? 24 : 32,
+                fontSize: _getResponsiveFontSize(context, 32, 28, 24),
+                height: 1.3,
               ),
-              duration: const Duration(milliseconds: 2000),
+              duration: const Duration(milliseconds: 2500),
             ),
             FadeAnimatedText(
               'UI/UX Enthusiast',
               textStyle: theme.textTheme.headlineMedium?.copyWith(
                 color: theme.colorScheme.primary,
                 fontWeight: FontWeight.w600,
-                fontSize: ResponsiveBreakpoints.of(context).equals(MOBILE) ? 24 : 32,
+                fontSize: _getResponsiveFontSize(context, 32, 28, 24),
+                height: 1.3,
               ),
-              duration: const Duration(milliseconds: 2000),
+              duration: const Duration(milliseconds: 2500),
             ),
           ],
           repeatForever: true,
-        ).animate().fadeIn(delay: 500.ms),
+          pause: const Duration(milliseconds: 1000),
+        ).animate().fadeIn(delay: 400.ms).slideX(begin: 0.2, curve: Curves.easeOutCubic),
         
         const SizedBox(height: 24),
         

@@ -26,6 +26,17 @@ class _ProjectsSectionState extends State<ProjectsSection>
   String _selectedFilter = 'All';
   bool _showFeaturedOnly = false;
 
+  // Helper method for responsive font sizing
+  double _getResponsiveFontSize(BuildContext context, double desktop, double tablet, double mobile) {
+    if (ResponsiveBreakpoints.of(context).largerThan(TABLET)) {
+      return desktop;
+    } else if (ResponsiveBreakpoints.of(context).equals(TABLET)) {
+      return tablet;
+    } else {
+      return mobile;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -102,44 +113,36 @@ class _ProjectsSectionState extends State<ProjectsSection>
     final screenWidth = MediaQuery.of(context).size.width;
     final isDesktop = ResponsiveBreakpoints.of(context).largerThan(TABLET);
     final isMobile = ResponsiveBreakpoints.of(context).equals(MOBILE);
-    final isSmallDesktop = ResponsiveBreakpoints.of(context).equals('SMALL_DESKTOP');
+    final isTablet = ResponsiveBreakpoints.of(context).equals(TABLET);
     
-    // Dynamic padding based on screen size
-    double horizontalPadding;
-    if (screenWidth > 1440) {
-      horizontalPadding = 120;
-    } else if (screenWidth > 1024) {
-      horizontalPadding = 80;
-    } else if (screenWidth > 768) {
-      horizontalPadding = 60;
-    } else if (screenWidth > 480) {
-      horizontalPadding = 40;
-    } else {
-      horizontalPadding = 20;
-    }
+    // Optimized responsive padding calculation
+    final horizontalPadding = isDesktop 
+        ? (screenWidth > 1440 ? 120.0 : 80.0)
+        : (isMobile ? 20.0 : 40.0);
     
     return Container(
+      width: double.infinity,
       padding: EdgeInsets.symmetric(
         horizontal: horizontalPadding,
-        vertical: screenWidth > 768 ? 80 : 60,
+        vertical: isDesktop ? 100 : (isTablet ? 80 : 60),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Section title
+          // Section title with improved animation
           _buildSectionTitle(theme),
           
-          const SizedBox(height: 60),
+          SizedBox(height: isDesktop ? 60 : (isTablet ? 50 : 40)),
           
-          // Filter controls
+          // Filter controls with enhanced responsiveness
           _buildFilterControls(theme, isDesktop),
           
-          const SizedBox(height: 40),
+          SizedBox(height: isDesktop ? 40 : 30),
           
-          // Projects grid
+          // Projects grid with optimized layout
           _buildProjectsGrid(theme, screenWidth, isDesktop, isMobile),
           
-          const SizedBox(height: 60),
+          SizedBox(height: isDesktop ? 60 : 40),
           
           // View all projects button
           _buildViewAllButton(theme),
@@ -370,108 +373,131 @@ class _ProjectsSectionState extends State<ProjectsSection>
       animation: controller,
       builder: (context, child) {
         return Transform.translate(
-          offset: Offset(0, 50 * (1 - controller.value)),
-          child: Opacity(
-            opacity: controller.value,
-            child: Container(
-              decoration: BoxDecoration(
-                color: theme.colorScheme.surface,
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(
-                  color: theme.colorScheme.primary.withOpacity(0.1),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: theme.colorScheme.primary.withOpacity(0.1),
-                    blurRadius: 20,
-                    spreadRadius: 5,
+          offset: Offset(0, 30 * (1 - controller.value)),
+          child: Transform.scale(
+            scale: 0.95 + (0.05 * controller.value),
+            child: Opacity(
+              opacity: controller.value,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.surface,
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                    color: theme.colorScheme.primary.withOpacity(0.08),
                   ),
-                ],
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Project image
-                    _buildProjectImage(project, theme),
-                    
-                    // Project content
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(24),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // Project title and featured badge
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    project.title,
-                                    style: theme.textTheme.titleLarge?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      color: theme.colorScheme.onBackground,
-                                    ),
-                                  ),
-                                ),
-                                if (project.featured)
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 8,
-                                      vertical: 4,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: theme.colorScheme.secondary,
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: theme.colorScheme.shadow.withOpacity(0.08),
+                      blurRadius: 24,
+                      offset: const Offset(0, 8),
+                      spreadRadius: 0,
+                    ),
+                    BoxShadow(
+                      color: theme.colorScheme.shadow.withOpacity(0.04),
+                      blurRadius: 6,
+                      offset: const Offset(0, 2),
+                      spreadRadius: 0,
+                    ),
+                  ],
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Enhanced project image
+                      _buildProjectImage(project, theme),
+                      
+                      // Project content with improved spacing
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(24),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Project title and featured badge
+                              Row(
+                                children: [
+                                  Expanded(
                                     child: Text(
-                                      'Featured',
-                                      style: theme.textTheme.bodySmall?.copyWith(
-                                        color: theme.colorScheme.onSecondary,
-                                        fontWeight: FontWeight.w600,
+                                      project.title,
+                                      style: theme.textTheme.titleLarge?.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        color: theme.colorScheme.onBackground,
+                                        height: 1.2,
                                       ),
                                     ),
                                   ),
-                              ],
-                            ),
-                            
-                            const SizedBox(height: 12),
-                            
-                            // Project description
-                            Expanded(
-                              child: Text(
-                                project.description,
-                                style: theme.textTheme.bodyMedium?.copyWith(
-                                  height: 1.5,
-                                  color: theme.colorScheme.onBackground.withOpacity(0.7),
-                                ),
-                                maxLines: 3,
-                                overflow: TextOverflow.ellipsis,
+                                  if (project.featured)
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 10,
+                                        vertical: 5,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            theme.colorScheme.secondary,
+                                            theme.colorScheme.secondary.withOpacity(0.8),
+                                          ],
+                                        ),
+                                        borderRadius: BorderRadius.circular(14),
+                                      ),
+                                      child: Text(
+                                        'Featured',
+                                        style: theme.textTheme.bodySmall?.copyWith(
+                                          color: theme.colorScheme.onSecondary,
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 11,
+                                        ),
+                                      ),
+                                    ),
+                                ],
                               ),
-                            ),
-                            
-                            const SizedBox(height: 16),
-                            
-                            // Technologies
-                            _buildTechnologies(project.technologies, theme),
-                            
-                            const SizedBox(height: 20),
-                            
-                            // Action buttons
-                            _buildProjectActions(project, theme),
-                          ],
+                              
+                              const SizedBox(height: 14),
+                              
+                              // Project description with better readability
+                              Expanded(
+                                child: Text(
+                                  project.description,
+                                  style: theme.textTheme.bodyMedium?.copyWith(
+                                    height: 1.6,
+                                    color: theme.colorScheme.onBackground.withOpacity(0.75),
+                                  ),
+                                  maxLines: 4,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              
+                              const SizedBox(height: 18),
+                              
+                              // Enhanced technologies display
+                              _buildTechnologies(project.technologies, theme),
+                              
+                              const SizedBox(height: 22),
+                              
+                              // Enhanced action buttons
+                              _buildProjectActions(project, theme),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
         );
       },
-    ).animate().fadeIn(delay: (500 + index * 150).ms);
+    ).animate().fadeIn(
+      delay: (400 + index * 120).ms,
+      duration: const Duration(milliseconds: 800),
+    ).slideY(
+      begin: 0.15,
+      curve: Curves.easeOutCubic,
+    );
   }
 
   Widget _buildProjectImage(Project project, ThemeData theme) {

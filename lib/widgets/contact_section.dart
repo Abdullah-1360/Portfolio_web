@@ -386,22 +386,37 @@ class _ContactSectionState extends State<ContactSection>
       animation: _formController,
       builder: (context, child) {
         return Transform.translate(
-          offset: Offset(50 * (1 - _formController.value), 0),
+          offset: Offset(30 * (1 - _formController.value), 0),
           child: Opacity(
             opacity: _formController.value,
             child: Container(
-                padding: EdgeInsets.all(screenWidth > 768 ? 32 : 24),
+              padding: EdgeInsets.all(screenWidth > 768 ? 32 : 24),
               decoration: BoxDecoration(
-                color: theme.colorScheme.surface,
-                borderRadius: BorderRadius.circular(20),
+                gradient: LinearGradient(
+                  colors: [
+                    theme.colorScheme.surface,
+                    theme.colorScheme.surface.withOpacity(0.95),
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(24),
                 border: Border.all(
-                  color: theme.colorScheme.primary.withOpacity(0.1),
+                  color: theme.colorScheme.primary.withOpacity(0.15),
+                  width: 1.5,
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: theme.colorScheme.primary.withOpacity(0.1),
-                    blurRadius: 20,
-                    spreadRadius: 5,
+                    color: theme.colorScheme.primary.withOpacity(0.08),
+                    blurRadius: 30,
+                    spreadRadius: 0,
+                    offset: const Offset(0, 8),
+                  ),
+                  BoxShadow(
+                    color: theme.colorScheme.shadow.withOpacity(0.05),
+                    blurRadius: 15,
+                    spreadRadius: 0,
+                    offset: const Offset(0, 4),
                   ),
                 ],
               ),
@@ -415,6 +430,8 @@ class _ContactSectionState extends State<ContactSection>
                       style: theme.textTheme.headlineSmall?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: theme.colorScheme.onBackground,
+                        fontSize: screenWidth > 768 ? 24 : 20,
+                        height: 1.2,
                       ),
                     ),
                     
@@ -535,16 +552,22 @@ class _ContactSectionState extends State<ContactSection>
                     
                     const SizedBox(height: 32),
                     
-                    // Submit button
+                    // Enhanced submit button
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: _isSubmitting ? null : _submitForm,
                         style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                          padding: EdgeInsets.symmetric(
+                            vertical: screenWidth > 768 ? 18 : 16,
                           ),
+                          elevation: _isSubmitting ? 0 : 8,
+                          shadowColor: theme.colorScheme.primary.withOpacity(0.3),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          backgroundColor: theme.colorScheme.primary,
+                          foregroundColor: theme.colorScheme.onPrimary,
                         ),
                         child: _isSubmitting
                             ? Row(
@@ -663,23 +686,24 @@ class _ContactSectionState extends State<ContactSection>
           style: theme.textTheme.titleLarge?.copyWith(
             fontWeight: FontWeight.bold,
             color: theme.colorScheme.onBackground,
+            fontSize: MediaQuery.of(context).size.width > 768 ? 22 : 18,
           ),
         ),
         
-        const SizedBox(height: 24),
+        const SizedBox(height: 32),
         
         _buildResponsiveSocialLinks(theme, socialLinks),
       ],
-    ).animate().fadeIn(delay: 700.ms);
+    ).animate().fadeIn(delay: 600.ms, duration: 800.ms).slideY(begin: 0.2);
   }
 
   Widget _buildResponsiveSocialLinks(ThemeData theme, List<Map<String, dynamic>> socialLinks) {
     final screenWidth = MediaQuery.of(context).size.width;
     
-    // Adjust icon size and spacing based on screen width
-    double iconSize = screenWidth > 768 ? 60 : (screenWidth > 480 ? 50 : 45);
-    double iconPadding = screenWidth > 768 ? 12 : (screenWidth > 480 ? 10 : 8);
-    double iconInnerSize = screenWidth > 768 ? 24 : (screenWidth > 480 ? 20 : 18);
+    // Enhanced responsive sizing
+    double iconSize = screenWidth > 1024 ? 70 : (screenWidth > 768 ? 60 : (screenWidth > 480 ? 55 : 50));
+    double iconPadding = screenWidth > 768 ? 16 : (screenWidth > 480 ? 12 : 10);
+    double iconInnerSize = screenWidth > 768 ? 26 : (screenWidth > 480 ? 22 : 20);
     
     return Wrap(
       alignment: WrapAlignment.center,
@@ -691,16 +715,31 @@ class _ContactSectionState extends State<ContactSection>
         
         return InkWell(
           onTap: () => _launchUrl(social['url'] as String),
-          borderRadius: BorderRadius.circular(50),
+          borderRadius: BorderRadius.circular(iconSize / 2),
           child: Container(
             width: iconSize,
             height: iconSize,
             decoration: BoxDecoration(
-              color: theme.colorScheme.primary.withOpacity(0.1),
+              gradient: LinearGradient(
+                colors: [
+                  theme.colorScheme.primary.withOpacity(0.15),
+                  theme.colorScheme.primary.withOpacity(0.05),
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
               shape: BoxShape.circle,
               border: Border.all(
-                color: theme.colorScheme.primary.withOpacity(0.3),
+                color: theme.colorScheme.primary.withOpacity(0.2),
+                width: 1.5,
               ),
+              boxShadow: [
+                BoxShadow(
+                  color: theme.colorScheme.primary.withOpacity(0.1),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
             ),
             child: Icon(
               social['icon'] as IconData,
@@ -708,28 +747,51 @@ class _ContactSectionState extends State<ContactSection>
               size: iconInnerSize,
             ),
           ),
-        ).animate().fadeIn(delay: (800 + index * 100).ms).scale(begin: const Offset(0.5, 0.5));
+        ).animate().fadeIn(
+          delay: Duration(milliseconds: 700 + (index * 80)),
+          duration: const Duration(milliseconds: 600),
+        ).scale(
+          begin: const Offset(0.3, 0.3),
+          curve: Curves.easeOutBack,
+        ).then().shimmer(
+          delay: Duration(milliseconds: 1000 + (index * 200)),
+          duration: const Duration(milliseconds: 800),
+        );
       }).toList(),
     );
   }
 
   Widget _buildFooter(ThemeData theme) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    
     return Center(
       child: Column(
         children: [
           Container(
-            width: 100,
-            height: 1,
-            color: theme.colorScheme.primary.withOpacity(0.3),
+            width: screenWidth > 768 ? 120 : 80,
+            height: 2,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Colors.transparent,
+                  theme.colorScheme.primary.withOpacity(0.4),
+                  Colors.transparent,
+                ],
+              ),
+              borderRadius: BorderRadius.circular(1),
+            ),
           ),
           
-          const SizedBox(height: 20),
+          const SizedBox(height: 24),
           
           Text(
             '© 2024 Abdullah Shahid. Built with Flutter.',
             style: theme.textTheme.bodySmall?.copyWith(
-              color: theme.colorScheme.onBackground.withOpacity(0.6),
+              color: theme.colorScheme.onBackground.withOpacity(0.7),
+              fontSize: screenWidth > 768 ? 14 : 12,
+              fontWeight: FontWeight.w500,
             ),
+            textAlign: TextAlign.center,
           ),
           
           const SizedBox(height: 8),
@@ -738,10 +800,19 @@ class _ContactSectionState extends State<ContactSection>
             'Designed & Developed with ❤️',
             style: theme.textTheme.bodySmall?.copyWith(
               color: theme.colorScheme.onBackground.withOpacity(0.6),
+              fontSize: screenWidth > 768 ? 13 : 11,
+              fontStyle: FontStyle.italic,
             ),
+            textAlign: TextAlign.center,
           ),
         ],
       ),
-    ).animate().fadeIn(delay: 1000.ms);
+    ).animate().fadeIn(
+      delay: 900.ms,
+      duration: const Duration(milliseconds: 1000),
+    ).slideY(
+      begin: 0.3,
+      curve: Curves.easeOutCubic,
+    );
   }
 }

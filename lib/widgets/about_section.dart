@@ -23,6 +23,17 @@ class _AboutSectionState extends State<AboutSection>
   late Animation<int> _experienceAnimation;
   late Animation<int> _clientsAnimation;
 
+  // Helper method for responsive font sizing
+  double _getResponsiveFontSize(BuildContext context, double desktop, double tablet, double mobile) {
+    if (ResponsiveBreakpoints.of(context).largerThan(TABLET)) {
+      return desktop;
+    } else if (ResponsiveBreakpoints.of(context).equals(TABLET)) {
+      return tablet;
+    } else {
+      return mobile;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -81,41 +92,33 @@ class _AboutSectionState extends State<AboutSection>
     final screenWidth = MediaQuery.of(context).size.width;
     final isDesktop = ResponsiveBreakpoints.of(context).largerThan(TABLET);
     final isMobile = ResponsiveBreakpoints.of(context).equals(MOBILE);
-    final isSmallDesktop = ResponsiveBreakpoints.of(context).equals('SMALL_DESKTOP');
+    final isTablet = ResponsiveBreakpoints.of(context).equals(TABLET);
     
-    // Dynamic padding based on screen size
-    double horizontalPadding;
-    if (screenWidth > 1440) {
-      horizontalPadding = 120;
-    } else if (screenWidth > 1024) {
-      horizontalPadding = 80;
-    } else if (screenWidth > 768) {
-      horizontalPadding = 60;
-    } else if (screenWidth > 480) {
-      horizontalPadding = 40;
-    } else {
-      horizontalPadding = 20;
-    }
+    // Optimized responsive padding calculation
+    final horizontalPadding = isDesktop 
+        ? (screenWidth > 1440 ? 120.0 : 80.0)
+        : (isMobile ? 20.0 : 40.0);
     
     return Container(
+      width: double.infinity,
       padding: EdgeInsets.symmetric(
         horizontal: horizontalPadding,
-        vertical: screenWidth > 768 ? 80 : 60,
+        vertical: isDesktop ? 100 : (isTablet ? 80 : 60),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Section title
+          // Section title with improved animation
           _buildSectionTitle(theme),
           
-          const SizedBox(height: 60),
+          SizedBox(height: isDesktop ? 60 : (isTablet ? 50 : 40)),
           
-          // Main content
-          _buildResponsiveLayout(theme, screenWidth, isDesktop, isSmallDesktop, isMobile),
+          // Main content with optimized layout
+          _buildResponsiveLayout(theme, screenWidth, isDesktop, false, isMobile),
           
-          const SizedBox(height: 60),
+          SizedBox(height: isDesktop ? 60 : (isTablet ? 50 : 40)),
           
-          // Statistics
+          // Statistics with enhanced animations
           _buildStatistics(theme, isDesktop),
         ],
       ),
@@ -271,20 +274,35 @@ class _AboutSectionState extends State<AboutSection>
     ];
     
     return Wrap(
-      spacing: 12,
-      runSpacing: 12,
+      spacing: 14,
+      runSpacing: 14,
       children: technologies.asMap().entries.map((entry) {
         final index = entry.key;
         final tech = entry.value;
         
         return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           decoration: BoxDecoration(
-            color: theme.colorScheme.primary.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(20),
+            gradient: LinearGradient(
+              colors: [
+                theme.colorScheme.primary.withOpacity(0.1),
+                theme.colorScheme.primary.withOpacity(0.05),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.circular(25),
             border: Border.all(
               color: theme.colorScheme.primary.withOpacity(0.3),
+              width: 1.5,
             ),
+            boxShadow: [
+              BoxShadow(
+                color: theme.colorScheme.primary.withOpacity(0.1),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+            ],
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -299,12 +317,18 @@ class _AboutSectionState extends State<AboutSection>
                 tech,
                 style: theme.textTheme.bodyMedium?.copyWith(
                   color: theme.colorScheme.onBackground,
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ],
           ),
-        ).animate().fadeIn(delay: (1000 + index * 100).ms).scale(begin: const Offset(0.8, 0.8));
+        ).animate().fadeIn(
+          delay: Duration(milliseconds: 1000 + (index * 80)),
+          duration: const Duration(milliseconds: 600),
+        ).scale(
+          begin: const Offset(0.8, 0.8),
+          curve: Curves.easeOutBack,
+        );
       }).toList(),
     );
   }

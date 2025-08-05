@@ -65,19 +65,19 @@ class _FloatingNavigationState extends State<FloatingNavigation>
     super.initState();
     
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 400),
       vsync: this,
     );
     
     _indicatorController = AnimationController(
-      duration: const Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 300),
       vsync: this,
     );
     
     widget.scrollController.addListener(_onScroll);
     
-    // Show navigation after a delay
-    Future.delayed(const Duration(milliseconds: 2000), () {
+    // Show navigation after a shorter delay for better UX
+    Future.delayed(const Duration(milliseconds: 1000), () {
       if (mounted) {
         setState(() {
           _isVisible = true;
@@ -155,29 +155,36 @@ class _FloatingNavigationState extends State<FloatingNavigation>
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isTablet = screenWidth <= 768;
     
     return AnimatedBuilder(
       animation: _controller,
       builder: (context, child) {
         return Transform.translate(
-          offset: Offset(100 * (1 - _controller.value), 0),
+          offset: Offset(
+            (isTablet ? 60 : 100) * (1 - _controller.value), 
+            0
+          ),
           child: Opacity(
             opacity: _controller.value,
             child: Positioned(
-              right: 20,
-              top: MediaQuery.of(context).size.height * 0.3,
+              right: isTablet ? 10 : 20,
+              top: MediaQuery.of(context).size.height * 0.25,
               child: Container(
                 decoration: BoxDecoration(
-                  color: theme.colorScheme.surface.withOpacity(0.9),
-                  borderRadius: BorderRadius.circular(30),
+                  color: theme.colorScheme.surface.withOpacity(0.95),
+                  borderRadius: BorderRadius.circular(isTablet ? 25 : 30),
                   border: Border.all(
-                    color: theme.colorScheme.primary.withOpacity(0.2),
+                    color: theme.colorScheme.primary.withOpacity(0.3),
+                    width: 1.5,
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: theme.colorScheme.shadow.withOpacity(0.1),
-                      blurRadius: 20,
-                      spreadRadius: 5,
+                      color: theme.colorScheme.shadow.withOpacity(0.15),
+                      blurRadius: 25,
+                      spreadRadius: 2,
+                      offset: const Offset(0, 8),
                     ),
                   ],
                 ),
@@ -227,42 +234,72 @@ class _FloatingNavigationState extends State<FloatingNavigation>
     bool isActive,
     ThemeData theme,
   ) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isTablet = screenWidth <= 768;
+    final iconSize = isTablet ? 18.0 : 20.0;
+    final padding = isTablet ? 10.0 : 12.0;
+    
     return Tooltip(
       message: item.tooltip,
-      child: InkWell(
-        onTap: () => _scrollToSection(index),
-        borderRadius: BorderRadius.circular(25),
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 300),
-          margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: isActive
-                ? theme.colorScheme.primary.withOpacity(0.2)
-                : Colors.transparent,
-            borderRadius: BorderRadius.circular(25),
-          ),
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              Icon(
-                item.icon,
-                size: 20,
-                color: isActive
-                    ? theme.colorScheme.primary
-                    : theme.colorScheme.onSurface.withOpacity(0.6),
-              ),
-              
-              // Active indicator
-              if (isActive)
-                AnimatedBuilder(
-                  animation: _indicatorController,
-                  builder: (context, child) {
-                    return Transform.scale(
-                      scale: 1 + (0.3 * _indicatorController.value),
-                      child: Container(
-                        width: 40,
-                        height: 40,
+      preferBelow: false,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () {
+            _scrollToSection(index);
+            // Haptic feedback for better UX
+            if (isActive != (index == _currentSection)) {
+              _indicatorController.forward().then((_) {
+                _indicatorController.reverse();
+              });
+            }
+          },
+          borderRadius: BorderRadius.circular(20),
+          splashColor: theme.colorScheme.primary.withOpacity(0.1),
+          highlightColor: theme.colorScheme.primary.withOpacity(0.05),
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 250),
+            curve: Curves.easeInOutCubic,
+            margin: EdgeInsets.symmetric(
+              vertical: isTablet ? 3 : 4, 
+              horizontal: isTablet ? 6 : 8
+            ),
+            padding: EdgeInsets.all(padding),
+            decoration: BoxDecoration(
+              color: isActive
+                  ? theme.colorScheme.primary.withOpacity(0.15)
+                  : Colors.transparent,
+              borderRadius: BorderRadius.circular(20),
+              border: isActive
+                  ? Border.all(
+                      color: theme.colorScheme.primary.withOpacity(0.3),
+                      width: 1,
+                    )
+                  : null,
+            ),
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                AnimatedScale(
+                  scale: isActive ? 1.1 : 1.0,
+                  duration: const Duration(milliseconds: 200),
+                  child: Icon(
+                    item.icon,
+                    size: iconSize,
+                    color: isActive
+                        ? theme.colorScheme.primary
+                        : theme.colorScheme.onSurface.withOpacity(0.7),
+                  ),
+                ),
+                
+                // Subtle pulse effect for active item
+                if (isActive)
+                  AnimatedBuilder(
+                    animation: _indicatorController,
+                    builder: (context, child) {
+                      return Container(
+                        width: 35,
+                        height: 35,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           border: Border.all(
@@ -272,15 +309,14 @@ class _FloatingNavigationState extends State<FloatingNavigation>
                             width: 2,
                           ),
                         ),
-                      ),
-                    );
-                  },
-                ),
+                      );
+                    },
+                  ),
             ],
           ),
         ),
       ).animate().fadeIn(delay: (index * 100).ms).scale(begin: const Offset(0.5, 0.5)),
-    );
+    ));  
   }
 
   Widget _buildThemeToggle(ThemeData theme) {
@@ -311,7 +347,7 @@ class _FloatingNavigationState extends State<FloatingNavigation>
           ),
         ),
       ),
-    ).animate().fadeIn(delay: 700.ms).scale(begin: const Offset(0.5, 0.5));
+    ).animate().fadeIn(delay: 500.ms).scale(begin: const Offset(0.8, 0.8), curve: Curves.easeOutBack);
   }
 
   Widget _buildScrollToTop(ThemeData theme) {
@@ -336,7 +372,7 @@ class _FloatingNavigationState extends State<FloatingNavigation>
           ),
         ),
       ),
-    ).animate().fadeIn(delay: 800.ms).scale(begin: const Offset(0.5, 0.5));
+    ).animate().fadeIn(delay: 600.ms).scale(begin: const Offset(0.8, 0.8), curve: Curves.easeOutBack);
   }
 }
 
