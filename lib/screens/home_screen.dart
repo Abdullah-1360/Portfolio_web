@@ -183,7 +183,9 @@ class _HomeScreenState extends State<HomeScreen>
                 child: AboutSection(
                   key: _aboutKey,
                   personalInfo: portfolioProvider.personalInfo,
-                ).animate().fadeIn(delay: 200.ms).slideY(begin: 0.3),
+                ).animate()
+                  .fadeIn(duration: 800.ms, delay: 200.ms, curve: Curves.easeOutCubic)
+                  .slideX(begin: -0.3, duration: 800.ms, delay: 200.ms, curve: Curves.easeOutCubic),
               ),
               
               // Skills Section
@@ -193,7 +195,9 @@ class _HomeScreenState extends State<HomeScreen>
                   skills: portfolioProvider.skills,
                   skillCategories: portfolioProvider.skillCategories,
                   getSkillsByCategory: portfolioProvider.getSkillsByCategory,
-                ).animate().fadeIn(delay: 400.ms).slideY(begin: 0.3),
+                ).animate()
+                  .fadeIn(duration: 800.ms, delay: 400.ms, curve: Curves.easeOutCubic)
+                  .slideX(begin: 0.3, duration: 800.ms, delay: 400.ms, curve: Curves.easeOutCubic),
               ),
               
               // Projects Section
@@ -202,7 +206,9 @@ class _HomeScreenState extends State<HomeScreen>
                   key: _projectsKey,
                   projects: portfolioProvider.projects,
                   featuredProjects: portfolioProvider.featuredProjects,
-                ).animate().fadeIn(delay: 600.ms).slideY(begin: 0.3),
+                ).animate()
+                  .fadeIn(duration: 800.ms, delay: 600.ms, curve: Curves.easeOutCubic)
+                  .slideX(begin: -0.3, duration: 800.ms, delay: 600.ms, curve: Curves.easeOutCubic),
               ),
               
               // Experience Section
@@ -210,14 +216,18 @@ class _HomeScreenState extends State<HomeScreen>
                 child: ExperienceSection(
                   key: _experienceKey,
                   experiences: portfolioProvider.experiences,
-                ).animate().fadeIn(delay: 800.ms).slideY(begin: 0.3),
+                ).animate()
+                  .fadeIn(duration: 800.ms, delay: 800.ms, curve: Curves.easeOutCubic)
+                  .slideX(begin: 0.3, duration: 800.ms, delay: 800.ms, curve: Curves.easeOutCubic),
               ),
               
               // Contact Section
               SliverToBoxAdapter(
                 child: ContactSection(
                   key: _contactKey,
-                ).animate().fadeIn(delay: 1000.ms).slideY(begin: 0.3),
+                ).animate()
+                  .fadeIn(duration: 800.ms, delay: 1000.ms, curve: Curves.easeOutCubic)
+                  .slideX(begin: -0.3, duration: 800.ms, delay: 1000.ms, curve: Curves.easeOutCubic),
               ),
             ],
             ),

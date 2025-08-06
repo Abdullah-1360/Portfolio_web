@@ -171,25 +171,32 @@ class _FloatingNavigationState extends State<FloatingNavigation>
             child: Positioned(
               right: isTablet ? 10 : 20,
               top: MediaQuery.of(context).size.height * 0.25,
-              child: Material(
-                elevation: 8,
-                borderRadius: BorderRadius.circular(isTablet ? 25 : 30),
-                color: widget.isDarkMode 
-                    ? const Color(0xFF0A192F)
-                    : Colors.white,
-                child: Container(
+              child: Container(
                   width: isTablet ? 50 : 60,
                   constraints: BoxConstraints(
                     minHeight: _navigationItems.length * (isTablet ? 45 : 50) + 120,
                   ),
                   decoration: BoxDecoration(
+                    color: widget.isDarkMode 
+                        ? const Color(0xFF0F1419)
+                        : const Color(0xFFFAFAFA),
                     borderRadius: BorderRadius.circular(isTablet ? 25 : 30),
                     border: Border.all(
                       color: widget.isDarkMode 
                           ? const Color(0xFF64FFDA)
-                          : const Color(0xFF0A192F),
-                      width: 2,
+                          : const Color(0xFF2D3748),
+                      width: 1.5,
                     ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: widget.isDarkMode 
+                            ? const Color(0xFF000000).withOpacity(0.3)
+                            : const Color(0xFF000000).withOpacity(0.1),
+                        blurRadius: 15,
+                        spreadRadius: 0,
+                        offset: const Offset(0, 8),
+                      ),
+                    ],
                   ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -222,7 +229,6 @@ class _FloatingNavigationState extends State<FloatingNavigation>
                     // Scroll to top
                     _buildScrollToTop(theme),
                   ],
-                ),
                 ),
               ),
             ),
@@ -285,48 +291,22 @@ class _FloatingNavigationState extends State<FloatingNavigation>
                     )
                   : null,
             ),
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                AnimatedScale(
-                  scale: isActive ? 1.1 : 1.0,
-                  duration: const Duration(milliseconds: 200),
-                  child: Icon(
-                    item.icon,
-                    size: iconSize,
-                    color: isActive
-                        ? (widget.isDarkMode 
-                            ? const Color(0xFF64FFDA)
-                            : const Color(0xFF0A192F))
-                        : (widget.isDarkMode 
-                            ? const Color(0xFFCCD6F6).withOpacity(0.7)
-                            : const Color(0xFF0A192F).withOpacity(0.7)),
-                  ),
+            child: Center(
+              child: AnimatedScale(
+                scale: isActive ? 1.1 : 1.0,
+                duration: const Duration(milliseconds: 200),
+                child: Icon(
+                  item.icon,
+                  size: iconSize,
+                  color: isActive
+                      ? (widget.isDarkMode 
+                          ? const Color(0xFF64FFDA)
+                          : const Color(0xFF2D3748))
+                      : (widget.isDarkMode 
+                          ? const Color(0xFFCCD6F6).withOpacity(0.8)
+                          : const Color(0xFF4A5568).withOpacity(0.8)),
                 ),
-                
-                // Subtle pulse effect for active item
-                if (isActive)
-                  AnimatedBuilder(
-                    animation: _indicatorController,
-                    builder: (context, child) {
-                      return Container(
-                        width: 35,
-                        height: 35,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: (widget.isDarkMode 
-                                ? const Color(0xFF64FFDA)
-                                : const Color(0xFF0A192F)).withOpacity(
-                              0.5 * _indicatorController.value,
-                            ),
-                            width: 2,
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-            ],
+              ),
           ),
         ),
       ).animate().fadeIn(delay: (index * 100).ms).scale(begin: const Offset(0.5, 0.5)),
@@ -357,8 +337,8 @@ class _FloatingNavigationState extends State<FloatingNavigation>
               key: ValueKey(widget.isDarkMode),
               size: 20,
               color: widget.isDarkMode 
-                  ? const Color(0xFFCCD6F6).withOpacity(0.6)
-                  : const Color(0xFF0A192F).withOpacity(0.6),
+                  ? const Color(0xFFCCD6F6).withOpacity(0.8)
+                  : const Color(0xFF4A5568).withOpacity(0.8),
             ),
           ),
         ),
@@ -385,8 +365,8 @@ class _FloatingNavigationState extends State<FloatingNavigation>
             FontAwesomeIcons.arrowUp,
             size: 20,
             color: widget.isDarkMode 
-                ? const Color(0xFFCCD6F6).withOpacity(0.6)
-                : const Color(0xFF0A192F).withOpacity(0.6),
+                ? const Color(0xFFCCD6F6).withOpacity(0.8)
+                : const Color(0xFF4A5568).withOpacity(0.8),
           ),
         ),
       ),
