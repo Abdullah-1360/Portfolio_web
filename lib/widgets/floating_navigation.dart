@@ -225,76 +225,73 @@ class _FloatingNavigationState extends State<FloatingNavigation>
     return Tooltip(
       message: item.tooltip,
       preferBelow: false,
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: () {
-            _scrollToSection(index);
-            // Haptic feedback for better UX
-            if (isActive != (index == _currentSection)) {
-              _indicatorController.forward().then((_) {
-                _indicatorController.reverse();
-              });
-            }
-          },
-          borderRadius: BorderRadius.circular(20),
-          splashColor: theme.colorScheme.primary.withOpacity(0.1),
-          highlightColor: theme.colorScheme.primary.withOpacity(0.05),
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 250),
-            curve: Curves.easeInOutCubic,
-            margin: EdgeInsets.symmetric(
-              vertical: isTablet ? 3 : 4, 
-              horizontal: isTablet ? 6 : 8
-            ),
-            padding: EdgeInsets.all(padding),
-            decoration: BoxDecoration(
-              color: isActive
-                  ? (widget.isDarkMode 
-                      ? const Color(0xFF10B981).withOpacity(0.2)
-                      : const Color(0xFF1F2937).withOpacity(0.1))
-                  : Colors.transparent,
-              borderRadius: BorderRadius.circular(20),
-              border: isActive
-                  ? Border.all(
-                      color: widget.isDarkMode 
-                          ? const Color(0xFF10B981)
-                          : const Color(0xFF1F2937),
-                      width: 1,
-                    )
-                  : null,
-            ),
-            child: Center(
-              child: AnimatedScale(
-                scale: isActive ? 1.1 : 1.0,
-                duration: const Duration(milliseconds: 200),
-                child: Icon(
-                  item.icon,
-                  size: iconSize,
-                  color: isActive
-                      ? (widget.isDarkMode 
-                          ? const Color(0xFF10B981)
-                          : const Color(0xFF1F2937))
-                      : (widget.isDarkMode 
-                          ? const Color(0xFFE2E8F0)
-                          : const Color(0xFF6B7280)),
-                ),
+      child: GestureDetector(
+        onTap: () {
+          _scrollToSection(index);
+          // Haptic feedback for better UX
+          if (isActive != (index == _currentSection)) {
+            _indicatorController.forward().then((_) {
+              _indicatorController.reverse();
+            });
+          }
+        },
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 250),
+          curve: Curves.easeInOutCubic,
+          margin: EdgeInsets.symmetric(
+            vertical: isTablet ? 3 : 4, 
+            horizontal: isTablet ? 6 : 8
+          ),
+          padding: EdgeInsets.all(padding),
+          decoration: BoxDecoration(
+            color: isActive
+                ? (widget.isDarkMode 
+                    ? const Color(0xFF10B981).withOpacity(0.2)
+                    : const Color(0xFF1F2937).withOpacity(0.1))
+                : Colors.transparent,
+            borderRadius: BorderRadius.circular(20),
+            border: isActive
+                ? Border.all(
+                    color: widget.isDarkMode 
+                        ? const Color(0xFF10B981)
+                        : const Color(0xFF1F2937),
+                    width: 1,
+                  )
+                : null,
+          ),
+          child: Center(
+            child: AnimatedScale(
+              scale: isActive ? 1.1 : 1.0,
+              duration: const Duration(milliseconds: 200),
+              child: Icon(
+                item.icon,
+                size: iconSize,
+                color: isActive
+                    ? (widget.isDarkMode 
+                        ? const Color(0xFF10B981)
+                        : const Color(0xFF1F2937))
+                    : (widget.isDarkMode 
+                        ? const Color(0xFFE2E8F0)
+                        : const Color(0xFF6B7280)),
               ),
+            ),
           ),
         ),
       ),
-    ));  
+    );  
   }
 
   Widget _buildThemeToggle(ThemeData theme) {
     return Tooltip(
       message: widget.isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode',
-      child: InkWell(
+      child: GestureDetector(
         onTap: widget.onThemeToggle,
-        borderRadius: BorderRadius.circular(25),
         child: Container(
           margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
           padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(25),
+          ),
           child: AnimatedSwitcher(
             duration: const Duration(milliseconds: 300),
             transitionBuilder: (child, animation) {
@@ -322,7 +319,7 @@ class _FloatingNavigationState extends State<FloatingNavigation>
   Widget _buildScrollToTop(ThemeData theme) {
     return Tooltip(
       message: 'Scroll to Top',
-      child: InkWell(
+      child: GestureDetector(
         onTap: () {
           widget.scrollController.animateTo(
             0,
@@ -330,10 +327,12 @@ class _FloatingNavigationState extends State<FloatingNavigation>
             curve: Curves.easeInOut,
           );
         },
-        borderRadius: BorderRadius.circular(25),
         child: Container(
           margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
           padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(25),
+          ),
           child: Icon(
             FontAwesomeIcons.arrowUp,
             size: 20,
