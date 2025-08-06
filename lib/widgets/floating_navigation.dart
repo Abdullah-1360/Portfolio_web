@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class FloatingNavigation extends StatefulWidget {
@@ -22,10 +21,9 @@ class FloatingNavigation extends StatefulWidget {
 
 class _FloatingNavigationState extends State<FloatingNavigation>
     with TickerProviderStateMixin {
-  late AnimationController _controller;
   late AnimationController _indicatorController;
   int _currentSection = 0;
-  bool _isVisible = false;
+  bool _isVisible = true;
 
   final List<NavigationItem> _navigationItems = [
     NavigationItem(
@@ -64,33 +62,17 @@ class _FloatingNavigationState extends State<FloatingNavigation>
   void initState() {
     super.initState();
     
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 400),
-      vsync: this,
-    );
-    
     _indicatorController = AnimationController(
       duration: const Duration(milliseconds: 300),
       vsync: this,
     );
     
     widget.scrollController.addListener(_onScroll);
-    
-    // Show navigation after a shorter delay for better UX
-    Future.delayed(const Duration(milliseconds: 1000), () {
-      if (mounted) {
-        setState(() {
-          _isVisible = true;
-        });
-        _controller.forward();
-      }
-    });
   }
   
   @override
   void dispose() {
     widget.scrollController.removeListener(_onScroll);
-    _controller.dispose();
     _indicatorController.dispose();
     super.dispose();
   }
@@ -123,18 +105,11 @@ class _FloatingNavigationState extends State<FloatingNavigation>
       _indicatorController.forward();
     }
     
-    // Show/hide navigation based on scroll position
-    final shouldShow = scrollOffset > 100;
-    if (shouldShow != _isVisible) {
+    // Keep navigation always visible for better web compatibility
+    if (!_isVisible) {
       setState(() {
-        _isVisible = shouldShow;
+        _isVisible = true;
       });
-      
-      if (shouldShow) {
-        _controller.forward();
-      } else {
-        _controller.reverse();
-      }
     }
   }
 
@@ -158,27 +133,23 @@ class _FloatingNavigationState extends State<FloatingNavigation>
     final screenWidth = MediaQuery.of(context).size.width;
     final isTablet = screenWidth <= 768;
     
-    return AnimatedBuilder(
-      animation: _controller,
-      builder: (context, child) {
-        return Transform.translate(
-          offset: Offset(
-            (isTablet ? 60 : 100) * (1 - _controller.value), 
-            0
-          ),
-          child: Opacity(
-            opacity: _controller.value,
-            child: Positioned(
-              right: isTablet ? 10 : 20,
-              top: MediaQuery.of(context).size.height * 0.25,
-              child: Material(
-                type: MaterialType.card,
-                elevation: 12,
-                shadowColor: widget.isDarkMode ? Colors.black : Colors.grey.shade600,
-                borderRadius: BorderRadius.circular(isTablet ? 25 : 30),
-                color: widget.isDarkMode 
-                    ? const Color(0xFF1E293B)
-                    : Colors.white,
+    if (!_isVisible) {
+      return const SizedBox.shrink();
+    }
+    
+    return Positioned(
+                right: isTablet ? 10 : 20,
+                top: MediaQuery.of(context).size.height * 0.25,
+                child: RepaintBoundary(
+                   child: Material(
+                     type: MaterialType.card,
+                     elevation: 12,
+                     shadowColor: widget.isDarkMode ? Colors.black : Colors.grey.shade600,
+                     borderRadius: BorderRadius.circular(isTablet ? 25 : 30),
+                     clipBehavior: Clip.antiAlias,
+                     color: widget.isDarkMode 
+                         ? const Color(0xFF1E293B)
+                         : Colors.white,
                 child: Container(
                   width: isTablet ? 50 : 60,
                   height: _navigationItems.length * (isTablet ? 45 : 50) + 120,
@@ -191,9 +162,10 @@ class _FloatingNavigationState extends State<FloatingNavigation>
                       width: 2.0,
                     ),
                   ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
+                  child: Flex(
+                   direction: Axis.vertical,
+                   mainAxisSize: MainAxisSize.min,
+                   children: [
                     // Navigation items
                     ..._navigationItems.asMap().entries.map((entry) {
                       final index = entry.key;
@@ -222,14 +194,10 @@ class _FloatingNavigationState extends State<FloatingNavigation>
                     // Scroll to top
                     _buildScrollToTop(theme),
                   ],
-                ),
-                ),
-              ),
-            ),
-          ),
-        );
-      },
-    );
+                 ),
+                     ),
+                   ),
+     ));
   }
 
   Widget _buildNavigationItem(
@@ -303,7 +271,7 @@ class _FloatingNavigationState extends State<FloatingNavigation>
               ),
           ),
         ),
-      ).animate().fadeIn(delay: (index * 100).ms).scale(begin: const Offset(0.5, 0.5)),
+      ),
     ));  
   }
 
@@ -337,7 +305,7 @@ class _FloatingNavigationState extends State<FloatingNavigation>
           ),
         ),
       ),
-    ).animate().fadeIn(delay: 500.ms).scale(begin: const Offset(0.8, 0.8), curve: Curves.easeOutBack);
+    );
   }
 
   Widget _buildScrollToTop(ThemeData theme) {
@@ -364,7 +332,7 @@ class _FloatingNavigationState extends State<FloatingNavigation>
           ),
         ),
       ),
-    ).animate().fadeIn(delay: 600.ms).scale(begin: const Offset(0.8, 0.8), curve: Curves.easeOutBack);
+    );
   }
 }
 
