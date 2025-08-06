@@ -137,9 +137,13 @@ class _FloatingNavigationState extends State<FloatingNavigation>
       return const SizedBox.shrink();
     }
     
+    final screenHeight = MediaQuery.of(context).size.height;
+    final maxHeight = screenHeight * 0.7; // Use 70% of screen height
+    final topPosition = screenHeight * 0.15; // Start at 15% from top
+    
     return Positioned(
                 right: isTablet ? 10 : 20,
-                top: MediaQuery.of(context).size.height * 0.25,
+                top: topPosition,
                 child: RepaintBoundary(
                    child: Material(
                      type: MaterialType.card,
@@ -150,10 +154,15 @@ class _FloatingNavigationState extends State<FloatingNavigation>
                      color: widget.isDarkMode 
                          ? const Color(0xFF1E293B)
                          : Colors.white,
-                child: Container(
-                  width: isTablet ? 50 : 60,
-                  height: _navigationItems.length * (isTablet ? 45 : 50) + 120,
-                  decoration: BoxDecoration(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxWidth: isTablet ? 50 : 60,
+                    maxHeight: maxHeight,
+                  ),
+                  child: Container(
+                     width: isTablet ? 50 : 60,
+                     padding: const EdgeInsets.symmetric(vertical: 8),
+                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(isTablet ? 25 : 30),
                     border: Border.all(
                       color: widget.isDarkMode 
@@ -165,6 +174,7 @@ class _FloatingNavigationState extends State<FloatingNavigation>
                   child: Flex(
                    direction: Axis.vertical,
                    mainAxisSize: MainAxisSize.min,
+                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                    children: [
                     // Navigation items
                     ..._navigationItems.asMap().entries.map((entry) {
@@ -195,9 +205,11 @@ class _FloatingNavigationState extends State<FloatingNavigation>
                     _buildScrollToTop(theme),
                   ],
                  ),
+                   ),
+                 ),
                      ),
                    ),
-     ));
+     );
   }
 
   Widget _buildNavigationItem(
