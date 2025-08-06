@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:web_smooth_scroll/web_smooth_scroll.dart';
 import '../providers/portfolio_provider.dart';
 import '../providers/theme_provider.dart';
 import '../widgets/animated_background.dart';
@@ -148,9 +149,12 @@ class _HomeScreenState extends State<HomeScreen>
           const AnimatedBackground(),
           
           // Main Content
-          CustomScrollView(
+          WebSmoothScroll(
             controller: _scrollController,
-            slivers: [
+            child: CustomScrollView(
+              controller: _scrollController,
+              physics: const NeverScrollableScrollPhysics(),
+              slivers: [
               // Custom App Bar
               CustomAppBar(
                 onThemeToggle: () => themeProvider.toggleTheme(),
@@ -216,6 +220,7 @@ class _HomeScreenState extends State<HomeScreen>
                 ).animate().fadeIn(delay: 1000.ms).slideY(begin: 0.3),
               ),
             ],
+            ),
           ),
           
           // Floating Navigation - responsive positioning
