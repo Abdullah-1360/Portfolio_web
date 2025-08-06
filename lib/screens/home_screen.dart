@@ -12,7 +12,7 @@ import '../widgets/projects_section.dart';
 import '../widgets/experience_section.dart';
 import '../widgets/contact_section.dart';
 import '../widgets/custom_app_bar.dart';
-import '../widgets/floating_navigation.dart';
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -36,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen>
   final GlobalKey _experienceKey = GlobalKey();
   final GlobalKey _contactKey = GlobalKey();
   
-  bool _showFloatingNav = false;
+
   int _currentSection = 0;
 
   @override
@@ -78,16 +78,7 @@ class _HomeScreenState extends State<HomeScreen>
   void _onScroll() {
     final offset = _scrollController.offset;
     
-    // Show/hide floating navigation
-    if (offset > 200 && !_showFloatingNav) {
-      setState(() {
-        _showFloatingNav = true;
-      });
-    } else if (offset <= 200 && _showFloatingNav) {
-      setState(() {
-        _showFloatingNav = false;
-      });
-    }
+
     
     // Update current section based on scroll position
     _updateCurrentSection();
@@ -233,18 +224,7 @@ class _HomeScreenState extends State<HomeScreen>
             ),
           ),
           
-          // Floating Navigation - responsive positioning
-          if (_showFloatingNav)
-            Positioned(
-              right: MediaQuery.of(context).size.width > 768 ? 20 : 10,
-              top: MediaQuery.of(context).size.height * 0.4,
-              child: FloatingNavigation(
-                scrollController: _scrollController,
-                sectionKeys: [_heroKey, _aboutKey, _skillsKey, _projectsKey, _experienceKey, _contactKey],
-                onThemeToggle: () => themeProvider.toggleTheme(),
-                isDarkMode: themeProvider.isDarkMode,
-              ).animate().fadeIn().scale(),
-            ),
+
         ],
       ),
     );
