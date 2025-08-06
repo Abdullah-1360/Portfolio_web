@@ -173,7 +173,9 @@ class _FloatingNavigationState extends State<FloatingNavigation>
               top: MediaQuery.of(context).size.height * 0.25,
               child: Container(
                 decoration: BoxDecoration(
-                  color: theme.colorScheme.surface.withOpacity(0.95),
+                  color: widget.isDarkMode 
+                      ? const Color(0xFF1A2332).withOpacity(0.95)
+                      : const Color(0xFFFFFFFF).withOpacity(0.95),
                   borderRadius: BorderRadius.circular(isTablet ? 25 : 30),
                   border: Border.all(
                     color: theme.colorScheme.primary.withOpacity(0.3),
@@ -181,7 +183,9 @@ class _FloatingNavigationState extends State<FloatingNavigation>
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: theme.colorScheme.shadow.withOpacity(0.15),
+                      color: widget.isDarkMode 
+                          ? Colors.black.withOpacity(0.3)
+                          : Colors.grey.withOpacity(0.2),
                       blurRadius: 25,
                       spreadRadius: 2,
                       offset: const Offset(0, 8),
@@ -267,12 +271,16 @@ class _FloatingNavigationState extends State<FloatingNavigation>
             padding: EdgeInsets.all(padding),
             decoration: BoxDecoration(
               color: isActive
-                  ? theme.colorScheme.primary.withOpacity(0.15)
+                  ? (widget.isDarkMode 
+                      ? const Color(0xFF64FFDA).withOpacity(0.15)
+                      : const Color(0xFF0A192F).withOpacity(0.1))
                   : Colors.transparent,
               borderRadius: BorderRadius.circular(20),
               border: isActive
                   ? Border.all(
-                      color: theme.colorScheme.primary.withOpacity(0.3),
+                      color: widget.isDarkMode 
+                          ? const Color(0xFF64FFDA).withOpacity(0.4)
+                          : const Color(0xFF0A192F).withOpacity(0.3),
                       width: 1,
                     )
                   : null,
@@ -287,8 +295,12 @@ class _FloatingNavigationState extends State<FloatingNavigation>
                     item.icon,
                     size: iconSize,
                     color: isActive
-                        ? theme.colorScheme.primary
-                        : theme.colorScheme.onSurface.withOpacity(0.7),
+                        ? (widget.isDarkMode 
+                            ? const Color(0xFF64FFDA)
+                            : const Color(0xFF0A192F))
+                        : (widget.isDarkMode 
+                            ? const Color(0xFFCCD6F6).withOpacity(0.7)
+                            : const Color(0xFF0A192F).withOpacity(0.7)),
                   ),
                 ),
                 
@@ -303,7 +315,9 @@ class _FloatingNavigationState extends State<FloatingNavigation>
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           border: Border.all(
-                            color: theme.colorScheme.primary.withOpacity(
+                            color: (widget.isDarkMode 
+                                ? const Color(0xFF64FFDA)
+                                : const Color(0xFF0A192F)).withOpacity(
                               0.5 * _indicatorController.value,
                             ),
                             width: 2,
@@ -342,7 +356,9 @@ class _FloatingNavigationState extends State<FloatingNavigation>
                   : FontAwesomeIcons.moon,
               key: ValueKey(widget.isDarkMode),
               size: 20,
-              color: theme.colorScheme.onSurface.withOpacity(0.6),
+              color: widget.isDarkMode 
+                  ? const Color(0xFFCCD6F6).withOpacity(0.6)
+                  : const Color(0xFF0A192F).withOpacity(0.6),
             ),
           ),
         ),
@@ -368,7 +384,9 @@ class _FloatingNavigationState extends State<FloatingNavigation>
           child: Icon(
             FontAwesomeIcons.arrowUp,
             size: 20,
-            color: theme.colorScheme.onSurface.withOpacity(0.6),
+            color: widget.isDarkMode 
+                ? const Color(0xFFCCD6F6).withOpacity(0.6)
+                : const Color(0xFF0A192F).withOpacity(0.6),
           ),
         ),
       ),
