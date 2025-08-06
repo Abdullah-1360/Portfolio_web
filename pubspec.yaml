@@ -65,6 +65,9 @@ dependencies:
   # Utilities
   url_launcher: ^6.3.0
   timeline_tile: ^2.0.0
+  
+  # Smooth scrolling for web
+  web_smooth_scroll: ^2.0.0
 
 dev_dependencies:
   flutter_test:
