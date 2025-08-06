@@ -145,32 +145,33 @@ class _FloatingNavigationState extends State<FloatingNavigation>
                 right: isTablet ? 10 : 20,
                 top: topPosition,
                 child: RepaintBoundary(
-                   child: Material(
-                     type: MaterialType.card,
-                     elevation: 12,
-                     shadowColor: widget.isDarkMode ? Colors.black : Colors.grey.shade600,
-                     borderRadius: BorderRadius.circular(isTablet ? 25 : 30),
-                     clipBehavior: Clip.antiAlias,
-                     color: widget.isDarkMode 
-                         ? const Color(0xFF1E293B)
-                         : Colors.white,
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    maxWidth: isTablet ? 50 : 60,
-                    maxHeight: maxHeight,
-                  ),
-                  child: Container(
+                   child: Container(
                      width: isTablet ? 50 : 60,
+                     constraints: BoxConstraints(
+                       maxHeight: maxHeight,
+                     ),
                      padding: const EdgeInsets.symmetric(vertical: 8),
-                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(isTablet ? 25 : 30),
-                    border: Border.all(
-                      color: widget.isDarkMode 
-                          ? const Color(0xFF10B981)
-                          : const Color(0xFF1F2937),
-                      width: 2.0,
-                    ),
-                  ),
+                     decoration: BoxDecoration(
+                       color: widget.isDarkMode 
+                           ? const Color(0xFF1E293B)
+                           : Colors.white,
+                       borderRadius: BorderRadius.circular(isTablet ? 25 : 30),
+                       border: Border.all(
+                         color: widget.isDarkMode 
+                             ? const Color(0xFF10B981)
+                             : const Color(0xFF1F2937),
+                         width: 2.0,
+                       ),
+                       boxShadow: [
+                         BoxShadow(
+                           color: widget.isDarkMode 
+                               ? Colors.black.withOpacity(0.3)
+                               : Colors.grey.withOpacity(0.3),
+                           blurRadius: 8,
+                           offset: const Offset(0, 4),
+                         ),
+                       ],
+                     ),
                   child: Flex(
                    direction: Axis.vertical,
                    mainAxisSize: MainAxisSize.min,
@@ -207,8 +208,6 @@ class _FloatingNavigationState extends State<FloatingNavigation>
                  ),
                    ),
                  ),
-                     ),
-                   ),
      );
   }
 
