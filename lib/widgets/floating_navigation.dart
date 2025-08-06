@@ -171,27 +171,26 @@ class _FloatingNavigationState extends State<FloatingNavigation>
             child: Positioned(
               right: isTablet ? 10 : 20,
               top: MediaQuery.of(context).size.height * 0.25,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: widget.isDarkMode 
-                      ? const Color(0xFF1A2332).withOpacity(0.95)
-                      : const Color(0xFFFFFFFF).withOpacity(0.95),
-                  borderRadius: BorderRadius.circular(isTablet ? 25 : 30),
-                  border: Border.all(
-                    color: theme.colorScheme.primary.withOpacity(0.3),
-                    width: 1.5,
+              child: Material(
+                elevation: 8,
+                borderRadius: BorderRadius.circular(isTablet ? 25 : 30),
+                color: widget.isDarkMode 
+                    ? const Color(0xFF0A192F)
+                    : Colors.white,
+                child: Container(
+                  width: isTablet ? 50 : 60,
+                  constraints: BoxConstraints(
+                    minHeight: _navigationItems.length * (isTablet ? 45 : 50) + 120,
                   ),
-                  boxShadow: [
-                    BoxShadow(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(isTablet ? 25 : 30),
+                    border: Border.all(
                       color: widget.isDarkMode 
-                          ? Colors.black.withOpacity(0.3)
-                          : Colors.grey.withOpacity(0.2),
-                      blurRadius: 25,
-                      spreadRadius: 2,
-                      offset: const Offset(0, 8),
+                          ? const Color(0xFF64FFDA)
+                          : const Color(0xFF0A192F),
+                      width: 2,
                     ),
-                  ],
-                ),
+                  ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -223,6 +222,7 @@ class _FloatingNavigationState extends State<FloatingNavigation>
                     // Scroll to top
                     _buildScrollToTop(theme),
                   ],
+                ),
                 ),
               ),
             ),
