@@ -28,7 +28,7 @@ class PortfolioProvider extends ChangeNotifier {
     'phone': '+92 300 1234567',
     'location': 'Pakistan',
     'github': 'https://github.com/Abdullah-1360',
-    'linkedin': 'https://linkedin.com/in/abdullah-shahid',
+    'linkedin': 'https://www.linkedin.com/in/abdullah-shahid-ba978b221',
     'bio': 'Passionate Flutter developer with expertise in mobile app development, UI/UX design, and cross-platform solutions. Experienced in creating beautiful, performant applications with modern design principles.',
   };
 
