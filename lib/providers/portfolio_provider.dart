@@ -50,11 +50,11 @@ class PortfolioProvider extends ChangeNotifier {
   final List<Project> projects = [
     Project(
       id: '1',
-      title: 'E-Commerce Mobile App',
+      title: 'Spotify Clone',
       description: 'A full-featured e-commerce mobile application built with Flutter, featuring user authentication, product catalog, shopping cart, and payment integration.',
-      technologies: ['Flutter', 'Firebase', 'Stripe API', 'Provider'],
+      technologies: ['Flutter', 'FastAPI', 'Python', 'Riverpod'],
       imageUrl: 'assets/images/ecommerce_app.png',
-      githubUrl: 'https://github.com/Abdullah-1360/ecommerce-app',
+      githubUrl: 'https://github.com/Abdullah-1360/Spotify-clone',
       liveUrl: null,
       featured: true,
     ),
@@ -95,10 +95,10 @@ class PortfolioProvider extends ChangeNotifier {
     Experience(
       id: '1',
       title: 'Flutter Developer',
-      company: 'Tech Solutions Inc.',
+      company: 'Freelance',
       location: 'Remote',
-      startDate: DateTime(2023, 1),
-      endDate: null,
+      startDate: DateTime(2024, 5),
+      endDate: DateTime.now(),
       description: 'Developing cross-platform mobile applications using Flutter framework. Working on multiple client projects with focus on performance optimization and user experience.',
       responsibilities: [
         'Developed cross-platform mobile applications using Flutter',
@@ -112,11 +112,11 @@ class PortfolioProvider extends ChangeNotifier {
     Experience(
       id: '2',
       title: 'Mobile App Developer Intern',
-      company: 'Sadeem Tech',
+      company: 'K-Soft',
       location: 'Pakistan',
-      startDate: DateTime(2022, 6),
-      endDate: DateTime(2022, 12),
-      description: 'Worked on mobile app development using Flutter and Node.js. Gained experience in full-stack development and agile methodologies.',
+      startDate: DateTime(2024, 6),
+      endDate: DateTime(2024, 9),
+      description: 'Worked on mobile app development. Gained experience in full-stack development and agile methodologies.',
       responsibilities: [
         'Developed mobile applications using Flutter framework',
         'Built backend services with Node.js and Express.js',
