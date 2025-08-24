@@ -197,8 +197,10 @@ class _HeroSectionState extends flutter.State<HeroSection>
         : (isMobile ? 20.0 : 40.0);
     
     return flutter.Container(
-      height: screenHeight,
       width: double.infinity,
+      constraints: flutter.BoxConstraints(
+        minHeight: isMobile ? screenHeight * 0.8 : screenHeight,
+      ),
       child: flutter.Stack(
         children: [
           // Animated wave background
