@@ -22,6 +22,23 @@ body {
   -webkit-overflow-scrolling: touch;
   overflow-scrolling: touch;
   scroll-behavior: smooth;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+}
+
+/* Mobile scrolling optimizations */
+@media screen and (max-width: 800px) {
+  body {
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+  }
+  
+  .flutter-view {
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 /* Prevent zoom on input focus (iOS Safari) */
@@ -134,19 +151,17 @@ input, textarea, select {
     height: -webkit-fill-available;
   }
   
-  /* Prevent bounce scrolling */
+  /* Enable smooth scrolling on iOS */
   body {
-    position: fixed;
-    overflow: hidden;
+    -webkit-overflow-scrolling: touch;
+    overflow-y: auto;
+    position: relative;
   }
   
   .flutter-view {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    overflow: auto;
+    position: relative;
+    min-height: 100vh;
+    overflow: visible;
   }
 }
 
