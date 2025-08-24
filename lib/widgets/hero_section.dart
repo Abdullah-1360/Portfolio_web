@@ -711,7 +711,7 @@ class _HeroSectionState extends flutter.State<HeroSection>
                 ),
               ),
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF2196F3),
+                backgroundColor: theme.colorScheme.primary,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -726,21 +726,21 @@ class _HeroSectionState extends flutter.State<HeroSection>
             height: 56,
             child: OutlinedButton.icon(
               onPressed: widget.onScrollToContact,
-              icon: const Icon(
+              icon: Icon(
                 Icons.email_outlined,
-                color: Color(0xFF64FFDA),
+                color: theme.colorScheme.secondary,
               ),
-              label: const Text(
+              label: Text(
                 'Get In Touch',
                 style: TextStyle(
-                  color: Color(0xFF64FFDA),
+                  color: theme.colorScheme.secondary,
                   fontWeight: FontWeight.w600,
                   fontSize: 16,
                 ),
               ),
               style: OutlinedButton.styleFrom(
-                side: const BorderSide(
-                  color: Color(0xFF64FFDA),
+                side: BorderSide(
+                  color: theme.colorScheme.secondary,
                   width: 2,
                 ),
                 shape: RoundedRectangleBorder(
@@ -777,12 +777,12 @@ class _HeroSectionState extends flutter.State<HeroSection>
                       borderRadius: BorderRadius.circular(30),
                       gradient: LinearGradient(
                         colors: _isButtonHovered
-                            ? [const Color(0xFF64FFDA), const Color(0xFF2196F3)]
-                            : [const Color(0xFF2196F3), const Color(0xFF1976D2)],
+                            ? [theme.colorScheme.secondary, theme.colorScheme.primary]
+                            : [theme.colorScheme.primary, theme.colorScheme.primary.withOpacity(0.8)],
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: (_isButtonHovered ? const Color(0xFF64FFDA) : const Color(0xFF2196F3))
+                          color: (_isButtonHovered ? theme.colorScheme.secondary : theme.colorScheme.primary)
                               .withOpacity(_glowAnimation.value * 0.6),
                           blurRadius: _glowAnimation.value * 20,
                           spreadRadius: _glowAnimation.value * 2,
@@ -835,12 +835,12 @@ class _HeroSectionState extends flutter.State<HeroSection>
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
                       border: Border.all(
-                        color: _isHovered ? const Color(0xFF64FFDA) : const Color(0xFF64B5F6),
+                        color: _isHovered ? theme.colorScheme.secondary : theme.colorScheme.primary.withOpacity(0.7),
                         width: 2,
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: (_isHovered ? const Color(0xFF64FFDA) : const Color(0xFF64B5F6))
+                          color: (_isHovered ? theme.colorScheme.secondary : theme.colorScheme.primary.withOpacity(0.7))
                               .withOpacity(_glowAnimation.value * 0.4),
                           blurRadius: _glowAnimation.value * 15,
                           spreadRadius: _glowAnimation.value * 1,
@@ -851,12 +851,12 @@ class _HeroSectionState extends flutter.State<HeroSection>
                       onPressed: widget.onScrollToContact,
                       icon: Icon(
                         Icons.email_outlined,
-                        color: _isHovered ? const Color(0xFF64FFDA) : Colors.white,
+                        color: _isHovered ? theme.colorScheme.secondary : Colors.white,
                       ),
                       label: Text(
                         'Get In Touch',
                         style: TextStyle(
-                          color: _isHovered ? const Color(0xFF64FFDA) : Colors.white,
+                          color: _isHovered ? theme.colorScheme.secondary : Colors.white,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
