@@ -3,7 +3,10 @@ import 'package:responsive_framework/responsive_framework.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import '../models/project.dart';
+import '../utils/optimized_image.dart';
+import '../utils/mobile_animation_optimizer.dart';
 
 class ProjectsSection extends StatefulWidget {
   final List<Project> projects;
@@ -41,30 +44,41 @@ class _ProjectsSectionState extends State<ProjectsSection>
   void initState() {
     super.initState();
     
-    _filterController = AnimationController(
-      duration: const Duration(milliseconds: 300),
-      vsync: this,
-    );
-    
-    _cardControllers = List.generate(
-      widget.projects.length,
-      (index) => AnimationController(
-        duration: Duration(milliseconds: 800 + (index * 100)),
-        vsync: this,
-      ),
-    );
-    
-    // Start animations
+    // Initialize controllers after first frame to access context
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      _initializeControllers();
       _startAnimations();
     });
   }
   
+  void _initializeControllers() {
+    _filterController = MobileAnimationOptimizer.createOptimizedController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+      context: context,
+    );
+    
+    _cardControllers = List.generate(
+      widget.projects.length,
+      (index) => MobileAnimationOptimizer.createOptimizedController(
+        vsync: this,
+        duration: Duration(milliseconds: 800 + (index * 100)),
+        context: context,
+      ),
+    );
+  }
+  
   void _startAnimations() {
     for (int i = 0; i < _cardControllers.length; i++) {
-      Future.delayed(Duration(milliseconds: i * 150), () {
+      final delay = MobileAnimationOptimizer.getStaggeredDelay(
+        context, 
+        i, 
+        const Duration(milliseconds: 150)
+      );
+      
+      Future.delayed(delay, () {
         if (mounted) {
-          _cardControllers[i].forward();
+          _cardControllers[i].forwardOptimized(context);
         }
       });
     }
@@ -501,8 +515,11 @@ class _ProjectsSectionState extends State<ProjectsSection>
   }
 
   Widget _buildProjectImage(Project project, ThemeData theme) {
+    final isMobile = ResponsiveBreakpoints.of(context).equals(MOBILE);
+    final imageHeight = isMobile ? 160.0 : 200.0;
+    
     return Container(
-      height: 200,
+      height: imageHeight,
       width: double.infinity,
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -516,14 +533,21 @@ class _ProjectsSectionState extends State<ProjectsSection>
       ),
       child: Stack(
         children: [
-          // Placeholder for project image
-          Center(
-            child: Icon(
-              FontAwesomeIcons.mobileAlt,
-              size: 64,
-              color: theme.colorScheme.onPrimary.withOpacity(0.7),
-            ),
-          ),
+          // Optimized image loading with caching
+          if ((project.imageUrl != null && project.imageUrl!.isNotEmpty) ||
+              (project.assetImagePath != null && project.assetImagePath!.isNotEmpty))
+            OptimizedImage(
+              imageUrl: project.imageUrl,
+              assetPath: project.assetImagePath,
+              width: double.infinity,
+              height: imageHeight,
+              fit: BoxFit.cover,
+              borderRadius: BorderRadius.zero,
+              fadeInDuration: const Duration(milliseconds: 300),
+              errorWidget: _buildFallbackImage(theme, isMobile),
+            )
+          else
+            _buildFallbackImage(theme, isMobile),
           
           // Overlay
           Container(
@@ -539,6 +563,16 @@ class _ProjectsSectionState extends State<ProjectsSection>
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildFallbackImage(ThemeData theme, bool isMobile) {
+    return Center(
+      child: Icon(
+        FontAwesomeIcons.mobileAlt,
+        size: isMobile ? 48 : 64,
+        color: theme.colorScheme.onPrimary.withOpacity(0.7),
       ),
     );
   }

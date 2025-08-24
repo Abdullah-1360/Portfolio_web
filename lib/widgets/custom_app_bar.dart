@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import '../utils/mobile_animation_optimizer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CustomAppBar extends StatefulWidget {
@@ -172,7 +173,7 @@ class _CustomAppBarState extends State<CustomAppBar>
       onTap: () => widget.onNavigate(index),
       borderRadius: BorderRadius.circular(20),
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
+        duration: MobileAnimationOptimizer.getOptimizedDuration(context, const Duration(milliseconds: 300)),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
@@ -227,28 +228,38 @@ class _CustomAppBarState extends State<CustomAppBar>
   Widget _buildMobileMenuButton(ThemeData theme) {
     return Padding(
       padding: const EdgeInsets.only(left: 16),
-      child: InkWell(
-        onTap: () {
-          setState(() {
-            _isMenuOpen = !_isMenuOpen;
-          });
-          _showMobileMenu(theme);
-        },
-        borderRadius: BorderRadius.circular(25),
-        child: Container(
-          width: 50,
-          height: 50,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: theme.colorScheme.primary.withOpacity(0.1),
-            border: Border.all(
-              color: theme.colorScheme.primary.withOpacity(0.3),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () {
+            setState(() {
+              _isMenuOpen = !_isMenuOpen;
+            });
+            _showMobileMenu(theme);
+          },
+          borderRadius: BorderRadius.circular(28),
+          splashColor: theme.colorScheme.primary.withOpacity(0.2),
+          highlightColor: theme.colorScheme.primary.withOpacity(0.1),
+          child: Container(
+            width: 56,
+            height: 56,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: theme.colorScheme.primary.withOpacity(0.1),
+              border: Border.all(
+                color: theme.colorScheme.primary.withOpacity(0.3),
+                width: 1.5,
+              ),
             ),
-          ),
-          child: Icon(
-            _isMenuOpen ? Icons.close : Icons.menu,
-            color: theme.colorScheme.primary,
-            size: 24,
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 200),
+              child: Icon(
+                _isMenuOpen ? Icons.close : Icons.menu,
+                key: ValueKey(_isMenuOpen),
+                color: theme.colorScheme.primary,
+                size: 26,
+              ),
+            ),
           ),
         ),
       ),
@@ -260,21 +271,27 @@ class _CustomAppBarState extends State<CustomAppBar>
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
-      builder: (context) => Container(
-        height: MediaQuery.of(context).size.height * 0.6,
-        decoration: BoxDecoration(
-          color: theme.colorScheme.background,
-          borderRadius: const BorderRadius.vertical(
-            top: Radius.circular(20),
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: theme.colorScheme.primary.withOpacity(0.1),
-              blurRadius: 20,
-              spreadRadius: 5,
+      enableDrag: true,
+      isDismissible: true,
+      useSafeArea: true,
+      builder: (context) => GestureDetector(
+        onTap: () => Navigator.pop(context),
+        child: Container(
+          height: MediaQuery.of(context).size.height * 0.65,
+          decoration: BoxDecoration(
+            color: theme.colorScheme.background,
+            borderRadius: const BorderRadius.vertical(
+              top: Radius.circular(24),
             ),
-          ],
-        ),
+            boxShadow: [
+              BoxShadow(
+                color: theme.colorScheme.primary.withOpacity(0.15),
+                blurRadius: 25,
+                spreadRadius: 8,
+                offset: const Offset(0, -5),
+              ),
+            ],
+          ),
         child: Column(
           children: [
             // Handle
@@ -299,31 +316,36 @@ class _CustomAppBarState extends State<CustomAppBar>
                   
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: InkWell(
-                      onTap: () {
-                        widget.onNavigate(index);
-                        Navigator.pop(context);
-                        setState(() {
-                          _isMenuOpen = false;
-                        });
-                      },
-                      borderRadius: BorderRadius.circular(12),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 16,
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color: isActive
-                              ? theme.colorScheme.primary.withOpacity(0.1)
-                              : Colors.transparent,
-                          border: Border.all(
-                            color: isActive
-                                ? theme.colorScheme.primary
-                                : Colors.transparent,
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: () {
+                          widget.onNavigate(index);
+                          Navigator.pop(context);
+                          setState(() {
+                            _isMenuOpen = false;
+                          });
+                        },
+                        borderRadius: BorderRadius.circular(16),
+                        splashColor: theme.colorScheme.primary.withOpacity(0.2),
+                        highlightColor: theme.colorScheme.primary.withOpacity(0.1),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 24,
+                            vertical: 20,
                           ),
-                        ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16),
+                            color: isActive
+                                ? theme.colorScheme.primary.withOpacity(0.12)
+                                : Colors.transparent,
+                            border: Border.all(
+                              color: isActive
+                                  ? theme.colorScheme.primary
+                                  : Colors.transparent,
+                              width: 1.5,
+                            ),
+                          ),
                         child: Row(
                           children: [
                             Icon(
@@ -333,30 +355,34 @@ class _CustomAppBarState extends State<CustomAppBar>
                                   : theme.colorScheme.onBackground,
                               size: 24,
                             ),
-                            const SizedBox(width: 16),
-                            Text(
-                              item,
-                              style: theme.textTheme.titleMedium?.copyWith(
-                                color: isActive
-                                    ? theme.colorScheme.primary
-                                    : theme.colorScheme.onBackground,
-                                fontWeight: isActive
-                                    ? FontWeight.w600
-                                    : FontWeight.w500,
+                            const SizedBox(width: 20),
+                            Expanded(
+                              child: Text(
+                                item,
+                                style: theme.textTheme.titleLarge?.copyWith(
+                                  color: isActive
+                                      ? theme.colorScheme.primary
+                                      : theme.colorScheme.onBackground,
+                                  fontWeight: isActive
+                                      ? FontWeight.w600
+                                      : FontWeight.w500,
+                                  fontSize: 18,
+                                ),
                               ),
                             ),
                           ],
                         ),
                       ),
                     ).animate().fadeIn(delay: (index * 100).ms).slideX(begin: 0.3),
-                  );
+                    )
+                    );
                 },
               ),
             ),
           ],
         ),
       ),
-    );
+    ));
   }
 
   IconData _getIconForSection(int index) {

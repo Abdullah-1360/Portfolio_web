@@ -3,21 +3,25 @@ class Project {
   final String title;
   final String description;
   final List<String> technologies;
-  final String imageUrl;
   final String? githubUrl;
   final String? liveUrl;
+  final String category;
   final bool featured;
+  final String? imageUrl;
+  final String? assetImagePath;
   final DateTime? createdAt;
 
-  Project({
+  const Project({
     required this.id,
     required this.title,
     required this.description,
     required this.technologies,
-    required this.imageUrl,
     this.githubUrl,
     this.liveUrl,
+    required this.category,
     this.featured = false,
+    this.imageUrl,
+    this.assetImagePath,
     this.createdAt,
   });
 
@@ -44,7 +48,9 @@ class Project {
       imageUrl: json['imageUrl'],
       githubUrl: json['githubUrl'],
       liveUrl: json['liveUrl'],
+      category: json['category'] ?? 'General',
       featured: json['featured'] ?? false,
+      assetImagePath: json['assetImagePath'],
       createdAt: json['createdAt'] != null ? DateTime.parse(json['createdAt']) : null,
     );
   }
