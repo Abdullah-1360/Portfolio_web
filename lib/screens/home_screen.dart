@@ -144,7 +144,10 @@ class _HomeScreenState extends State<HomeScreen>
             controller: _scrollController,
             child: CustomScrollView(
               controller: _scrollController,
-              physics: const NeverScrollableScrollPhysics(),
+              physics: Theme.of(context).platform == TargetPlatform.iOS || 
+                      Theme.of(context).platform == TargetPlatform.android
+                  ? const ClampingScrollPhysics()
+                  : const NeverScrollableScrollPhysics(),
               slivers: [
               // Custom App Bar
               CustomAppBar(
