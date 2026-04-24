@@ -5,14 +5,17 @@ import Providers from '@/components/Providers';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Abdullah Shahid — Flutter Developer',
+  title: 'Abdullah Shahid — AI Automation Engineer',
   description:
-    'Portfolio of Abdullah Shahid, a passionate Flutter developer specialising in cross-platform mobile apps, Firebase, and clean UI.',
-  keywords: ['Flutter', 'Dart', 'Mobile Developer', 'Portfolio', 'Pakistan'],
+    'AI Automation Engineer specializing in LLM integrations, n8n workflows, self-healing infrastructure, and full-stack development. Reduced operational overhead by 60% at HostBreak.',
+  keywords: ['AI Engineer', 'Automation', 'n8n', 'LLM', 'MCP', 'Node.js', 'NestJS', 'Portfolio'],
   authors: [{ name: 'Abdullah Shahid' }],
+  icons: {
+    icon: '/favicon.svg',
+  },
   openGraph: {
-    title: 'Abdullah Shahid — Flutter Developer',
-    description: 'Cross-platform mobile apps, beautiful UI, clean code.',
+    title: 'Abdullah Shahid — AI Automation Engineer',
+    description: 'Building self-healing systems, LLM integrations, and intelligent automations.',
     type: 'website',
   },
 };
