@@ -38,7 +38,7 @@ export default function Navbar({ personalInfo }: { personalInfo: PersonalInfo })
         <button
           onClick={() => go('home')}
           className="w-9 h-9 rounded-lg flex items-center justify-center font-mono font-bold
-                     text-sm text-[#0d1b2e] bg-[#00e5cc] hover:opacity-90 transition-opacity"
+                     text-sm text-[#0B1628] bg-[var(--accent)] hover:opacity-90 transition-opacity"
         >
           AS
         </button>
