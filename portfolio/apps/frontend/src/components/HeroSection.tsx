@@ -144,7 +144,7 @@ export default function HeroSection({ personalInfo, currently }: Props) {
 
           {/* Currently card — prominent, right column */}
           <div className="border border-[var(--border-accent)] rounded-xl p-5
-                          bg-[var(--bg-2)] space-y-3">
+                          bg-[var(--card)] space-y-3">
             <p className="mono text-[var(--text-faint)] tracking-widest"
                style={{ fontSize: '0.6rem' }}>
               CURRENTLY
@@ -166,7 +166,7 @@ export default function HeroSection({ personalInfo, currently }: Props) {
 
         {/* Mobile: currently card below text */}
         <motion.div variants={fadeUp} className="lg:hidden border border-[var(--border-accent)]
-                    rounded-xl p-5 bg-[var(--bg-2)] space-y-3">
+                    rounded-xl p-5 bg-[var(--card)] space-y-3">
           <p className="mono text-[var(--text-faint)] tracking-widest"
              style={{ fontSize: '0.6rem' }}>
             CURRENTLY

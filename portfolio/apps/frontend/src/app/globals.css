@@ -6,42 +6,43 @@
 
 @layer base {
 
-  /* ── Light mode (default) ─────────────────────────────────── */
-  :root {
-    --bg:            #ffffff;
-    --bg-2:          #f8fafc;
-    --bg-3:          #f1f5f9;
-    --text:          #0f172a;
-    --text-muted:    #475569;
-    --text-faint:    #94a3b8;
-    --accent:        #c2570a;        /* amber darkened for white bg — WCAG AA */
-    --accent-rgb:    194,87,10;
-    --accent-glow:   rgba(194,87,10,0.08);
-    --red:           #991b1b;
-    --red-rgb:       153,27,27;
-    --border:        rgba(15,23,42,0.08);
-    --border-accent: rgba(194,87,10,0.2);
-    --card:          #ffffff;
-    --card-border:   rgba(15,23,42,0.08);
+  /* ── Dark mode (default) ──────────────────────────────────── */
+  :root,
+  .dark {
+    --bg:            #0d1117;   /* GitHub-dark level — deep but not navy */
+    --bg-2:          #161b22;
+    --bg-3:          #21262d;
+    --text:          #e6edf3;   /* near-white, easy on eyes */
+    --text-muted:    #8b949e;
+    --text-faint:    #484f58;
+    --accent:        #f0883e;   /* warm amber — readable on dark */
+    --accent-rgb:    240,136,62;
+    --accent-glow:   rgba(240,136,62,0.1);
+    --red:           #da3633;
+    --red-rgb:       218,54,51;
+    --border:        rgba(230,237,243,0.08);
+    --border-accent: rgba(240,136,62,0.3);
+    --card:          #161b22;
+    --card-border:   rgba(230,237,243,0.08);
   }
 
-  /* ── Dark mode ────────────────────────────────────────────── */
-  .dark {
-    --bg:            #0B1628;
-    --bg-2:          #0F1E35;
-    --bg-3:          #132440;
-    --text:          #F0EDE8;
-    --text-muted:    #9AA3B0;
-    --text-faint:    #4E5A6A;
-    --accent:        #E8820C;
-    --accent-rgb:    232,130,12;
-    --accent-glow:   rgba(232,130,12,0.12);
-    --red:           #A82020;
-    --red-rgb:       168,32,32;
-    --border:        rgba(240,237,232,0.07);
-    --border-accent: rgba(232,130,12,0.25);
-    --card:          #0F1E35;
-    --card-border:   rgba(232,130,12,0.12);
+  /* ── Light mode ───────────────────────────────────────────── */
+  .light {
+    --bg:            #ffffff;
+    --bg-2:          #f6f8fa;
+    --bg-3:          #eaeef2;
+    --text:          #1f2328;
+    --text-muted:    #636c76;
+    --text-faint:    #9198a1;
+    --accent:        #bc4c00;   /* amber darkened for white — WCAG AA */
+    --accent-rgb:    188,76,0;
+    --accent-glow:   rgba(188,76,0,0.08);
+    --red:           #cf222e;
+    --red-rgb:       207,34,46;
+    --border:        rgba(31,35,40,0.1);
+    --border-accent: rgba(188,76,0,0.25);
+    --card:          #ffffff;
+    --card-border:   rgba(31,35,40,0.1);
   }
 
   html { scroll-behavior: smooth; }
@@ -51,11 +52,11 @@
     color: var(--text);
     font-family: var(--font-geist-sans), system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
-    transition: background-color 0.2s, color 0.2s;
+    transition: background-color 0.25s, color 0.25s;
   }
 
   ::selection {
-    background: rgba(var(--accent-rgb), 0.25);
+    background: rgba(var(--accent-rgb), 0.3);
     color: var(--text);
   }
 
@@ -93,7 +94,7 @@
     transition: border-color 0.2s;
   }
   .card:hover {
-    border-color: rgba(var(--accent-rgb), 0.4);
+    border-color: rgba(var(--accent-rgb), 0.35);
   }
 
   .tag {
@@ -120,14 +121,14 @@
     font-weight: 600;
     font-size: 0.875rem;
     background: var(--accent);
-    color: #fff;
+    color: #ffffff;
     border: none;
     cursor: pointer;
     transition: opacity 0.15s, box-shadow 0.15s;
   }
   .btn-primary:hover {
     opacity: 0.88;
-    box-shadow: 0 0 22px rgba(var(--accent-rgb), 0.4);
+    box-shadow: 0 0 20px rgba(var(--accent-rgb), 0.35);
   }
 
   .btn-outline {
@@ -160,8 +161,9 @@
   .text-muted  { color: var(--text-muted); }
   .text-faint  { color: var(--text-faint); }
 
+  /* Subtle gradient — accent only, no red clash */
   .gradient-text {
-    background: linear-gradient(110deg, var(--red) 0%, var(--accent) 100%);
+    background: linear-gradient(120deg, var(--text) 0%, var(--accent) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
