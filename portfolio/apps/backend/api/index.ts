@@ -1,14 +1,18 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
+import { ExpressAdapter } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from '../src/app.module';
-import { ExpressAdapter } from '@nestjs/platform-express';
-import * as express from 'express';
+import express from 'express';
 
 const server = express();
+let isReady = false;
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, new ExpressAdapter(server));
+  if (isReady) return;
+  const app = await NestFactory.create(AppModule, new ExpressAdapter(server), {
+    logger: false,
+  });
 
   app.enableCors({
     origin: process.env.FRONTEND_URL
@@ -20,7 +24,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
   app.setGlobalPrefix('api');
 
-  const config = new DocumentBuilder()
+  const swaggerConfig = new DocumentBuilder()
     .setTitle('Abdullah Shahid — Portfolio API')
     .setDescription('REST API powering the portfolio frontend')
     .setVersion('1.0')
@@ -28,12 +32,13 @@ async function bootstrap() {
     .addTag('contact')
     .build();
 
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('docs', app, document);
+  SwaggerModule.setup('docs', app, SwaggerModule.createDocument(app, swaggerConfig));
 
   await app.init();
+  isReady = true;
 }
 
-bootstrap();
-
-export default server;
+export default async function handler(req: any, res: any) {
+  await bootstrap();
+  server(req, res);
+}
