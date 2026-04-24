@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { AppController } from './app.controller';
 import { PortfolioModule } from './portfolio/portfolio.module';
 import { ContactModule } from './contact/contact.module';
 
@@ -9,5 +10,6 @@ import { ContactModule } from './contact/contact.module';
     PortfolioModule,
     ContactModule,
   ],
+  controllers: [AppController],
 })
 export class AppModule {}
