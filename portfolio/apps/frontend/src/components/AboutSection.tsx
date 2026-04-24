@@ -101,19 +101,19 @@ export default function AboutSection({ personalInfo, education }: Props) {
       </div>
 
       {/* Stats */}
-      <motion.div variants={fadeUp} className="mt-14 grid grid-cols-3 gap-4">
+      <motion.div variants={fadeUp} className="mt-14 grid grid-cols-3 gap-3">
         {[
-          { v: '15+',  l: 'Projects Shipped' },
-          { v: '60%',  l: 'Overhead Reduced' },
-          { v: '10K+', l: 'Assets Managed' },
+          { v: '15+',  l: 'Projects' },
+          { v: '60%',  l: 'Less Overhead' },
+          { v: '10K+', l: 'Assets' },
         ].map((s) => (
           <div key={s.l}
                className="bg-[var(--card)] border border-[var(--card-border)] rounded-xl
-                          p-5 text-center hover:border-[var(--border-accent)] transition-colors">
-            <div className="text-2xl font-bold text-[var(--accent)] mb-1 tracking-tight">
+                          p-4 text-center hover:border-[var(--border-accent)] transition-colors">
+            <div className="text-xl md:text-2xl font-bold text-[var(--accent)] mb-1 tracking-tight">
               {s.v}
             </div>
-            <div className="mono">{s.l}</div>
+            <div className="mono text-[10px] md:text-xs">{s.l}</div>
           </div>
         ))}
       </motion.div>

@@ -23,9 +23,9 @@ export default function HeroSection({ personalInfo, currently }: Props) {
       variants={staggerContainer(0.1, 0.15)}
       initial="hidden"
       animate="show"
-      className="relative min-h-screen flex items-center z-10 px-6 pt-16"
+      className="relative min-h-[100svh] flex items-center z-10 px-4 md:px-6 pt-20 pb-16"
     >
-      <div className="max-w-6xl mx-auto w-full grid lg:grid-cols-[1fr_380px] gap-16 items-center">
+      <div className="max-w-6xl mx-auto w-full grid lg:grid-cols-[1fr_380px] gap-10 lg:gap-16 items-center">
 
         {/* ── Left: text ── */}
         <div>
@@ -42,7 +42,7 @@ export default function HeroSection({ personalInfo, currently }: Props) {
           {/* Name */}
           <motion.h1
             variants={fadeUp}
-            className="text-5xl md:text-[4.5rem] font-bold tracking-tight mb-4 leading-[1.05]"
+            className="text-4xl sm:text-5xl md:text-[4.5rem] font-bold tracking-tight mb-4 leading-[1.05]"
           >
             <span className="text-[var(--text)]">Abdullah </span>
             <span className="gradient-text">Shahid</span>

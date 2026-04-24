@@ -56,7 +56,7 @@ export default function SkillsSection({ skills }: { skills: Skill[] }) {
             className={`px-4 py-1.5 text-xs font-semibold mono border rounded-sm
                         transition-colors duration-150 ${
                           active === c
-                            ? 'bg-[var(--accent)] text-[#0B1628] border-[var(--accent)]'
+                            ? 'bg-[var(--accent)] text-white border-[var(--accent)]'
                             : 'border-[var(--border)] text-[var(--text-faint)] hover:border-[var(--border-accent)] hover:text-[var(--accent)]'
                         }`}
           >

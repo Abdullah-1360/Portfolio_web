@@ -17,7 +17,7 @@ export default function SectionWrapper({ id, children, className = '' }: Props) 
       initial="hidden"
       whileInView="show"
       viewport={{ once: true, amount: 0.08 }}
-      className={`relative z-10 py-24 px-6 ${className}`}
+      className={`relative z-10 py-16 md:py-24 px-4 md:px-6 ${className}`}
     >
       <div className="max-w-5xl mx-auto">{children}</div>
     </motion.section>

@@ -51,7 +51,7 @@ export default function ContactSection({ personalInfo }: { personalInfo: Persona
         question or just want to say hi, I&apos;ll try my best to get back to you!
       </motion.p>
 
-      <div className="grid md:grid-cols-[1fr_1.7fr] gap-10">
+      <div className="grid md:grid-cols-[1fr_1.7fr] gap-6 md:gap-10">
 
         {/* Info */}
         <motion.div variants={staggerContainer(0.08)} className="space-y-3">
@@ -95,7 +95,7 @@ export default function ContactSection({ personalInfo }: { personalInfo: Persona
 
         {/* Form */}
         <motion.div variants={fadeRight}>
-          <form onSubmit={handleSubmit(onSubmit)} className="card p-7 space-y-4">
+          <form onSubmit={handleSubmit(onSubmit)} className="card p-4 md:p-7 space-y-4">
             <h3 className="font-semibold text-[var(--text)]">Send me a message</h3>
 
             <div className="grid sm:grid-cols-2 gap-4">

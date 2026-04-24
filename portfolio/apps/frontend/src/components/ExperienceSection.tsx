@@ -47,20 +47,20 @@ export default function ExperienceSection({ experiences }: { experiences: Experi
                                     : 'bg-[var(--bg)] border-[var(--border-accent)]'
                                 }`} />
 
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
-                <div>
-                  <span className={`text-sm font-semibold transition-colors ${
-                    sel === i ? 'text-[var(--accent)]' : 'text-[var(--text)]'
-                  }`}>
-                    {e.title}
-                  </span>
-                  <span className="text-[var(--text-faint)] text-sm"> @ {e.company}</span>
+              <div className="flex flex-col gap-0.5">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className={`text-sm font-semibold transition-colors ${
+                      sel === i ? 'text-[var(--accent)]' : 'text-[var(--text)]'
+                    }`}>
+                      {e.title}
+                    </span>
+                    <span className="text-[var(--text-faint)] text-sm">@ {e.company}</span>
+                  </div>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="mono text-[10px]">{fmt(e.startDate)} – {fmt(e.endDate)}</span>
+                    <span className="tag text-[10px] py-0">{duration(e.startDate, e.endDate)}</span>
+                  </div>
                 </div>
-                <div className="flex items-center gap-3 shrink-0">
-                  <span className="mono">{fmt(e.startDate)} – {fmt(e.endDate)}</span>
-                  <span className="tag">{duration(e.startDate, e.endDate)}</span>
-                </div>
-              </div>
             </button>
           ))}
         </div>
@@ -74,7 +74,7 @@ export default function ExperienceSection({ experiences }: { experiences: Experi
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.25 }}
-          className="card p-6"
+          className="card p-4 md:p-6"
         >
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-5">
             <div>
