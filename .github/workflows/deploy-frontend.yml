@@ -34,7 +34,7 @@ jobs:
           NEXT_PUBLIC_API_URL: https://portfolio-backend-nu-seven.vercel.app/api
         run: npm run build
 
-      - name: Add .nojekyll
+      - name: Add .nojekyll inside out/
         run: touch portfolio/apps/frontend/out/.nojekyll
 
       - name: Deploy to GitHub Pages
@@ -43,3 +43,5 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: portfolio/apps/frontend/out
+          enable_jekyll: false
+          force_orphan: true

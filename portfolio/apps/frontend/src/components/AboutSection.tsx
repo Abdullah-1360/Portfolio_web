@@ -79,11 +79,12 @@ export default function AboutSection({ personalInfo, education }: Props) {
                           shadow-[0_0_40px_rgba(168,32,32,0.25)]">
             <div className="relative w-64 h-80 rounded-[10px] overflow-hidden">
               <Image
-                src="/profile.jpg"
+                src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/profile.jpg`}
                 alt="Abdullah Shahid"
                 fill
                 className="object-cover object-top"
                 priority
+                unoptimized
               />
             </div>
           </div>
