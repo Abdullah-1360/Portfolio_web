@@ -3,10 +3,9 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ExternalLink, ArrowUpRight } from 'lucide-react';
-import { FaGithub } from 'react-icons/fa';
 import SectionWrapper from './SectionWrapper';
 import SectionHeader from './SectionHeader';
-import { fadeUp, fadeUp as cardAnim, staggerContainer } from '@/lib/motion';
+import { fadeUp, staggerContainer } from '@/lib/motion';
 import type { Project } from '@/types';
 
 const CATEGORY_COLOR: Record<string, string> = {
@@ -46,82 +45,91 @@ export default function ProjectsSection({ projects }: { projects: Project[] }) {
       <AnimatePresence mode="wait">
         <motion.div
           key={active}
-          variants={staggerContainer(0.07)}
+          variants={staggerContainer(0.06)}
           initial="hidden" animate="show" exit={{ opacity: 0 }}
           className="grid md:grid-cols-2 xl:grid-cols-3 gap-4"
         >
-          {list.map((p) => (
-            <motion.article
-              key={p.id}
-              variants={cardAnim}
-              className="group bg-[var(--card)] border border-[var(--card-border)] rounded-xl
-                         flex flex-col overflow-hidden hover:border-[var(--border-accent)]
-                         transition-colors duration-200"
-            >
-              <div className="p-5 flex flex-col flex-1">
+          {list.map((p) => {
+            const primaryUrl = p.githubUrl || p.liveUrl;
+            const secondaryUrl = p.githubUrl && p.liveUrl ? p.liveUrl : null;
 
-                {/* Top row: category tag + links */}
-                <div className="flex items-center justify-between mb-4">
-                  <span className={`inline-flex items-center px-2 py-0.5 rounded-sm text-xs
-                                    font-medium mono border
-                                    ${CATEGORY_COLOR[p.category] ?? CATEGORY_COLOR['Mobile']}`}>
-                    {p.category}
-                  </span>
-                  <div className="flex items-center gap-2">
-                    {p.githubUrl && (
-                      <a href={p.githubUrl} target="_blank" rel="noopener noreferrer"
-                         aria-label="Source code"
-                         className="text-[var(--text-faint)] hover:text-[var(--accent)]
-                                    transition-colors">
-                        <FaGithub size={15} />
-                      </a>
-                    )}
-                    {p.liveUrl && (
-                      <a href={p.liveUrl} target="_blank" rel="noopener noreferrer"
-                         aria-label="Live demo"
-                         className="text-[var(--text-faint)] hover:text-[var(--accent)]
-                                    transition-colors">
-                        <ExternalLink size={15} strokeWidth={1.6} />
-                      </a>
+            return (
+              <motion.article
+                key={p.id}
+                variants={fadeUp}
+                className="group relative"
+              >
+                {/* Whole card is a link */}
+                <a
+                  href={primaryUrl || '#'}
+                  target={primaryUrl ? '_blank' : undefined}
+                  rel={primaryUrl ? 'noopener noreferrer' : undefined}
+                  className="block bg-[var(--card)] border border-[var(--card-border)] rounded-xl
+                             p-5 h-full flex flex-col hover:border-[var(--border-accent)]
+                             transition-colors duration-200 cursor-pointer"
+                >
+                  {/* Category tag */}
+                  <div className="flex items-center justify-between mb-4">
+                    <span className={`inline-flex items-center px-2 py-0.5 rounded-sm text-xs
+                                      font-medium mono border
+                                      ${CATEGORY_COLOR[p.category] ?? CATEGORY_COLOR['Mobile']}`}>
+                      {p.category}
+                    </span>
+                    <ArrowUpRight size={16} strokeWidth={1.6}
+                      className="text-[var(--text-faint)] group-hover:text-[var(--accent)]
+                                 transition-colors" />
+                  </div>
+
+                  {/* Title */}
+                  <h3 className="font-bold text-[var(--text)] mb-2 leading-snug
+                                 group-hover:text-[var(--accent)] transition-colors duration-200">
+                    {p.title}
+                  </h3>
+
+                  {/* Description */}
+                  <p className="text-xs text-[var(--text-muted)] leading-relaxed flex-1 mb-4">
+                    {p.description}
+                  </p>
+
+                  {/* Tech stack */}
+                  <div className="flex flex-wrap gap-1.5 pt-4 border-t border-[var(--card-border)]">
+                    {p.technologies.slice(0, 5).map((t) => (
+                      <span key={t} className="px-2 py-0.5 text-xs mono rounded-sm
+                                               text-[var(--text-faint)] bg-[var(--bg-3)]
+                                               border border-[var(--border)]">
+                        {t}
+                      </span>
+                    ))}
+                    {p.technologies.length > 5 && (
+                      <span className="px-2 py-0.5 text-xs mono rounded-sm
+                                       text-[var(--text-faint)] bg-[var(--bg-3)]
+                                       border border-[var(--border)]">
+                        +{p.technologies.length - 5}
+                      </span>
                     )}
                   </div>
-                </div>
+                </a>
 
-                {/* Title */}
-                <h3 className="font-bold text-[var(--text)] mb-2 leading-snug
-                               group-hover:text-[var(--accent)] transition-colors duration-200
-                               flex items-start justify-between gap-2">
-                  {p.title}
-                  <ArrowUpRight size={16} strokeWidth={1.6}
-                    className="text-[var(--text-faint)] group-hover:text-[var(--accent)]
-                               transition-colors shrink-0 mt-0.5" />
-                </h3>
-
-                {/* Description */}
-                <p className="text-xs text-[var(--text-muted)] leading-relaxed flex-1 mb-4">
-                  {p.description}
-                </p>
-
-                {/* Tech stack */}
-                <div className="flex flex-wrap gap-1.5 pt-4 border-t border-[var(--card-border)]">
-                  {p.technologies.slice(0, 5).map((t) => (
-                    <span key={t} className="px-2 py-0.5 text-xs mono rounded-sm
-                                             text-[var(--text-faint)] bg-[var(--bg-3)]
-                                             border border-[var(--border)]">
-                      {t}
-                    </span>
-                  ))}
-                  {p.technologies.length > 5 && (
-                    <span className="px-2 py-0.5 text-xs mono rounded-sm
-                                     text-[var(--text-faint)] bg-[var(--bg-3)]
-                                     border border-[var(--border)]">
-                      +{p.technologies.length - 5}
-                    </span>
-                  )}
-                </div>
-              </div>
-            </motion.article>
-          ))}
+                {/* Secondary link (Live) — floats in top-right if both GitHub + Live exist */}
+                {secondaryUrl && (
+                  <a
+                    href={secondaryUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="absolute top-3 right-3 z-10 flex items-center gap-1 px-2 py-1
+                               rounded-md text-xs font-medium mono
+                               bg-[var(--bg)] border border-[var(--border)]
+                               text-[var(--text-faint)] hover:text-[var(--accent)]
+                               hover:border-[var(--border-accent)] transition-colors"
+                  >
+                    <ExternalLink size={11} strokeWidth={1.6} />
+                    Live
+                  </a>
+                )}
+              </motion.article>
+            );
+          })}
         </motion.div>
       </AnimatePresence>
     </SectionWrapper>
