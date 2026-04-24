@@ -17,7 +17,10 @@ async function bootstrap() {
   app.enableCors({
     origin: process.env.FRONTEND_URL
       ? process.env.FRONTEND_URL.split(',').map((u) => u.trim())
-      : '*',
+      : [
+          'https://abdullah-1360.github.io',
+          'http://localhost:3000',
+        ],
     methods: ['GET', 'POST'],
   });
 

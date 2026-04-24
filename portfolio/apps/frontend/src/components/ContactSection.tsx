@@ -28,7 +28,7 @@ export default function ContactSection({ personalInfo }: { personalInfo: Persona
   const onSubmit = async (data: F) => {
     setStatus('loading');
     try {
-      const api = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000/api';
+      const api = process.env.NEXT_PUBLIC_API_URL ?? 'https://portfolio-backend-nu-seven.vercel.app/api';
       const res = await fetch(`${api}/contact`, {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
