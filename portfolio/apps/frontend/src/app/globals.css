@@ -4,24 +4,29 @@
 @tailwind components;
 @tailwind utilities;
 
-/*
-  Palette extracted directly from the profile photo:
-  ─────────────────────────────────────────────────
-  Background (dark navy)  : #0B1628
-  Card surface            : #0F1E35
-  Card surface 2          : #132440
-  Text primary            : #F0EDE8
-  Text muted              : #9AA3B0
-  Text faint              : #4E5A6A
-  Accent (amber/orange)   : #E8820C   ← warm right side of photo
-  Accent dim              : #C46A08
-  Red warm                : #A82020   ← deep red left side of photo
-  Border                  : rgba(232,130,12,0.18)
-  Glow                    : rgba(232,130,12,0.12)
-*/
-
 @layer base {
+
+  /* ── Light mode (default) ─────────────────────────────────── */
   :root {
+    --bg:            #F5F0E8;
+    --bg-2:          #EDE8DF;
+    --bg-3:          #E2DDD4;
+    --text:          #1A1208;
+    --text-muted:    #4A3F2F;
+    --text-faint:    #8C7B65;
+    --accent:        #C46A08;        /* amber darkened for light bg */
+    --accent-rgb:    196,106,8;
+    --accent-glow:   rgba(196,106,8,0.12);
+    --red:           #8B1A1A;
+    --red-rgb:       139,26,26;
+    --border:        rgba(26,18,8,0.1);
+    --border-accent: rgba(196,106,8,0.3);
+    --card:          #FFFFFF;
+    --card-border:   rgba(196,106,8,0.15);
+  }
+
+  /* ── Dark mode ────────────────────────────────────────────── */
+  .dark {
     --bg:            #0B1628;
     --bg-2:          #0F1E35;
     --bg-3:          #132440;
@@ -46,6 +51,7 @@
     color: var(--text);
     font-family: var(--font-geist-sans), system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
+    transition: background-color 0.2s, color 0.2s;
   }
 
   ::selection {
@@ -84,11 +90,10 @@
     background: var(--card);
     border: 1px solid var(--card-border);
     border-radius: 0.75rem;
-    transition: border-color 0.2s, transform 0.2s;
+    transition: border-color 0.2s;
   }
   .card:hover {
     border-color: rgba(var(--accent-rgb), 0.4);
-    transform: translateY(-2px);
   }
 
   .tag {
@@ -115,7 +120,7 @@
     font-weight: 600;
     font-size: 0.875rem;
     background: var(--accent);
-    color: #0B1628;
+    color: #fff;
     border: none;
     cursor: pointer;
     transition: opacity 0.15s, box-shadow 0.15s;
@@ -155,7 +160,6 @@
   .text-muted  { color: var(--text-muted); }
   .text-faint  { color: var(--text-faint); }
 
-  /* Red → Orange gradient — exact photo colours */
   .gradient-text {
     background: linear-gradient(110deg, var(--red) 0%, var(--accent) 100%);
     -webkit-background-clip: text;
@@ -163,7 +167,6 @@
     background-clip: text;
   }
 
-  /* Photo-matching border: red left → orange right */
   .photo-border {
     border-radius: 0.75rem;
     padding: 2px;
