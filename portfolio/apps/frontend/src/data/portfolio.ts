@@ -75,7 +75,7 @@ export const portfolioData: PortfolioData = {
       description: 'Chatbot powered by Model Context Protocol — gives an LLM secure, real-time access to live data sources, enabling true agentic reasoning beyond static knowledge.',
       technologies: ['MCP', 'Node.js', 'LLM', 'TypeScript'],
       category: 'AI / LLM Ops',
-      githubUrl: 'https://github.com/Abdullah-1360/ChatBot_with_MCP',
+      githubUrl: 'https://github.com/Abdullah-1360/ChatBot_with_MCP/tree/master',
       liveUrl: null,
       featured: true,
     },
