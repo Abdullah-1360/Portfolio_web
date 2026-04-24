@@ -8,21 +8,21 @@
 
   /* ── Light mode (default) ─────────────────────────────────── */
   :root {
-    --bg:            #F5F0E8;
-    --bg-2:          #EDE8DF;
-    --bg-3:          #E2DDD4;
-    --text:          #1A1208;
-    --text-muted:    #4A3F2F;
-    --text-faint:    #8C7B65;
-    --accent:        #C46A08;        /* amber darkened for light bg */
-    --accent-rgb:    196,106,8;
-    --accent-glow:   rgba(196,106,8,0.12);
-    --red:           #8B1A1A;
-    --red-rgb:       139,26,26;
-    --border:        rgba(26,18,8,0.1);
-    --border-accent: rgba(196,106,8,0.3);
-    --card:          #FFFFFF;
-    --card-border:   rgba(196,106,8,0.15);
+    --bg:            #ffffff;
+    --bg-2:          #f8fafc;
+    --bg-3:          #f1f5f9;
+    --text:          #0f172a;
+    --text-muted:    #475569;
+    --text-faint:    #94a3b8;
+    --accent:        #c2570a;        /* amber darkened for white bg — WCAG AA */
+    --accent-rgb:    194,87,10;
+    --accent-glow:   rgba(194,87,10,0.08);
+    --red:           #991b1b;
+    --red-rgb:       153,27,27;
+    --border:        rgba(15,23,42,0.08);
+    --border-accent: rgba(194,87,10,0.2);
+    --card:          #ffffff;
+    --card-border:   rgba(15,23,42,0.08);
   }
 
   /* ── Dark mode ────────────────────────────────────────────── */
