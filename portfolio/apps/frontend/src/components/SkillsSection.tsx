@@ -97,38 +97,45 @@ export default function SkillsSection({ skills }: { skills: Skill[] }) {
 
       {/* 3D view — desktop only */}
       <div className="hidden md:block">
-        {view === '3d' ? (
-          <motion.div
-            variants={fadeUp}
-            className="relative rounded-xl border border-[var(--card-border)] overflow-hidden"
-            style={{ background: 'var(--bg)' }}
-          >
-            {/* Subtle grid overlay */}
-            <div className="absolute inset-0 pointer-events-none"
-                 style={{
-                   backgroundImage: 'linear-gradient(rgba(240,136,62,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(240,136,62,0.03) 1px, transparent 1px)',
-                   backgroundSize: '48px 48px',
-                   maskImage: 'radial-gradient(ellipse at center, black 40%, transparent 80%)',
-                   WebkitMaskImage: 'radial-gradient(ellipse at center, black 40%, transparent 80%)',
-                 }} />
+        <motion.div
+          variants={fadeUp}
+          className="relative rounded-xl border border-[var(--card-border)] overflow-hidden"
+          style={{ background: 'var(--bg)' }}
+        >
+          {/* Grid overlay */}
+          <div className="absolute inset-0 pointer-events-none"
+               style={{
+                 backgroundImage: 'linear-gradient(rgba(240,136,62,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(240,136,62,0.03) 1px, transparent 1px)',
+                 backgroundSize: '48px 48px',
+                 maskImage: 'radial-gradient(ellipse at center, black 40%, transparent 80%)',
+                 WebkitMaskImage: 'radial-gradient(ellipse at center, black 40%, transparent 80%)',
+               }} />
+
+          {/* Always mounted — hidden via CSS, not unmounted */}
+          <div style={{ display: view === '3d' ? 'block' : 'none' }}>
             <SkillsOrbs skills={filtered} />
             <p className="absolute bottom-3 left-1/2 -translate-x-1/2 mono text-[var(--text-faint)]
                           pointer-events-none" style={{ fontSize: '0.6rem' }}>
               hover orbs · drag to explore
             </p>
-          </motion.div>
-        ) : (
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={active}
-              variants={staggerContainer(0.04)}
-              initial="hidden" animate="show" exit={{ opacity: 0 }}
-              className="grid grid-cols-3 lg:grid-cols-4 gap-3"
-            >
-              {filtered.map((skill) => <SkillCard key={skill.name} skill={skill} />)}
-            </motion.div>
-          </AnimatePresence>
-        )}
+          </div>
+
+          {/* Grid view inside same container */}
+          {view === 'grid' && (
+            <div className="p-4">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={active}
+                  variants={staggerContainer(0.04)}
+                  initial="hidden" animate="show" exit={{ opacity: 0 }}
+                  className="grid grid-cols-3 lg:grid-cols-4 gap-3"
+                >
+                  {filtered.map((skill) => <SkillCard key={skill.name} skill={skill} />)}
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          )}
+        </motion.div>
       </div>
 
       {/* Grid view — mobile always */}
