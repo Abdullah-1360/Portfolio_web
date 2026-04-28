@@ -35,7 +35,10 @@ export default function ContactSection({ personalInfo }: { personalInfo: Persona
       });
       if (!res.ok) throw new Error();
       setStatus('success'); reset();
-    } catch { setStatus('error'); }
+    } catch (err) {
+      console.error('[Contact form]', err);
+      setStatus('error');
+    }
   };
 
   const inp = `w-full px-4 py-2.5 rounded-sm bg-[var(--bg-3)] border border-[var(--border)]
@@ -139,7 +142,7 @@ export default function ContactSection({ personalInfo }: { personalInfo: Persona
       <motion.div variants={fadeUp} className="mt-20 text-center">
         <div className="w-12 h-px mx-auto mb-5"
              style={{ background: 'linear-gradient(90deg, transparent, var(--accent), transparent)' }} />
-        <p className="mono">© 2024 Abdullah Shahid — Built with Next.js & NestJS</p>
+        <p className="mono">© {new Date().getFullYear()} Abdullah Shahid — Built with Next.js & NestJS</p>
         <p className="mono mt-1">Designed & Developed with ❤️</p>
       </motion.div>
     </SectionWrapper>

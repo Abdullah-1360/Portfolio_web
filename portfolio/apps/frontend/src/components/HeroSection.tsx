@@ -5,12 +5,37 @@ import { motion } from 'motion/react';
 import { TypeAnimation } from 'react-type-animation';
 import { Mail, ArrowDown, Zap, BookOpen, MapPin } from 'lucide-react';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
-import { fadeUp, fadeLeft, fadeRight, scalePop, staggerContainer } from '@/lib/motion';
+import { fadeUp, fadeLeft, fadeRight, staggerContainer } from '@/lib/motion';
 import type { PersonalInfo, Currently } from '@/types';
 
 interface Props {
   personalInfo: PersonalInfo;
   currently: Currently[];
+}
+
+// ── Extracted: no more duplicate JSX ─────────────────────────────
+function CurrentlyCard({ currently }: { currently: Currently[] }) {
+  return (
+    <div className="border border-[var(--border-accent)] rounded-xl p-5
+                    bg-[var(--card)] space-y-3">
+      <p className="mono text-[var(--text-faint)] tracking-widest"
+         style={{ fontSize: '0.6rem' }}>
+        CURRENTLY
+      </p>
+      {currently.map((item, i) => (
+        <div key={i} className="flex items-start gap-2.5">
+          {item.label === 'Building'
+            ? <Zap size={12} className="text-[var(--accent)] shrink-0 mt-0.5" />
+            : <BookOpen size={12} className="text-[var(--accent)] shrink-0 mt-0.5" />
+          }
+          <p className="text-xs text-[var(--text-muted)] leading-relaxed">
+            <span className="text-[var(--accent)] font-semibold">{item.label}: </span>
+            {item.value}
+          </p>
+        </div>
+      ))}
+    </div>
+  );
 }
 
 export default function HeroSection({ personalInfo, currently }: Props) {
@@ -25,9 +50,18 @@ export default function HeroSection({ personalInfo, currently }: Props) {
       animate="show"
       className="relative min-h-[100svh] flex items-center z-10 px-4 md:px-6 pt-20 pb-16"
     >
+      {/* Grid texture */}
+      <div className="absolute inset-0 pointer-events-none"
+           style={{
+             backgroundImage: 'linear-gradient(rgba(240,136,62,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(240,136,62,0.04) 1px, transparent 1px)',
+             backgroundSize: '56px 56px',
+             maskImage: 'radial-gradient(ellipse 80% 60% at 50% 40%, black 20%, transparent 80%)',
+             WebkitMaskImage: 'radial-gradient(ellipse 80% 60% at 50% 40%, black 20%, transparent 80%)',
+           }} />
+
       <div className="max-w-6xl mx-auto w-full grid lg:grid-cols-[1fr_380px] gap-10 lg:gap-16 items-center">
 
-        {/* ── Left: text ── */}
+        {/* ── Left ── */}
         <div>
           {/* Status chip */}
           <motion.div variants={fadeLeft} className="mb-6">
@@ -66,18 +100,28 @@ export default function HeroSection({ personalInfo, currently }: Props) {
           </motion.div>
 
           {/* Bio */}
-          <motion.p
-            variants={fadeUp}
-            className="text-[var(--text-muted)] text-base max-w-lg leading-relaxed mb-2"
-          >
+          <motion.p variants={fadeUp}
+            className="text-[var(--text-muted)] text-base max-w-lg leading-relaxed mb-2">
             {personalInfo.bio}
           </motion.p>
-          <motion.p
-            variants={fadeUp}
-            className="text-[var(--text-faint)] text-sm max-w-lg leading-relaxed mb-8"
-          >
+          <motion.p variants={fadeUp}
+            className="text-[var(--text-faint)] text-sm max-w-lg leading-relaxed mb-8">
             {personalInfo.bio2}
           </motion.p>
+
+          {/* Inline metrics — visible immediately, no scrolling needed */}
+          <motion.div variants={fadeUp} className="flex flex-wrap gap-4 mb-8">
+            {[
+              { v: '60%',  l: 'overhead cut' },
+              { v: '10K+', l: 'servers managed' },
+              { v: '40%',  l: 'faster support' },
+            ].map((m) => (
+              <div key={m.l} className="flex items-baseline gap-1.5">
+                <span className="text-xl font-bold text-[var(--accent)]">{m.v}</span>
+                <span className="mono text-[var(--text-faint)]">{m.l}</span>
+              </div>
+            ))}
+          </motion.div>
 
           {/* CTAs */}
           <motion.div variants={fadeUp} className="flex flex-wrap gap-3 mb-8">
@@ -95,12 +139,12 @@ export default function HeroSection({ personalInfo, currently }: Props) {
             </motion.button>
           </motion.div>
 
-          {/* Socials + location */}
+          {/* Socials */}
           <motion.div variants={fadeUp} className="flex items-center gap-3">
             {[
-              { icon: <FaGithub size={16} />,             href: personalInfo.github,            label: 'GitHub' },
-              { icon: <FaLinkedin size={16} />,           href: personalInfo.linkedin,          label: 'LinkedIn' },
-              { icon: <Mail size={16} strokeWidth={1.6}/>, href: `mailto:${personalInfo.email}`, label: 'Email' },
+              { icon: <FaGithub size={16} />,              href: personalInfo.github,            label: 'GitHub' },
+              { icon: <FaLinkedin size={16} />,            href: personalInfo.linkedin,          label: 'LinkedIn' },
+              { icon: <Mail size={16} strokeWidth={1.6} />, href: `mailto:${personalInfo.email}`, label: 'Email' },
             ].map(({ icon, href, label }) => (
               <motion.a
                 key={label}
@@ -124,12 +168,10 @@ export default function HeroSection({ personalInfo, currently }: Props) {
           </motion.div>
         </div>
 
-        {/* ── Right: photo + currently card ── */}
+        {/* ── Right: photo + currently (desktop) ── */}
         <motion.div variants={fadeRight} className="hidden lg:flex flex-col gap-5">
-
-          {/* Profile photo */}
           <div className="photo-border p-[2px] rounded-xl self-center
-                          shadow-[0_0_48px_rgba(168,32,32,0.2)]">
+                          shadow-[0_0_48px_rgba(218,54,51,0.15)]">
             <div className="relative w-72 h-80 rounded-[10px] overflow-hidden">
               <Image
                 src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/profile.jpg`}
@@ -141,48 +183,12 @@ export default function HeroSection({ personalInfo, currently }: Props) {
               />
             </div>
           </div>
-
-          {/* Currently card — prominent, right column */}
-          <div className="border border-[var(--border-accent)] rounded-xl p-5
-                          bg-[var(--card)] space-y-3">
-            <p className="mono text-[var(--text-faint)] tracking-widest"
-               style={{ fontSize: '0.6rem' }}>
-              CURRENTLY
-            </p>
-            {currently.map((item, i) => (
-              <div key={i} className="flex items-start gap-2.5">
-                {item.label === 'Building'
-                  ? <Zap size={12} className="text-[var(--accent)] shrink-0 mt-0.5" />
-                  : <BookOpen size={12} className="text-[var(--accent)] shrink-0 mt-0.5" />
-                }
-                <p className="text-xs text-[var(--text-muted)] leading-relaxed">
-                  <span className="text-[var(--accent)] font-semibold">{item.label}: </span>
-                  {item.value}
-                </p>
-              </div>
-            ))}
-          </div>
+          <CurrentlyCard currently={currently} />
         </motion.div>
 
-        {/* Mobile: currently card below text */}
-        <motion.div variants={fadeUp} className="lg:hidden border border-[var(--border-accent)]
-                    rounded-xl p-5 bg-[var(--card)] space-y-3">
-          <p className="mono text-[var(--text-faint)] tracking-widest"
-             style={{ fontSize: '0.6rem' }}>
-            CURRENTLY
-          </p>
-          {currently.map((item, i) => (
-            <div key={i} className="flex items-start gap-2.5">
-              {item.label === 'Building'
-                ? <Zap size={12} className="text-[var(--accent)] shrink-0 mt-0.5" />
-                : <BookOpen size={12} className="text-[var(--accent)] shrink-0 mt-0.5" />
-              }
-              <p className="text-xs text-[var(--text-muted)] leading-relaxed">
-                <span className="text-[var(--accent)] font-semibold">{item.label}: </span>
-                {item.value}
-              </p>
-            </div>
-          ))}
+        {/* ── Currently (mobile only) ── */}
+        <motion.div variants={fadeUp} className="lg:hidden">
+          <CurrentlyCard currently={currently} />
         </motion.div>
       </div>
 

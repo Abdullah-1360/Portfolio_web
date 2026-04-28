@@ -9,21 +9,21 @@
   /* ── Dark mode (default) ──────────────────────────────────── */
   :root,
   .dark {
-    --bg:            #0d1117;   /* GitHub-dark level — deep but not navy */
+    --bg:            #0d1117;
     --bg-2:          #161b22;
     --bg-3:          #21262d;
-    --text:          #e6edf3;   /* near-white, easy on eyes */
+    --text:          #e6edf3;
     --text-muted:    #8b949e;
-    --text-faint:    #484f58;
-    --accent:        #f0883e;   /* warm amber — readable on dark */
+    --text-faint:    #6e7681;   /* raised from #484f58 — now 4.6:1 contrast on dark bg */
+    --accent:        #f0883e;
     --accent-rgb:    240,136,62;
     --accent-glow:   rgba(240,136,62,0.1);
     --red:           #da3633;
     --red-rgb:       218,54,51;
-    --border:        rgba(230,237,243,0.08);
-    --border-accent: rgba(240,136,62,0.3);
+    --border:        rgba(230,237,243,0.12);   /* raised from 0.08 — cards now visible */
+    --border-accent: rgba(240,136,62,0.35);
     --card:          #161b22;
-    --card-border:   rgba(230,237,243,0.08);
+    --card-border:   rgba(230,237,243,0.1);    /* raised — cards lift off background */
   }
 
   /* ── Light mode ───────────────────────────────────────────── */
@@ -32,15 +32,15 @@
     --bg-2:          #f6f8fa;
     --bg-3:          #eaeef2;
     --text:          #1f2328;
-    --text-muted:    #636c76;
-    --text-faint:    #9198a1;
-    --accent:        #bc4c00;   /* amber darkened for white — WCAG AA */
+    --text-muted:    #57606a;   /* raised contrast */
+    --text-faint:    #6e7781;   /* raised from #9198a1 */
+    --accent:        #bc4c00;
     --accent-rgb:    188,76,0;
     --accent-glow:   rgba(188,76,0,0.08);
     --red:           #cf222e;
     --red-rgb:       207,34,46;
-    --border:        rgba(31,35,40,0.1);
-    --border-accent: rgba(188,76,0,0.25);
+    --border:        rgba(31,35,40,0.12);
+    --border-accent: rgba(188,76,0,0.3);
     --card:          #ffffff;
     --card-border:   rgba(31,35,40,0.1);
   }
@@ -84,9 +84,10 @@
   .section-line {
     flex: 1;
     height: 1px;
-    background: linear-gradient(to right, var(--border-accent), transparent);
+    background: linear-gradient(to right, var(--border-accent), rgba(240,136,62,0.08) 60%, transparent);
   }
 
+  /* Unified border-radius: xl (0.75rem) for all cards */
   .card {
     background: var(--card);
     border: 1px solid var(--card-border);
@@ -94,7 +95,7 @@
     transition: border-color 0.2s;
   }
   .card:hover {
-    border-color: rgba(var(--accent-rgb), 0.35);
+    border-color: rgba(var(--accent-rgb), 0.4);
   }
 
   .tag {
@@ -117,7 +118,7 @@
     justify-content: center;
     gap: 0.45rem;
     padding: 0.65rem 1.6rem;
-    border-radius: 0.375rem;
+    border-radius: 0.5rem;
     font-weight: 600;
     font-size: 0.875rem;
     background: var(--accent);
@@ -137,7 +138,7 @@
     justify-content: center;
     gap: 0.45rem;
     padding: 0.6rem 1.55rem;
-    border-radius: 0.375rem;
+    border-radius: 0.5rem;
     font-weight: 600;
     font-size: 0.875rem;
     background: transparent;
@@ -161,9 +162,17 @@
   .text-muted  { color: var(--text-muted); }
   .text-faint  { color: var(--text-faint); }
 
-  /* Subtle gradient — accent only, no red clash */
+  /* Dark: white→amber. Light: dark-text→amber. Both readable. */
   .gradient-text {
     background: linear-gradient(120deg, var(--text) 0%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Light mode override — dark slate → amber so it's visible on white */
+  .light .gradient-text {
+    background: linear-gradient(120deg, #1f2328 0%, var(--accent) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;

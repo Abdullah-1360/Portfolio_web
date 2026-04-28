@@ -67,6 +67,17 @@ export default function Navbar({ personalInfo }: { personalInfo: PersonalInfo })
         </ul>
 
         <div className="flex items-center gap-2">
+          {/* Idea 7: Hire Me ghost CTA */}
+          <a
+            href="#contact"
+            onClick={(e) => { e.preventDefault(); document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }); }}
+            className="hidden md:inline-flex items-center px-3 py-1.5 rounded-md text-xs font-semibold
+                       mono border border-[var(--border-accent)] bg-[var(--accent-glow)]
+                       text-[var(--accent)] hover:bg-[var(--accent)] hover:text-white
+                       transition-all duration-200"
+          >
+            Hire Me
+          </a>
           {mounted && (
             <button
               onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}

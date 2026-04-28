@@ -29,7 +29,7 @@ export default function AboutSection({ personalInfo, education }: Props) {
     <SectionWrapper id="about" className="bg-[var(--bg-2)]/40">
       <SectionHeader number="01" title="About Me" />
 
-      <div className="grid lg:grid-cols-2 gap-14 items-start">
+      <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
 
         {/* Left */}
         <motion.div variants={staggerContainer(0.08)} className="space-y-5 min-w-0">
@@ -109,11 +109,11 @@ export default function AboutSection({ personalInfo, education }: Props) {
         ].map((s) => (
           <div key={s.l}
                className="bg-[var(--card)] border border-[var(--card-border)] rounded-xl
-                          p-4 text-center hover:border-[var(--border-accent)] transition-colors">
-            <div className="text-xl md:text-2xl font-bold text-[var(--accent)] mb-1 tracking-tight">
+                          p-5 text-center hover:border-[var(--border-accent)] transition-colors">
+            <div className="text-3xl font-bold text-[var(--accent)] mb-1 tracking-tight">
               {s.v}
             </div>
-            <div className="mono text-[10px] md:text-xs">{s.l}</div>
+            <div className="mono">{s.l}</div>
           </div>
         ))}
       </motion.div>

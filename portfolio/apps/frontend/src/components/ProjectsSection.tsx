@@ -3,16 +3,18 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ExternalLink, ArrowUpRight } from 'lucide-react';
+import { FaGithub } from 'react-icons/fa';
 import SectionWrapper from './SectionWrapper';
 import SectionHeader from './SectionHeader';
 import { fadeUp, staggerContainer } from '@/lib/motion';
 import type { Project } from '@/types';
 
-const CATEGORY_COLOR: Record<string, string> = {
-  'AI / Automation': 'text-[var(--accent)] bg-[var(--accent-glow)] border-[var(--border-accent)]',
-  'AI / ML':         'text-[var(--accent)] bg-[var(--accent-glow)] border-[var(--border-accent)]',
-  'AI / LLM Ops':    'text-[var(--accent)] bg-[var(--accent-glow)] border-[var(--border-accent)]',
-  'Mobile':          'text-[var(--text-muted)] bg-[var(--bg-3)] border-[var(--border)]',
+const CATEGORY_STYLE: Record<string, { text: string; bg: string; border: string }> = {
+  'AI / Automation':  { text: 'text-[#f0883e]',            bg: 'bg-[rgba(240,136,62,0.08)]', border: 'border-[rgba(240,136,62,0.25)]' },
+  'AI / ML':          { text: 'text-[#f0883e]',            bg: 'bg-[rgba(240,136,62,0.08)]', border: 'border-[rgba(240,136,62,0.25)]' },
+  'AI / LLM Ops':     { text: 'text-[#f0883e]',            bg: 'bg-[rgba(240,136,62,0.08)]', border: 'border-[rgba(240,136,62,0.25)]' },
+  'Mobile':           { text: 'text-[var(--text-muted)]',  bg: 'bg-[var(--bg-3)]',           border: 'border-[var(--border)]' },
+  'Learning Project': { text: 'text-[var(--text-faint)]',  bg: 'bg-[var(--bg-3)]',           border: 'border-[var(--border)]' },
 };
 
 export default function ProjectsSection({ projects }: { projects: Project[] }) {
@@ -20,12 +22,16 @@ export default function ProjectsSection({ projects }: { projects: Project[] }) {
   const [active, setActive] = useState('All');
   const list = active === 'All' ? projects : projects.filter((p) => p.category === active);
 
+  // Split: first 3 featured go in spotlight row, rest in grid
+  const spotlight = list.filter((p) => p.featured).slice(0, 3);
+  const grid      = list.filter((p) => !spotlight.includes(p));
+
   return (
     <SectionWrapper id="projects">
       <SectionHeader number="03" title="Projects" />
 
       {/* Filters */}
-      <motion.div variants={fadeUp} className="flex flex-wrap gap-2 mb-8">
+      <motion.div variants={fadeUp} className="flex flex-wrap gap-2 mb-10">
         {cats.map((c) => (
           <button
             key={c}
@@ -47,91 +53,129 @@ export default function ProjectsSection({ projects }: { projects: Project[] }) {
           key={active}
           variants={staggerContainer(0.06)}
           initial="hidden" animate="show" exit={{ opacity: 0 }}
-          className="grid md:grid-cols-2 xl:grid-cols-3 gap-4"
         >
-          {list.map((p) => {
-            const primaryUrl = p.githubUrl || p.liveUrl;
-            const secondaryUrl = p.githubUrl && p.liveUrl ? p.liveUrl : null;
+          {/* ── Spotlight row: up to 3 featured ── */}
+          {spotlight.length > 0 && (
+            <div className={`grid gap-4 mb-4 ${
+              spotlight.length === 1 ? 'grid-cols-1' :
+              spotlight.length === 2 ? 'md:grid-cols-2' :
+              'md:grid-cols-3'
+            }`}>
+              {spotlight.map((p) => <ProjectCard key={p.id} project={p} size="featured" />)}
+            </div>
+          )}
 
-            return (
-              <motion.article
-                key={p.id}
-                variants={fadeUp}
-                className="group relative"
-              >
-                {/* Whole card is a link */}
-                <a
-                  href={primaryUrl || '#'}
-                  target={primaryUrl ? '_blank' : undefined}
-                  rel={primaryUrl ? 'noopener noreferrer' : undefined}
-                  className="block bg-[var(--card)] border border-[var(--card-border)] rounded-xl
-                             p-5 h-full flex flex-col hover:border-[var(--border-accent)]
-                             transition-colors duration-200 cursor-pointer"
-                >
-                  {/* Category tag */}
-                  <div className="flex items-center justify-between mb-4">
-                    <span className={`inline-flex items-center px-2 py-0.5 rounded-sm text-xs
-                                      font-medium mono border
-                                      ${CATEGORY_COLOR[p.category] ?? CATEGORY_COLOR['Mobile']}`}>
-                      {p.category}
-                    </span>
-                    <ArrowUpRight size={16} strokeWidth={1.6}
-                      className="text-[var(--text-faint)] group-hover:text-[var(--accent)]
-                                 transition-colors" />
-                  </div>
+          {/* ── Regular grid ── */}
+          {grid.length > 0 && (
+            <>
+              {spotlight.length > 0 && (
+                <p className="mono text-[var(--text-faint)] mb-3 mt-6" style={{ fontSize: '0.62rem' }}>
+                  MORE PROJECTS
+                </p>
+              )}
+              <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
+                {grid.map((p) => <ProjectCard key={p.id} project={p} size="compact" />)}
+              </div>
+            </>
+          )}
 
-                  {/* Title */}
-                  <h3 className="font-bold text-[var(--text)] mb-2 leading-snug
-                                 group-hover:text-[var(--accent)] transition-colors duration-200">
-                    {p.title}
-                  </h3>
-
-                  {/* Description */}
-                  <p className="text-xs text-[var(--text-muted)] leading-relaxed flex-1 mb-4">
-                    {p.description}
-                  </p>
-
-                  {/* Tech stack */}
-                  <div className="flex flex-wrap gap-1.5 pt-4 border-t border-[var(--card-border)]">
-                    {p.technologies.slice(0, 5).map((t) => (
-                      <span key={t} className="px-2 py-0.5 text-xs mono rounded-sm
-                                               text-[var(--text-faint)] bg-[var(--bg-3)]
-                                               border border-[var(--border)]">
-                        {t}
-                      </span>
-                    ))}
-                    {p.technologies.length > 5 && (
-                      <span className="px-2 py-0.5 text-xs mono rounded-sm
-                                       text-[var(--text-faint)] bg-[var(--bg-3)]
-                                       border border-[var(--border)]">
-                        +{p.technologies.length - 5}
-                      </span>
-                    )}
-                  </div>
-                </a>
-
-                {/* Secondary link (Live) — floats in top-right if both GitHub + Live exist */}
-                {secondaryUrl && (
-                  <a
-                    href={secondaryUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                    className="absolute top-3 right-3 z-10 flex items-center gap-1 px-2 py-1
-                               rounded-md text-xs font-medium mono
-                               bg-[var(--bg)] border border-[var(--border)]
-                               text-[var(--text-faint)] hover:text-[var(--accent)]
-                               hover:border-[var(--border-accent)] transition-colors"
-                  >
-                    <ExternalLink size={11} strokeWidth={1.6} />
-                    Live
-                  </a>
-                )}
-              </motion.article>
-            );
-          })}
+          {list.length === 0 && (
+            <p className="text-center text-[var(--text-faint)] mono py-16">
+              No projects in this category.
+            </p>
+          )}
         </motion.div>
       </AnimatePresence>
     </SectionWrapper>
+  );
+}
+
+// ── Unified card component ────────────────────────────────────────
+function ProjectCard({ project: p, size }: { project: Project; size: 'featured' | 'compact' }) {
+  const primaryUrl = p.githubUrl || p.liveUrl;
+  const cat = CATEGORY_STYLE[p.category] ?? CATEGORY_STYLE['Mobile'];
+  const maxTech = size === 'featured' ? 5 : 4;
+
+  return (
+    <motion.article variants={fadeUp} className="group relative">
+      <a
+        href={primaryUrl || '#'}
+        target={primaryUrl ? '_blank' : undefined}
+        rel={primaryUrl ? 'noopener noreferrer' : undefined}
+        className="flex flex-col h-full bg-[var(--card)] border border-[var(--card-border)]
+                   rounded-xl overflow-hidden hover:border-[var(--border-accent)]
+                   transition-colors duration-200 cursor-pointer"
+      >
+        {/* Top accent bar — slides in on hover */}
+        <span className="block h-0.5 w-0 bg-gradient-to-r from-[var(--accent)] to-transparent
+                         group-hover:w-full transition-all duration-500" />
+
+        <div className={`flex flex-col flex-1 ${size === 'featured' ? 'p-6' : 'p-5'}`}>
+
+          {/* Header row */}
+          <div className="flex items-start justify-between gap-3 mb-4">
+            {/* Category + GitHub icon */}
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className={`inline-flex items-center px-2 py-0.5 rounded-sm text-xs
+                                font-medium mono border ${cat.text} ${cat.bg} ${cat.border}`}>
+                {p.category}
+              </span>
+            </div>
+
+            {/* Links */}
+            <div className="flex items-center gap-2 shrink-0">
+              {p.githubUrl && (
+                <span className="text-[var(--text-faint)] group-hover:text-[var(--accent)]
+                                 transition-colors">
+                  <FaGithub size={14} />
+                </span>
+              )}
+              {p.liveUrl && (
+                <span className="text-[var(--text-faint)] group-hover:text-[var(--accent)]
+                                 transition-colors">
+                  <ExternalLink size={13} strokeWidth={1.6} />
+                </span>
+              )}
+              <ArrowUpRight
+                size={15} strokeWidth={1.6}
+                className="text-[var(--text-faint)] group-hover:text-[var(--accent)]
+                           transition-colors -translate-y-0.5 group-hover:translate-y-0
+                           group-hover:translate-x-0.5 duration-200"
+              />
+            </div>
+          </div>
+
+          {/* Title */}
+          <h3 className={`font-bold text-[var(--text)] leading-snug mb-2
+                          group-hover:text-[var(--accent)] transition-colors duration-200
+                          ${size === 'featured' ? 'text-base' : 'text-sm'}`}>
+            {p.title}
+          </h3>
+
+          {/* Description */}
+          <p className={`text-[var(--text-muted)] leading-relaxed flex-1 mb-5
+                         ${size === 'featured' ? 'text-sm' : 'text-xs'}`}>
+            {p.description}
+          </p>
+
+          {/* Tech stack */}
+          <div className="flex flex-wrap gap-1.5 pt-4 border-t border-[var(--card-border)]">
+            {p.technologies.slice(0, maxTech).map((t) => (
+              <span key={t}
+                    className="px-2 py-0.5 text-xs mono rounded-sm text-[var(--text-faint)]
+                               bg-[var(--bg-3)] border border-[var(--border)]">
+                {t}
+              </span>
+            ))}
+            {p.technologies.length > maxTech && (
+              <span className="px-2 py-0.5 text-xs mono rounded-sm text-[var(--text-faint)]
+                               bg-[var(--bg-3)] border border-[var(--border)]">
+                +{p.technologies.length - maxTech}
+              </span>
+            )}
+          </div>
+        </div>
+      </a>
+    </motion.article>
   );
 }
