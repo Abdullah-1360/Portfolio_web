@@ -19,6 +19,7 @@ export const portfolioData: PortfolioData = {
     { name: 'n8n',           level: 'Proficient' as const,  category: 'Automation' },
     { name: 'UChat',         level: 'Proficient' as const,  category: 'Automation' },
     { name: 'AI Workflows',  level: 'Proficient' as const,  category: 'Automation' },
+    { name: 'Ansible EDA',   level: 'Proficient' as const,  category: 'Automation' },
     { name: 'MCP Dev',       level: 'Proficient' as const,  category: 'AI / LLM Ops' },
     { name: 'LLM Quant.',    level: 'Familiar'   as const,  category: 'AI / LLM Ops' },
     { name: 'Prompt Eng.',   level: 'Proficient' as const,  category: 'AI / LLM Ops' },
@@ -37,6 +38,16 @@ export const portfolioData: PortfolioData = {
   projects: [
     {
       id: '1',
+      title: 'JetBackup 5 Monitoring & Self-Healing System',
+      description: 'Closed-loop backup remediation pipeline on the LOPA stack — detects failed/partial/missed backups across 5+ cPanel servers, auto-retries targeted accounts via JetBackup API, and publishes a live 5-tab Google Sheets dashboard. Zero human intervention required.',
+      technologies: ['Ansible EDA', 'Python', 'JetBackup API', 'WHM API', 'Prometheus', 'Loki', 'Google Sheets API'],
+      category: 'AI / Automation',
+      githubUrl: 'https://github.com/Abdullah-1360/Ansible-Automations',
+      liveUrl: null,
+      featured: true,
+    },
+    {
+      id: '2',
       title: 'Automated Server Analysis Platform',
       description: 'Self-healing infrastructure platform that scans 10,000+ assets, auto-diagnoses issues across WordPress/Laravel/Node.js stacks, and remediates via SSH — no human needed.',
       technologies: ['NestJS', 'Next.js', 'BullMQ', 'SSH', 'RBAC', 'SSE', 'Node.js'],

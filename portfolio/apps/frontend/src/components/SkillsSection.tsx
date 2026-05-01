@@ -27,6 +27,7 @@ const SKILL_ICONS: Record<string, React.ReactNode> = {
   'n8n':          <Workflow size={18} strokeWidth={1.6} />,
   'uchat':        <MessageSquare size={18} strokeWidth={1.6} />,
   'ai workflows': <Layers size={18} strokeWidth={1.6} />,
+  'ansible eda':  <Wrench size={18} strokeWidth={1.6} />,
   'mcp dev':      <Cpu size={18} strokeWidth={1.6} />,
   'llm quant.':   <BookOpen size={18} strokeWidth={1.6} />,
   'prompt eng.':  <PenTool size={18} strokeWidth={1.6} />,
