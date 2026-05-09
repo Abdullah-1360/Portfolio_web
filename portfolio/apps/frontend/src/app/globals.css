@@ -28,21 +28,21 @@
 
   /* ── Light mode ───────────────────────────────────────────── */
   .light {
-    --bg:            #ffffff;
-    --bg-2:          #f6f8fa;
-    --bg-3:          #eaeef2;
-    --text:          #1f2328;
-    --text-muted:    #57606a;   /* raised contrast */
-    --text-faint:    #6e7781;   /* raised from #9198a1 */
-    --accent:        #bc4c00;
-    --accent-rgb:    188,76,0;
-    --accent-glow:   rgba(188,76,0,0.08);
-    --red:           #cf222e;
-    --red-rgb:       207,34,46;
-    --border:        rgba(31,35,40,0.12);
-    --border-accent: rgba(188,76,0,0.3);
-    --card:          #ffffff;
-    --card-border:   rgba(31,35,40,0.1);
+    --bg:            #f4f1ed;   /* warm parchment — not blinding white */
+    --bg-2:          #ede9e3;   /* slightly darker warm gray */
+    --bg-3:          #e4dfd7;   /* card surfaces */
+    --text:          #1c1917;   /* warm near-black — stone-900 */
+    --text-muted:    #57534e;   /* stone-600 */
+    --text-faint:    #a8a29e;   /* stone-400 */
+    --accent:        #c2410c;   /* orange-700 — readable on warm bg */
+    --accent-rgb:    194,65,12;
+    --accent-glow:   rgba(194,65,12,0.1);
+    --red:           #b91c1c;
+    --red-rgb:       185,28,28;
+    --border:        rgba(28,25,23,0.1);
+    --border-accent: rgba(194,65,12,0.28);
+    --card:          #faf8f5;   /* warm white — cards lift off bg */
+    --card-border:   rgba(28,25,23,0.09);
   }
 
   html { scroll-behavior: smooth; }
@@ -170,9 +170,9 @@
     background-clip: text;
   }
 
-  /* Light mode override — dark slate → amber so it's visible on white */
+  /* Light mode override — warm stone → amber so it's visible on warm bg */
   .light .gradient-text {
-    background: linear-gradient(120deg, #1f2328 0%, var(--accent) 100%);
+    background: linear-gradient(120deg, #1c1917 0%, var(--accent) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
