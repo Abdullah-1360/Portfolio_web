@@ -67,7 +67,7 @@ export default function Navbar({ personalInfo }: { personalInfo: PersonalInfo })
         </ul>
 
         <div className="flex items-center gap-2">
-          {/* Idea 7: Hire Me ghost CTA */}
+          {/* Hire Me + Resume */}
           <a
             href="#contact"
             onClick={(e) => { e.preventDefault(); document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }); }}
@@ -77,6 +77,15 @@ export default function Navbar({ personalInfo }: { personalInfo: PersonalInfo })
                        transition-all duration-200"
           >
             Hire Me
+          </a>
+          <a
+            href={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/resume/`}
+            className="hidden md:inline-flex items-center px-3 py-1.5 rounded-md text-xs font-semibold
+                       mono border border-[var(--border)] text-[var(--text-muted)]
+                       hover:border-[var(--border-accent)] hover:text-[var(--accent)]
+                       transition-all duration-200"
+          >
+            Resume
           </a>
           {mounted && (
             <button
