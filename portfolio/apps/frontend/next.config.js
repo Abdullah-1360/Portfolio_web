@@ -24,6 +24,8 @@ const nextConfig = {
       '@react-three/fiber': path.resolve(localModules,     '@react-three/fiber'),
       '@react-three/drei':  path.resolve(localModules,     '@react-three/drei'),
     };
+    // react-pdf requires canvas for SSR — we don't use SSR, stub it out
+    config.resolve.alias['canvas'] = false;
     // Suppress monorepo vendor-chunk cache warnings (harmless noise)
     config.infrastructureLogging = { level: 'error' };
     return config;
