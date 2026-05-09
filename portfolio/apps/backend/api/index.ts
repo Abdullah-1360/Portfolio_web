@@ -19,9 +19,12 @@ async function bootstrap() {
       ? process.env.FRONTEND_URL.split(',').map((u) => u.trim())
       : [
           'https://abdullah-1360.github.io',
+          'https://portfolio-backend-nu-seven.vercel.app',
           'http://localhost:3000',
         ],
-    methods: ['GET', 'POST'],
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: false,
   });
 
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
