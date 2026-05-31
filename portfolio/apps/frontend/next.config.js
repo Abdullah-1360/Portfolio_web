@@ -10,14 +10,11 @@ const nextConfig = {
   output: 'export',
   trailingSlash: true,
   images: { unoptimized: true },
-  
-  // CHANGED: Removed the '/Portfolio_web' subfolder string so it defaults to the root
-  basePath: '', 
-  assetPrefix: '',
+  basePath:    isProd ? '/Portfolio_web' : '',
+  assetPrefix: isProd ? '/Portfolio_web' : '',
   env: {
-    NEXT_PUBLIC_BASE_PATH: '',
+    NEXT_PUBLIC_BASE_PATH: isProd ? '/Portfolio_web' : '',
   },
-
   transpilePackages: ['three', '@react-three/fiber', '@react-three/drei'],
   webpack(config) {
     // Pin all three.js packages to consistent locations
