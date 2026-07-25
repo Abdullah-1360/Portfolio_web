@@ -11,9 +11,9 @@ import { fadeUp, scalePop, staggerContainer } from '@/lib/motion';
 import type { Project } from '@/types';
 
 const CAT_COLOR: Record<string, string> = {
-  'AI / Automation': 'text-[var(--accent)]   bg-[rgba(34,197,94,0.08)]   border-[rgba(34,197,94,0.2)]',
-  'AI / ML':         'text-[var(--cyan)]     bg-[rgba(34,211,238,0.08)]  border-[rgba(34,211,238,0.2)]',
-  'AI / LLM Ops':    'text-[var(--purple)]   bg-[rgba(167,139,250,0.08)] border-[rgba(167,139,250,0.2)]',
+  'AI / Automation': 'text-[var(--accent)]   bg-[rgba(240,136,62,0.08)]   border-[rgba(240,136,62,0.25)]',
+  'AI / ML':         'text-[var(--accent)]   bg-[rgba(240,136,62,0.08)]   border-[rgba(240,136,62,0.25)]',
+  'AI / LLM Ops':    'text-[var(--accent)]   bg-[rgba(240,136,62,0.08)]   border-[rgba(240,136,62,0.25)]',
   'Mobile':          'text-[var(--text-muted)] bg-[var(--bg-3)] border-[var(--border)]',
   'Learning Project':'text-[var(--text-faint)] bg-[var(--bg-3)] border-[var(--border)]',
 };

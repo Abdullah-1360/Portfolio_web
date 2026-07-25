@@ -60,7 +60,7 @@ export default function ProjectDetailModal({ project, onClose }: Props) {
           <div className="sticky top-0 z-20 bg-[var(--bg-2)]/95 backdrop-blur-md border-b border-[var(--border)] px-6 py-4 flex items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <span
-                className="px-3 py-1 rounded-lg text-xs font-semibold border text-[var(--accent)] bg-[rgba(34,197,94,0.08)] border-[rgba(34,197,94,0.2)]"
+                className="px-3 py-1 rounded-lg text-xs font-semibold border text-[var(--accent)] bg-[var(--accent-glow)] border-[var(--border-accent)]"
                 style={{ fontFamily: 'JetBrains Mono, monospace' }}
               >
                 {project.category}
@@ -125,7 +125,7 @@ export default function ProjectDetailModal({ project, onClose }: Props) {
             {/* Architecture Diagram */}
             {project.architectureDiagram && (
               <div className="space-y-3">
-                <div className="flex items-center gap-2 text-[var(--cyan)]">
+                <div className="flex items-center gap-2 text-[var(--accent)]">
                   <GitBranch size={18} />
                   <h3 className="text-sm font-semibold uppercase tracking-wider mono">System Architecture Topology</h3>
                 </div>
@@ -143,7 +143,7 @@ export default function ProjectDetailModal({ project, onClose }: Props) {
             {/* Key Innovations */}
             {project.keyInnovations && project.keyInnovations.length > 0 && (
               <div className="space-y-4">
-                <div className="flex items-center gap-2 text-[var(--purple)]">
+                <div className="flex items-center gap-2 text-[var(--accent)]">
                   <Cpu size={18} />
                   <h3 className="text-sm font-semibold uppercase tracking-wider mono">Key Technical Innovations</h3>
                 </div>
