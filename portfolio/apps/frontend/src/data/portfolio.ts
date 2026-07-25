@@ -16,28 +16,115 @@ export const portfolioData: PortfolioData = {
   },
 
   skills: [
-    { name: 'n8n',           level: 'Proficient' as const,  category: 'Automation' },
-    { name: 'UChat',         level: 'Proficient' as const,  category: 'Automation' },
-    { name: 'AI Workflows',  level: 'Proficient' as const,  category: 'Automation' },
-    { name: 'Ansible EDA',   level: 'Proficient' as const,  category: 'Automation' },
-    { name: 'MCP Dev',       level: 'Proficient' as const,  category: 'AI / LLM Ops' },
-    { name: 'LLM Quant.',    level: 'Familiar'   as const,  category: 'AI / LLM Ops' },
-    { name: 'Prompt Eng.',   level: 'Proficient' as const,  category: 'AI / LLM Ops' },
-    { name: 'Ollama',        level: 'Familiar'   as const,  category: 'AI / LLM Ops' },
-    { name: 'Node.js',       level: 'Proficient' as const,  category: 'Full-Stack' },
-    { name: 'Express.js',    level: 'Proficient' as const,  category: 'Full-Stack' },
-    { name: 'MongoDB',       level: 'Proficient' as const,  category: 'Full-Stack' },
-    { name: 'Flutter/Dart',  level: 'Proficient' as const,  category: 'Full-Stack' },
-    { name: 'Python',        level: 'Familiar'   as const,  category: 'Full-Stack' },
-    { name: 'Ansible',       level: 'Familiar'   as const,  category: 'DevOps & Infra' },
-    { name: 'Linux Admin',   level: 'Familiar'   as const,  category: 'DevOps & Infra' },
-    { name: 'Git',           level: 'Proficient' as const,  category: 'DevOps & Infra' },
-    { name: 'WHM/cPanel',    level: 'Familiar'   as const,  category: 'DevOps & Infra' },
+    { name: 'LangGraph',        level: 'Proficient' as const,  category: 'AI / LLM Ops' },
+    { name: 'LangChain',        level: 'Proficient' as const,  category: 'AI / LLM Ops' },
+    { name: 'Multi-LLM Router', level: 'Proficient' as const,  category: 'AI / LLM Ops' },
+    { name: 'MCP Dev',          level: 'Proficient' as const,  category: 'AI / LLM Ops' },
+    { name: 'LLM Quant.',       level: 'Familiar'   as const,  category: 'AI / LLM Ops' },
+    { name: 'Prompt Eng.',      level: 'Proficient' as const,  category: 'AI / LLM Ops' },
+    { name: 'Ollama',           level: 'Familiar'   as const,  category: 'AI / LLM Ops' },
+    { name: 'n8n',              level: 'Proficient' as const,  category: 'Automation' },
+    { name: 'UChat',            level: 'Proficient' as const,  category: 'Automation' },
+    { name: 'AI Workflows',     level: 'Proficient' as const,  category: 'Automation' },
+    { name: 'Ansible EDA',      level: 'Proficient' as const,  category: 'Automation' },
+    { name: 'FastAPI',          level: 'Proficient' as const,  category: 'Full-Stack' },
+    { name: 'PostgreSQL',       level: 'Proficient' as const,  category: 'Full-Stack' },
+    { name: 'Node.js',          level: 'Proficient' as const,  category: 'Full-Stack' },
+    { name: 'Express.js',       level: 'Proficient' as const,  category: 'Full-Stack' },
+    { name: 'MongoDB',          level: 'Proficient' as const,  category: 'Full-Stack' },
+    { name: 'Flutter/Dart',     level: 'Proficient' as const,  category: 'Full-Stack' },
+    { name: 'Python',           level: 'Proficient' as const,  category: 'Full-Stack' },
+    { name: 'Redis',            level: 'Proficient' as const,  category: 'DevOps & Infra' },
+    { name: 'Ansible',          level: 'Familiar'   as const,  category: 'DevOps & Infra' },
+    { name: 'Linux Admin',      level: 'Familiar'   as const,  category: 'DevOps & Infra' },
+    { name: 'Git',              level: 'Proficient' as const,  category: 'DevOps & Infra' },
+    { name: 'WHM/cPanel',       level: 'Familiar'   as const,  category: 'DevOps & Infra' },
   ],
 
   projects: [
     {
-      id: '1',
+      id: 'hr-ai',
+      title: 'HR_AI: Multi-Agent AI Hiring Platform & Automated DevOps Engine',
+      description: 'Enterprise-grade candidate evaluation platform leveraging a stateful LangGraph multi-agent architecture, dynamic fallback routing across 6+ LLM backends (Gemini, OpenAI, Groq, Mistral, Cohere, Cerebras), and an automated stealth Git CI/CD sync pipeline.',
+      technologies: ['LangGraph', 'LangChain', 'FastAPI', 'Python', 'PostgreSQL', 'Redis', 'Multi-LLM Routing', 'Git Automation', 'Linux Cron', 'Docker'],
+      category: 'AI / LLM Ops',
+      githubUrl: '/404',
+      liveUrl: '/404',
+      featured: true,
+      longDescription: `HR_AI is an enterprise-grade AI Hiring & Candidate Evaluation Platform engineered to automate and optimize recruitment workflows. Built upon a LangGraph multi-agent architecture, HR_AI transitions away from naive single-LLM implementations to an autonomous, resilient multi-provider orchestration system.
+
+In addition to core hiring intelligence, HR_AI features an Automated DevOps Synchronization Pipeline—a self-contained background engine (scripts/auto_push.py) that performs intelligent, state-tracked, and stealth-scheduled code commits and repository pushes.`,
+      architectureDiagram: `                               ┌──────────────────────────────┐
+                               │       Frontend UI            │
+                               │     React / Next.js          │
+                               └─────────────┬────────────────┘
+                                             │ REST / API Gateway
+                               ┌─────────────▼────────────────┐
+                               │       FastAPI Backend        │
+                               │ Authentication & Middleware  │
+                               └─────────────┬────────────────┘
+                                             │
+                       ┌─────────────────────┴─────────────────────┐
+                       │                                           │
+             ┌─────────▼───────────┐                     ┌─────────▼───────────┐
+             │  PostgreSQL / Redis │                     │ Object / File Store │
+             │ Job & Candidate DB  │                     │ Resumes & Artifacts │
+             └─────────────────────┘                     └─────────────────────┘
+                                             │
+                              LangGraph Multi-Agent Orchestrator
+                                             │
+       ┌─────────────────────────────────────┴─────────────────────────────────────┐
+       │                                                                           │
+┌──────▼──────┐   ┌─────────────┐   ┌─────────────┐   ┌─────────────┐   ┌──────────▼────────┐
+│ Resume      │   │ Job Specs   │   │ Candidate   │   │ HR Policy   │   │ Multi-Provider    │
+│ Parser      │   │ Evaluator   │   │ Matcher     │   │ & Audit     │   │ Router Engine     │
+└─────────────┘   └─────────────┘   └─────────────┘   └─────────────┘   └──────────┬────────┘
+                                                                                   │
+                                                          ┌────────────────────────┴────────────────────────┐
+                                                          │ Gemini │ OpenAI │ Groq │ Mistral │ Cohere │ Cerebras │
+                                                          └─────────────────────────────────────────────────┘`,
+      keyInnovations: [
+        {
+          title: 'Multi-Agent LangGraph Workflow Engine',
+          desc: 'Decoupled agent topology for resume parsing, job spec evaluation, candidate scoring, and policy compliance built on langgraph.graph.StateGraph for state propagation & intermediate checkpoints.'
+        },
+        {
+          title: 'Resilient Multi-Provider LLM Router Engine',
+          desc: 'Automatically routes requests across 6+ LLM providers (Gemini, OpenAI, Groq, Mistral, Cohere, Cerebras) with dynamic retry and tier switching on rate limits (429) or downtime (5xx).'
+        },
+        {
+          title: 'Automated CI/CD & Repository Sync Engine',
+          desc: 'Stealth background sync script running on an 8-hour cron cycle with randomized jitter delay (0-180m), state-aware history tracking (.pushed_history.json), and Conventional Commits generation.'
+        }
+      ],
+      repoStructure: `HR_AI/
+├── app/                      # Main application modules
+├── router/                   # Multi-provider routing engine & DB logic
+│   ├── db.py                 # PostgreSQL connection pool & schema utilities
+│   └── router_node.py        # LangGraph routing node implementation
+├── scripts/                  # Utilities & DevOps scripts
+│   ├── auto_push.py          # Automated stealth GitHub sync engine
+│   ├── .pushed_history.json  # Persistence state for auto-push pipeline
+│   └── bulk_upload.py        # Bulk dataset ingestion pipeline
+├── tests/                    # Comprehensive unit and integration test suite
+├── graph.py                  # LangGraph core workflow graph & state schema
+├── main.py                   # FastAPI app entrypoint & provider verification
+├── plan.md                   # System architectural specifications
+├── pyproject.toml            # Dependencies & build configuration
+└── docker-compose.yml        # Multi-container orchestration (DB, Cache, App)`,
+      demoCommands: [
+        { label: 'Run Multi-Provider Router Test', cmd: 'python3 main.py' },
+        { label: 'Run Sync Engine Manual Execution', cmd: 'python3 scripts/auto_push.py --no-delay' },
+        { label: 'Schedule Stealth Cron Job (8 Hours)', cmd: '0 */8 * * * /usr/bin/python3 /home/ubuntu/HR_AI/scripts/auto_push.py >> /home/ubuntu/HR_AI/scripts/auto_push.log 2>&1' }
+      ],
+      highlights: [
+        'Production-Grade Resilience: Solves real-world LLM API instability through automated fallback graphs.',
+        'Full-Stack Engineering: Combines graph-based AI agent design with robust backend database pooling (PostgreSQL), task queues (Redis), and REST APIs.',
+        'DevOps Automation Mastery: Demonstrates deep proficiency with Linux systems, Python subprocess management, Git workflow automation, and stealth scheduling logic.'
+      ]
+    },
+    {
+      id: 'jetbackup',
       title: 'JetBackup 5 Monitoring & Self-Healing System',
       description: 'Closed-loop backup remediation pipeline on the LOPA stack — detects failed/partial/missed backups across 5+ cPanel servers, auto-retries targeted accounts via JetBackup API, and publishes a live 5-tab Google Sheets dashboard. Zero human intervention required.',
       technologies: ['Ansible EDA', 'Python', 'JetBackup API', 'WHM API', 'Prometheus', 'Loki', 'Google Sheets API'],
@@ -47,7 +134,7 @@ export const portfolioData: PortfolioData = {
       featured: true,
     },
     {
-      id: '2',
+      id: 'server-analysis',
       title: 'Automated Server Analysis Platform',
       description: 'Self-healing infrastructure platform that scans 10,000+ assets, auto-diagnoses issues across WordPress/Laravel/Node.js stacks, and remediates via SSH — no human needed.',
       technologies: ['NestJS', 'Next.js', 'BullMQ', 'SSH', 'RBAC', 'SSE', 'Node.js'],
@@ -57,7 +144,7 @@ export const portfolioData: PortfolioData = {
       featured: true,
     },
     {
-      id: '2',
+      id: 'sales-bot',
       title: 'Automated Bot System',
       description: 'WhatsApp + CRM chatbot that cut manual support work by 60% and response time by 90%, integrating n8n, UChat, WHMCS, and VTiger through a custom Node.js middleware.',
       technologies: ['n8n', 'UChat', 'Node.js', 'WHMCS', 'WHM', 'VTiger'],
@@ -67,7 +154,7 @@ export const portfolioData: PortfolioData = {
       featured: true,
     },
     {
-      id: '3',
+      id: 'plant-diag',
       title: 'AI Plant Diagnostics',
       description: 'End-to-end plant disease classifier — Python ML model, Flutter mobile app, Node.js/MongoDB backend, and a real-time Admin Panel connecting farmers with pathologists instantly.',
       technologies: ['Python', 'Flutter', 'Node.js', 'MongoDB', 'Bloc', 'Provider'],
@@ -77,7 +164,7 @@ export const portfolioData: PortfolioData = {
       featured: true,
     },
     {
-      id: '4',
+      id: 'mcp-bot',
       title: 'ChatBot with MCP',
       description: 'Chatbot powered by Model Context Protocol — gives an LLM secure, real-time access to live data sources, enabling true agentic reasoning beyond static knowledge.',
       technologies: ['MCP', 'Node.js', 'LLM', 'TypeScript'],
@@ -87,7 +174,7 @@ export const portfolioData: PortfolioData = {
       featured: true,
     },
     {
-      id: '5',
+      id: 'spotify',
       title: 'Spotify Clone',
       description: 'Full-featured music streaming app with auth, playlists, and audio playback — Flutter frontend backed by a FastAPI/Python server.',
       technologies: ['Flutter', 'FastAPI', 'Python', 'Riverpod'],
@@ -97,7 +184,7 @@ export const portfolioData: PortfolioData = {
       featured: false,
     },
     {
-      id: '6',
+      id: 'task-mgr',
       title: 'Task Management App',
       description: 'Offline-first productivity app with task creation, categories, reminders, and progress tracking — all stored locally via SQLite.',
       technologies: ['Flutter', 'SQLite', 'Provider', 'Local Notifications'],
@@ -107,7 +194,7 @@ export const portfolioData: PortfolioData = {
       featured: false,
     },
     {
-      id: '7',
+      id: 'social-app',
       title: 'Social Media App',
       description: 'Real-time social platform with posts, comments, likes, and live messaging — built on Firebase Cloud Firestore with Flutter.',
       technologies: ['Flutter', 'Firebase', 'Cloud Firestore', 'Firebase Auth'],

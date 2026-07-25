@@ -8,8 +8,9 @@ import { fadeUp, fadeRight, staggerContainer } from '@/lib/motion';
 import type { PersonalInfo, Education } from '@/types';
 
 const TECHS = [
-  'n8n / UChat', 'Node.js / Express', 'Python', 'Flutter / Dart',
-  'MCP / LLM Ops', 'Ansible / Linux', 'MongoDB', 'Git / GitHub',
+  'LangGraph / Multi-LLM', 'FastAPI / Postgres', 'n8n / UChat', 'Node.js / Express',
+  'Python', 'Flutter / Dart', 'MCP / LLM Ops', 'Ansible / Linux',
+  'Redis / Docker', 'Git / GitHub',
 ];
 
 const STATS = [

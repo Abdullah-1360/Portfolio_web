@@ -19,6 +19,16 @@ export interface Skill {
   category: string;
 }
 
+export interface KeyInnovation {
+  title: string;
+  desc: string;
+}
+
+export interface DemoCommand {
+  label: string;
+  cmd: string;
+}
+
 export interface Project {
   id: string;
   title: string;
@@ -28,6 +38,12 @@ export interface Project {
   githubUrl: string | null;
   liveUrl: string | null;
   featured: boolean;
+  longDescription?: string;
+  architectureDiagram?: string;
+  keyInnovations?: KeyInnovation[];
+  repoStructure?: string;
+  demoCommands?: DemoCommand[];
+  highlights?: string[];
 }
 
 export interface Experience {
