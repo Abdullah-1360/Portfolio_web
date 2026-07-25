@@ -33,9 +33,9 @@ export default function Home() {
       {/* Interactive CLI Sandbox */}
       <SectionWrapper id="sandbox" className="py-12">
         <SectionHeader
-          num="02.5"
+          number="02.5"
           title="Interactive CLI Playground"
-          sub="Execute live workflow simulations, inspect MCP server health, and trigger self-healing pipeline demos."
+          subtitle="Execute live workflow simulations, inspect MCP server health, and trigger self-healing pipeline demos."
         />
         <InteractiveTerminal />
       </SectionWrapper>
@@ -48,9 +48,9 @@ export default function Home() {
 
       <SectionWrapper id="router-demo" className="py-12">
         <SectionHeader
-          num="04.5"
+          number="04.5"
           title="Multi-LLM Outage & Fallback Simulator"
-          sub="Live interactive architecture playground demonstrating zero-downtime multi-provider LLM routing."
+          subtitle="Live interactive architecture playground demonstrating zero-downtime multi-provider LLM routing."
         />
         <LLMRouterSimulator />
       </SectionWrapper>
@@ -60,9 +60,9 @@ export default function Home() {
 
       <SectionWrapper id="roi-calculator" className="py-12">
         <SectionHeader
-          num="05.5"
+          number="05.5"
           title="Quantified Automation ROI"
-          sub="Test the financial & operational impact of self-healing server infrastructure based on HostBreak benchmarks."
+          subtitle="Test the financial & operational impact of self-healing server infrastructure based on HostBreak benchmarks."
         />
         <ROICalculator />
       </SectionWrapper>
