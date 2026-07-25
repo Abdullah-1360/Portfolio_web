@@ -33,10 +33,12 @@ export default function InteractiveTerminal() {
     },
   ]);
   const [isExecuting, setIsExecuting] = useState(false);
-  const terminalEndRef = useRef<HTMLDivElement>(null);
+  const terminalBodyRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    terminalEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (terminalBodyRef.current) {
+      terminalBodyRef.current.scrollTop = terminalBodyRef.current.scrollHeight;
+    }
   }, [history, isExecuting]);
 
   const runCommand = (cmdStr: string) => {
@@ -157,6 +159,7 @@ export default function InteractiveTerminal() {
           </span>
         </div>
         <button
+          type="button"
           onClick={() => setHistory([])}
           className="text-xs text-[var(--text-faint)] hover:text-red-400 flex items-center gap-1 transition-colors"
           title="Clear terminal"
@@ -174,7 +177,8 @@ export default function InteractiveTerminal() {
         {PRESET_COMMANDS.map((p) => (
           <button
             key={p.cmd}
-            onClick={() => runCommand(p.cmd)}
+            type="button"
+            onClick={(e) => { e.preventDefault(); runCommand(p.cmd); }}
             disabled={isExecuting}
             className="px-2.5 py-1 rounded-lg text-xs font-mono bg-[var(--accent-glow)] border border-[var(--border-accent)]
                        text-[var(--accent)] hover:bg-[var(--accent)] hover:text-white transition-all
@@ -186,8 +190,11 @@ export default function InteractiveTerminal() {
       </div>
 
       {/* Terminal Body */}
-      <div className="p-4 md:p-6 h-[340px] overflow-y-auto font-mono text-xs md:text-sm space-y-4"
-           style={{ fontFamily: 'JetBrains Mono, monospace' }}>
+      <div
+        ref={terminalBodyRef}
+        className="p-4 md:p-6 h-[340px] overflow-y-auto font-mono text-xs md:text-sm space-y-4"
+        style={{ fontFamily: 'JetBrains Mono, monospace' }}
+      >
         {history.map((h, i) => (
           <div key={i} className="space-y-1.5">
             <div className="flex items-center gap-2 text-[var(--text-muted)]">
@@ -225,10 +232,8 @@ export default function InteractiveTerminal() {
             disabled={isExecuting}
             placeholder="Type 'help' or any command..."
             className="flex-1 bg-transparent text-[var(--text)] outline-none border-none font-mono text-xs md:text-sm focus:ring-0"
-            autoFocus
           />
         </div>
-        <div ref={terminalEndRef} />
       </div>
     </div>
   );
