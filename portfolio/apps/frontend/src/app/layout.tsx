@@ -1,9 +1,13 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { ThemeProvider } from 'next-themes';
 import Providers from '@/components/Providers';
 import './globals.css';
 
 const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
+
+export const viewport: Viewport = {
+  themeColor: '#090D16',
+};
 
 export const metadata: Metadata = {
   title: 'Abdullah Shahid — AI Automation Engineer & LLM Architect',
@@ -11,7 +15,6 @@ export const metadata: Metadata = {
     'AI Automation Engineer specializing in LangGraph, Multi-Agent LLMs, MCP servers, self-healing infrastructure, and full-stack development. Cut operational overhead by 60% at HostBreak.',
   keywords: ['AI Automation Engineer', 'LLM Architect', 'LangGraph', 'LangChain', 'MCP Server', 'n8n', 'FastAPI', 'Node.js', 'Abdullah Shahid'],
   authors: [{ name: 'Abdullah Shahid' }],
-  themeColor: '#090D16',
   openGraph: {
     title: 'Abdullah Shahid — AI Automation Engineer & LLM Architect',
     description: 'Building self-healing systems, multi-agent AI workflows, and resilient cloud automations.',
