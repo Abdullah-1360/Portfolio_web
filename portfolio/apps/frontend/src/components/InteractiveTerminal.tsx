@@ -25,7 +25,7 @@ export default function InteractiveTerminal() {
     {
       command: 'system --init',
       output: [
-        '🚀 Abdullah Shahid Interactive CLI Sandbox v2.4',
+        '[INIT] Abdullah Shahid Interactive CLI Sandbox v2.4',
         'Type "help" or click any shortcut button below to execute automated workflows.',
       ],
       status: 'info',
@@ -62,28 +62,28 @@ export default function InteractiveTerminal() {
     switch (trimmed.toLowerCase()) {
       case 'hr-ai --demo':
         responseLines = [
-          '⚡ Initiating HR AI Agent Multi-Agent LangGraph Pipeline...',
+          '[START] Initiating HR AI Agent Multi-Agent LangGraph Pipeline...',
           '  └─ [AGENT 1] Screening Agent: Extracting candidate metrics & tech stack...',
           '  └─ [AGENT 2] Eval Agent: Checking project complexity (LangGraph, MCP, FastAPI)...',
           '  └─ [ROUTER] Primary Provider (OpenAI GPT-4o): OK (140ms, 412 tokens)',
           '  └─ [AGENT 3] Final Decision Engine: Candidate recommended for Lead AI Architect role.',
-          'STATUS: ✅ Workflow completed in 0.42s | Match Score: 98.4%',
+          'STATUS: [OK] Workflow completed in 0.42s | Match Score: 98.4%',
         ];
         break;
 
       case 'mcp-server status':
         responseLines = [
-          '🖥️  Model Context Protocol (MCP) Server Health Dashboard:',
-          '  ├── postgres-mcp-server   🟢 ONLINE  (Latency: 12ms | Active Conns: 14)',
-          '  ├── github-ci-mcp-server   🟢 ONLINE  (Sync: Instant | Events: 1,420/day)',
-          '  └── n8n-infra-mcp-bridge   🟢 ONLINE  (Self-Healing: Active)',
+          '[STATUS] Model Context Protocol (MCP) Server Health Dashboard:',
+          '  ├── postgres-mcp-server    ONLINE  (Latency: 12ms | Active Conns: 14)',
+          '  ├── github-ci-mcp-server    ONLINE  (Sync: Instant | Events: 1,420/day)',
+          '  └── n8n-infra-mcp-bridge    ONLINE  (Self-Healing: Active)',
           'ALL SYSTEMS OPERATIONAL (3/3 Services Healthy)',
         ];
         break;
 
       case 'n8n-workflow list':
         responseLines = [
-          '🔄 Active n8n Autonomous Infrastructure Workflows:',
+          '[WORKFLOWS] Active n8n Autonomous Infrastructure Workflows:',
           '  [WF-01] Auto-Remediation: Detect 5xx spikes -> Reboot pod -> Alert Slack (Execs: 4,120)',
           '  [WF-02] Backup Sync: Snapshot PG database to GCS bucket every 6h (Status: Pass)',
           '  [WF-03] Stealth DevOps: Auto-sync Git commit metrics to Portfolio DB (Status: Active)',
@@ -92,7 +92,7 @@ export default function InteractiveTerminal() {
 
       case 'metrics':
         responseLines = [
-          '📈 HostBreak Engineering Impact Metrics:',
+          '[METRICS] HostBreak Engineering Impact Metrics:',
           '  • Operational Overhead Cut: 60%',
           '  • Infrastructure Scale: 10,000+ Servers Self-Healed',
           '  • L1 Support Escalation Reduction: 40% Faster Support Resolution',
@@ -115,7 +115,7 @@ export default function InteractiveTerminal() {
 
       case 'contact':
         responseLines = [
-          '📬 Contact Information:',
+          '[CONTACT] Information:',
           '  • Email:    abdullah.shahid@example.com',
           '  • GitHub:   https://github.com/abdullah-shahid',
           '  • LinkedIn: https://linkedin.com/in/abdullah-shahid',

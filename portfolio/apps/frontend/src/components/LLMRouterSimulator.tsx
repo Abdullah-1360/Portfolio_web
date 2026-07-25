@@ -48,19 +48,19 @@ export default function LLMRouterSimulator() {
 
       for (const p of providers) {
         if (p.status === 'healthy') {
-          newLogs.push(`  ├─ Testing Primary Target [${p.name} / ${p.model}]... OK 🟢`);
+          newLogs.push(`  ├─ Testing Primary Target [${p.name} / ${p.model}]... OK [OK]`);
           activeProvider = p;
           break;
         } else if (p.status === 'outage') {
-          newLogs.push(`  ├─ Target [${p.name}] Returned HTTP 503 Service Unavailable 🔴 -> Bypassing...`);
+          newLogs.push(`  ├─ Target [${p.name}] Returned HTTP 503 Service Unavailable [FAIL] -> Bypassing...`);
         } else if (p.status === 'ratelimit') {
-          newLogs.push(`  ├─ Target [${p.name}] Returned HTTP 429 Rate Limit Exceeded 🟡 -> Bypassing...`);
+          newLogs.push(`  ├─ Target [${p.name}] Returned HTTP 429 Rate Limit Exceeded [WARN] -> Bypassing...`);
         }
       }
 
       if (!activeProvider) {
         activeProvider = providers.find((p) => p.id === 'ollama')!;
-        newLogs.push(`  └─ Shifting to Local Edge Backup [Ollama / Llama 3.2]... OK 🟢`);
+        newLogs.push(`  └─ Shifting to Local Edge Backup [Ollama / Llama 3.2]... OK [OK]`);
       } else {
         newLogs.push(`  └─ [ROUTER SUCCESS] Request fulfilled by ${activeProvider.name} (${activeProvider.model})`);
       }
