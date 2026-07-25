@@ -17,9 +17,28 @@ export default function Navbar({ personalInfo }: { personalInfo: PersonalInfo })
 
   useEffect(() => {
     setMounted(true);
-    const fn = () => setScrolled(window.scrollY > 40);
-    window.addEventListener('scroll', fn, { passive: true });
-    return () => window.removeEventListener('scroll', fn);
+    const sections = ['home', 'about', 'skills', 'projects', 'experience', 'contact'];
+
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 30);
+
+      const scrollPos = window.scrollY + 180;
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = document.getElementById(sections[i]);
+        if (section) {
+          const top = section.offsetTop;
+          if (scrollPos >= top) {
+            const capitalized = sections[i].charAt(0).toUpperCase() + sections[i].slice(1);
+            setActive(capitalized);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const go = (id: string) => {
@@ -36,44 +55,47 @@ export default function Navbar({ personalInfo }: { personalInfo: PersonalInfo })
         transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
         className="fixed top-4 inset-x-0 z-50 flex justify-center pointer-events-none px-4"
       >
-        <nav className={`pointer-events-auto flex items-center gap-1 px-2.5 py-2 rounded-2xl
-          border transition-all duration-400
+        <nav className={`pointer-events-auto flex items-center gap-1 px-3 py-2 rounded-2xl
+          border transition-all duration-300 shadow-lg
           ${scrolled
-            ? 'bg-[var(--bg-2)]/85 backdrop-blur-2xl border-[var(--border)] shadow-[0_8px_40px_rgba(0,0,0,0.4)]'
-            : 'bg-[var(--bg-3)]/50 backdrop-blur-xl border-[var(--border)]'
+            ? 'bg-[var(--glass)] backdrop-blur-2xl border-[var(--border-accent)] shadow-[0_8px_32px_rgba(0,0,0,0.12)]'
+            : 'bg-[var(--bg-2)]/70 backdrop-blur-xl border-[var(--border)]'
           }`}
         >
           {/* Logo */}
-          <button onClick={() => go('home')} aria-label="Home" cursor-pointer
+          <button onClick={() => go('Home')} aria-label="Home"
             className="w-8 h-8 rounded-xl flex items-center justify-center font-black
-                       text-xs text-[#0A0F1E] bg-[var(--accent)] hover:bg-[#4ADE80]
-                       transition-colors cursor-pointer mr-1.5 shrink-0"
+                       text-xs text-white bg-[var(--accent)] hover:opacity-90
+                       transition-all cursor-pointer mr-1.5 shrink-0 shadow-md"
             style={{ fontFamily: 'Archivo, sans-serif' }}
           >
             AS
           </button>
 
           {/* Desktop links */}
-          <ul className="hidden md:flex items-center gap-0.5">
-            {NAV.map((item) => (
-              <li key={item}>
-                <button
-                  onClick={() => go(item)}
-                  className={`relative px-3.5 py-1.5 text-sm font-medium rounded-xl
-                    transition-colors duration-200 cursor-pointer
-                    ${active === item ? 'text-[var(--text)]' : 'text-[var(--text-muted)] hover:text-[var(--text)]'}`}
-                  style={{ fontFamily: 'Space Grotesk, sans-serif' }}
-                >
-                  {active === item && (
-                    <motion.span layoutId="nav-pill"
-                      className="absolute inset-0 rounded-xl bg-[var(--bg-4)]"
-                      transition={{ type: 'spring', stiffness: 400, damping: 32 }}
-                    />
-                  )}
-                  <span className="relative z-10">{item}</span>
-                </button>
-              </li>
-            ))}
+          <ul className="hidden md:flex items-center gap-1">
+            {NAV.map((item) => {
+              const isActive = active === item;
+              return (
+                <li key={item}>
+                  <button
+                    onClick={() => go(item)}
+                    className={`relative px-3.5 py-1.5 text-xs font-semibold rounded-xl
+                      transition-colors duration-200 cursor-pointer
+                      ${isActive ? 'text-[var(--accent)]' : 'text-[var(--text-muted)] hover:text-[var(--text)]'}`}
+                    style={{ fontFamily: 'Space Grotesk, sans-serif' }}
+                  >
+                    {isActive && (
+                      <motion.span layoutId="nav-pill"
+                        className="absolute inset-0 rounded-xl bg-[var(--accent-glow)] border border-[var(--border-accent)]"
+                        transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                      />
+                    )}
+                    <span className="relative z-10">{item}</span>
+                  </button>
+                </li>
+              );
+            })}
           </ul>
 
           {/* Theme toggle */}
@@ -81,9 +103,9 @@ export default function Navbar({ personalInfo }: { personalInfo: PersonalInfo })
             <button
               onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
               aria-label="Toggle theme"
-              className="ml-1.5 w-8 h-8 rounded-xl flex items-center justify-center
+              className="ml-2 w-8 h-8 rounded-xl flex items-center justify-center
                          text-[var(--text-muted)] hover:text-[var(--accent)]
-                         hover:bg-[var(--accent-dim)] transition-colors cursor-pointer"
+                         hover:bg-[var(--accent-dim)] border border-[var(--border)] transition-all cursor-pointer"
             >
               {resolvedTheme === 'dark' ? <Sun size={14} strokeWidth={2} /> : <Moon size={14} strokeWidth={2} />}
             </button>
@@ -93,7 +115,7 @@ export default function Navbar({ personalInfo }: { personalInfo: PersonalInfo })
           <button onClick={() => setOpen(!open)} aria-label="Toggle menu"
             className="md:hidden ml-1 w-8 h-8 rounded-xl flex items-center justify-center
                        text-[var(--text-muted)] hover:text-[var(--text)]
-                       hover:bg-[var(--bg-4)] transition-colors cursor-pointer"
+                       hover:bg-[var(--bg-3)] border border-[var(--border)] transition-colors cursor-pointer"
           >
             {open ? <X size={14} strokeWidth={2} /> : <Menu size={14} strokeWidth={2} />}
           </button>
@@ -108,22 +130,28 @@ export default function Navbar({ personalInfo }: { personalInfo: PersonalInfo })
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.97 }}
             transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed top-[4.5rem] inset-x-4 z-40 rounded-2xl border border-[var(--border)]
+            className="fixed top-[4.5rem] inset-x-4 z-40 rounded-2xl border border-[var(--border-accent)]
                        bg-[var(--bg-2)]/95 backdrop-blur-2xl shadow-2xl p-3 md:hidden"
           >
             <ul className="flex flex-col gap-1">
-              {NAV.map((item) => (
-                <li key={item}>
-                  <button onClick={() => go(item)}
-                    className="w-full text-left px-4 py-3 rounded-xl text-sm font-medium
-                               text-[var(--text-muted)] hover:text-[var(--accent)]
-                               hover:bg-[var(--accent-dim)] transition-colors cursor-pointer"
-                    style={{ fontFamily: 'Space Grotesk, sans-serif' }}
-                  >
-                    {item}
-                  </button>
-                </li>
-              ))}
+              {NAV.map((item) => {
+                const isActive = active === item;
+                return (
+                  <li key={item}>
+                    <button onClick={() => go(item)}
+                      className={`w-full text-left px-4 py-3 rounded-xl text-sm font-medium
+                        transition-colors cursor-pointer flex items-center justify-between
+                        ${isActive
+                          ? 'text-[var(--accent)] bg-[var(--accent-glow)] font-semibold border border-[var(--border-accent)]'
+                          : 'text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--bg-3)]'}`}
+                      style={{ fontFamily: 'Space Grotesk, sans-serif' }}
+                    >
+                      <span>{item}</span>
+                      {isActive && <span className="w-2 h-2 rounded-full bg-[var(--accent)] shrink-0" />}
+                    </button>
+                  </li>
+                );
+              })}
             </ul>
           </motion.div>
         )}
