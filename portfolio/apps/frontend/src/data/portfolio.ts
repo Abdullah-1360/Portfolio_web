@@ -48,7 +48,7 @@ export const portfolioData: PortfolioData = {
       description: 'Enterprise-grade candidate evaluation platform leveraging a stateful LangGraph multi-agent architecture, dynamic fallback routing across 6+ LLM backends (Gemini, OpenAI, Groq, Mistral, Cohere, Cerebras), and an automated stealth Git CI/CD sync pipeline.',
       technologies: ['LangGraph', 'LangChain', 'FastAPI', 'Python', 'PostgreSQL', 'Redis', 'Multi-LLM Routing', 'Git Automation', 'Linux Cron', 'Docker'],
       category: 'AI / LLM Ops',
-      githubUrl: '/404',
+      githubUrl: 'https://github.com/Abdullah-1360/HR_AI',
       liveUrl: '/404',
       featured: true,
       longDescription: `HR_AI is an enterprise-grade AI Hiring & Candidate Evaluation Platform engineered to automate and optimize recruitment workflows. Built upon a LangGraph multi-agent architecture, HR_AI transitions away from naive single-LLM implementations to an autonomous, resilient multi-provider orchestration system.
