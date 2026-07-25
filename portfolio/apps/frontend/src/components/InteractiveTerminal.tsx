@@ -132,7 +132,7 @@ export default function InteractiveTerminal() {
     setTimeout(() => {
       setHistory((prev) => [
         ...prev,
-        { command: trimmed, output: responseLines, status, timestamp: new Time },
+        { command: trimmed, output: responseLines, status, timestamp: new Date().toLocaleTimeString() },
       ]);
       setIsExecuting(false);
     }, 350);
