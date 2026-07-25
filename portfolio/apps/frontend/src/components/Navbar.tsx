@@ -104,19 +104,6 @@ export default function Navbar({ personalInfo }: { personalInfo: PersonalInfo })
             })}
           </ul>
 
-          {/* Theme toggle */}
-          {mounted && (
-            <button
-              onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
-              aria-label="Toggle theme"
-              className="ml-2 w-8 h-8 rounded-xl flex items-center justify-center
-                         text-[var(--text-muted)] hover:text-[var(--accent)]
-                         hover:bg-[var(--accent-dim)] border border-[var(--border)] transition-all cursor-pointer"
-            >
-              {resolvedTheme === 'dark' ? <Sun size={14} strokeWidth={2} /> : <Moon size={14} strokeWidth={2} />}
-            </button>
-          )}
-
           {/* Mobile hamburger */}
           <button onClick={() => setOpen(!open)} aria-label="Toggle menu"
             className="md:hidden ml-1 w-8 h-8 rounded-xl flex items-center justify-center
