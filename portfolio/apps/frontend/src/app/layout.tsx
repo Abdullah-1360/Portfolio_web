@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { GeistSans } from 'geist/font/sans';
 import { ThemeProvider } from 'next-themes';
 import Providers from '@/components/Providers';
 import './globals.css';
@@ -21,20 +20,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html
-      lang="en"
-      suppressHydrationWarning
-      className={GeistSans.variable}
-      style={
-        {
-          '--font-geist-sans': GeistSans.style.fontFamily,
-          '--font-jetbrains': "'JetBrains Mono', 'Fira Code', monospace",
-        } as React.CSSProperties
-      }
-    >
+    <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Favicon — explicit path handles basePath correctly for static export */}
         <link rel="icon" type="image/svg+xml" href={`${BASE}/favicon.svg`} />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} themes={['dark', 'light']}>

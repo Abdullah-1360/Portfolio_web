@@ -1,5 +1,6 @@
 import { portfolioData } from '@/data/portfolio';
-import ParticleBackground from '@/components/ParticleBackground';
+import ScrollBackground from '@/components/ScrollBackground';
+import ScrollProgressBar from '@/components/ScrollProgressBar';
 import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/HeroSection';
 import AboutSection from '@/components/AboutSection';
@@ -13,7 +14,10 @@ export default function Home() {
 
   return (
     <main className="relative min-h-screen">
-      <ParticleBackground />
+      {/* Framer Motion scroll-driven background */}
+      <ScrollBackground />
+      {/* Scroll progress bar */}
+      <ScrollProgressBar />
       <Navbar personalInfo={personalInfo} />
       <HeroSection personalInfo={personalInfo} currently={currently} />
       <AboutSection personalInfo={personalInfo} education={education} />

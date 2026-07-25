@@ -5,21 +5,36 @@ const config: Config = {
   darkMode: 'class',
   theme: {
     extend: {
-      colors: {
-        navy:   { DEFAULT: '#0B1628', 800: '#0F1E35', 700: '#132440' },
-        amber:  { DEFAULT: '#E8820C', dim: '#C46A08' },
-        crimson:{ DEFAULT: '#A82020' },
-        ink:    { DEFAULT: '#F0EDE8', muted: '#9AA3B0', faint: '#4E5A6A' },
-      },
       fontFamily: {
-        sans: ['var(--font-geist-sans)', 'system-ui', 'sans-serif'],
-        mono: ['var(--font-jetbrains)', 'JetBrains Mono', 'monospace'],
+        sans:    ['Space Grotesk', 'system-ui', 'sans-serif'],
+        display: ['Archivo', 'system-ui', 'sans-serif'],
+        mono:    ['JetBrains Mono', 'Fira Code', 'monospace'],
       },
-      animation: { float: 'float 6s ease-in-out infinite' },
+      colors: {
+        accent:  { DEFAULT: '#2563EB', 2: '#7C3AED' },
+        surface: { DEFAULT: '#09090B', 2: '#111113', 3: '#18181B', 4: '#27272A' },
+      },
+      borderRadius: {
+        '2xl': '1rem',
+        '3xl': '1.5rem',
+      },
+      animation: {
+        float:       'float 5s ease-in-out infinite',
+        'pulse-ring': 'pulse-ring 1.5s ease-out infinite',
+        blink:       'blink 1s step-end infinite',
+      },
       keyframes: {
         float: {
           '0%,100%': { transform: 'translateY(0px)' },
           '50%':     { transform: 'translateY(-10px)' },
+        },
+        'pulse-ring': {
+          '0%':   { transform: 'scale(1)',   opacity: '0.6' },
+          '100%': { transform: 'scale(1.6)', opacity: '0' },
+        },
+        blink: {
+          '0%,100%': { opacity: '1' },
+          '50%':     { opacity: '0' },
         },
       },
     },
