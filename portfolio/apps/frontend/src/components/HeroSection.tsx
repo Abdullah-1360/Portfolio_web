@@ -12,14 +12,13 @@ interface Props { personalInfo: PersonalInfo; currently: Currently[]; }
 
 const METRICS = [
   { v: '60%',  l: 'overhead cut',    color: 'text-[var(--accent)]' },
-  { v: '10K+', l: 'servers managed', color: 'text-[var(--cyan)]' },
-  { v: '40%',  l: 'faster support',  color: 'text-[var(--purple)]' },
+  { v: '10K+', l: 'servers managed', color: 'text-[var(--accent)]' },
+  { v: '40%',  l: 'faster support',  color: 'text-[var(--accent)]' },
 ];
 
 export default function HeroSection({ personalInfo, currently }: Props) {
   const { scrollY } = useScroll();
   const photoY    = useTransform(scrollY, [0, 500], [0, 60]);
-  // Hero content fades + scales out as user scrolls away
   const heroOpacity = useTransform(scrollY, [0, 400], [1, 0]);
   const heroScale   = useTransform(scrollY, [0, 400], [1, 0.96]);
   const heroY       = useTransform(scrollY, [0, 400], [0, -40]);
@@ -37,7 +36,7 @@ export default function HeroSection({ personalInfo, currently }: Props) {
       {/* Subtle dot grid */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true"
         style={{
-          backgroundImage: 'radial-gradient(rgba(34,197,94,0.18) 1px, transparent 1px)',
+          backgroundImage: 'radial-gradient(rgba(var(--accent-rgb),0.12) 1px, transparent 1px)',
           backgroundSize: '32px 32px',
           maskImage: 'radial-gradient(ellipse 80% 60% at 50% 40%, black 10%, transparent 75%)',
           WebkitMaskImage: 'radial-gradient(ellipse 80% 60% at 50% 40%, black 10%, transparent 75%)',
@@ -52,7 +51,7 @@ export default function HeroSection({ personalInfo, currently }: Props) {
           <motion.div variants={fadeLeft} className="mb-7">
             <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full
                              border border-[var(--border-accent)] bg-[var(--accent-dim)]
-                             text-xs font-semibold text-[var(--accent)] cursor-default"
+                             text-xs font-semibold text-[var(--accent)] cursor-default shadow-sm"
                   style={{ fontFamily: 'JetBrains Mono, monospace', letterSpacing: '0.07em' }}>
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--accent)] opacity-60" />
@@ -120,7 +119,7 @@ export default function HeroSection({ personalInfo, currently }: Props) {
           </motion.div>
 
           {/* Socials */}
-          <motion.div variants={fadeUp} className="flex items-center gap-2.5">
+          <motion.div variants={fadeUp} className="flex items-center gap-3">
             {[
               { icon: <FaGithub size={15} />,               href: personalInfo.github,            label: 'GitHub' },
               { icon: <FaLinkedin size={15} />,             href: personalInfo.linkedin,          label: 'LinkedIn' },
@@ -131,7 +130,8 @@ export default function HeroSection({ personalInfo, currently }: Props) {
                 className="w-9 h-9 rounded-xl border border-[var(--border)] flex items-center
                            justify-center text-[var(--text-faint)] hover:text-[var(--accent)]
                            hover:border-[var(--border-accent)] hover:bg-[var(--accent-dim)]
-                           transition-colors cursor-pointer">
+                           transition-colors cursor-pointer"
+              >
                 {icon}
               </motion.a>
             ))}
@@ -147,31 +147,30 @@ export default function HeroSection({ personalInfo, currently }: Props) {
         <motion.div variants={fadeRight} className="hidden lg:flex flex-col gap-5">
           {/* Photo with liquid glass frame */}
           <motion.div style={{ y: photoY }} className="relative self-center">
-            <div className="absolute -inset-4 rounded-3xl opacity-20"
-                 style={{ background: 'linear-gradient(135deg, #22C55E, #22D3EE, #A78BFA)', filter: 'blur(24px)' }} />
-            <div className="relative w-72 h-80 rounded-2xl overflow-hidden"
-                 style={{ border: '1px solid rgba(34,197,94,0.2)' }}>
+            <div className="absolute -inset-4 rounded-3xl opacity-25"
+                 style={{ background: 'linear-gradient(135deg, var(--accent), #EA580C)', filter: 'blur(24px)' }} />
+            <div className="relative w-72 h-80 rounded-2xl overflow-hidden shadow-2xl border border-[var(--border-accent)]">
               <Image
                 src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/profile.jpg`}
                 alt="Abdullah Shahid" fill className="object-cover object-top" priority unoptimized
               />
               <div className="absolute inset-0"
-                   style={{ background: 'linear-gradient(to top, rgba(10,15,30,0.6) 0%, transparent 55%)' }} />
+                   style={{ background: 'linear-gradient(to top, rgba(10,15,30,0.5) 0%, transparent 55%)' }} />
             </div>
           </motion.div>
 
           {/* Currently — liquid glass */}
-          <div className="glass-card rounded-2xl p-5 space-y-3.5">
+          <div className="glass-card rounded-2xl p-5 space-y-3.5 shadow-xl">
             <p className="mono tracking-widest uppercase">Currently</p>
             {currently.map((item, i) => (
               <div key={i} className="flex items-start gap-2.5">
                 {item.label === 'Building'
                   ? <Zap size={12} className="text-[var(--accent)] shrink-0 mt-0.5" />
-                  : <BookOpen size={12} className="text-[var(--cyan)] shrink-0 mt-0.5" />
+                  : <BookOpen size={12} className="text-[var(--accent)] shrink-0 mt-0.5" />
                 }
                 <p className="text-xs text-[var(--text-muted)] leading-relaxed"
                    style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-                  <span className={`font-semibold ${item.label === 'Building' ? 'text-[var(--accent)]' : 'text-[var(--cyan)]'}`}>
+                  <span className="font-semibold text-[var(--accent)]">
                     {item.label}:{' '}
                   </span>
                   {item.value}
@@ -182,17 +181,17 @@ export default function HeroSection({ personalInfo, currently }: Props) {
         </motion.div>
 
         {/* Currently — mobile */}
-        <motion.div variants={fadeUp} className="lg:hidden glass-card rounded-2xl p-5 space-y-3.5">
+        <motion.div variants={fadeUp} className="lg:hidden glass-card rounded-2xl p-5 space-y-3.5 shadow-xl">
           <p className="mono tracking-widest uppercase">Currently</p>
           {currently.map((item, i) => (
             <div key={i} className="flex items-start gap-2.5">
               {item.label === 'Building'
                 ? <Zap size={12} className="text-[var(--accent)] shrink-0 mt-0.5" />
-                : <BookOpen size={12} className="text-[var(--cyan)] shrink-0 mt-0.5" />
+                : <BookOpen size={12} className="text-[var(--accent)] shrink-0 mt-0.5" />
               }
               <p className="text-xs text-[var(--text-muted)] leading-relaxed"
                  style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-                <span className={`font-semibold ${item.label === 'Building' ? 'text-[var(--accent)]' : 'text-[var(--cyan)]'}`}>
+                <span className="font-semibold text-[var(--accent)]">
                   {item.label}:{' '}
                 </span>
                 {item.value}

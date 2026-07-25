@@ -7,9 +7,9 @@ import * as THREE from 'three';
 import type { Skill, SkillLevel } from '@/types';
 
 const LEVEL_COLOR: Record<SkillLevel, string> = {
-  Proficient: '#22C55E',
-  Familiar:   '#22D3EE',
-  Learning:   '#A78BFA',
+  Proficient: '#F0883E',
+  Familiar:   '#FB923C',
+  Learning:   '#EA580C',
 };
 
 const LEVEL_EMISSIVE: Record<SkillLevel, number> = {
@@ -33,47 +33,33 @@ function SkillOrb({ skill, position, index }: { skill: Skill; position: [number,
   return (
     <Float speed={1.4 + (index % 4) * 0.3} rotationIntensity={0.06} floatIntensity={0.22}>
       <group position={position}>
-        {hovered && (
-          <mesh rotation={[Math.PI / 2, 0, 0]}>
-            <ringGeometry args={[0.22, 0.28, 32]} />
-            <meshBasicMaterial color={color} transparent opacity={0.5} side={THREE.DoubleSide} />
-          </mesh>
-        )}
         <mesh
           ref={meshRef}
           onPointerOver={(e) => { e.stopPropagation(); setHovered(true); }}
           onPointerOut={() => setHovered(false)}
         >
-          <sphereGeometry args={[0.14, 32, 32]} />
+          <sphereGeometry args={[0.16, 24, 24]} />
           <meshStandardMaterial
             color={color}
             emissive={color}
-            emissiveIntensity={hovered ? 1.2 : LEVEL_EMISSIVE[lvl]}
+            emissiveIntensity={LEVEL_EMISSIVE[lvl]}
             roughness={0.2}
             metalness={0.8}
           />
         </mesh>
-        {hovered && (
-          <Html position={[0, 0.34, 0]} center distanceFactor={9}
-                style={{ pointerEvents: 'none', userSelect: 'none' }}>
-            <div style={{
-              background: 'rgba(9,9,11,0.92)',
-              border: `1px solid ${color}`,
-              borderRadius: '8px',
-              padding: '5px 12px',
-              whiteSpace: 'nowrap',
-              backdropFilter: 'blur(12px)',
-              boxShadow: `0 0 16px ${color}50`,
-            }}>
-              <p style={{ fontSize: '11px', fontWeight: 700, color, fontFamily: 'JetBrains Mono, monospace', margin: 0 }}>
-                {skill.name}
-              </p>
-              <p style={{ fontSize: '9px', color: '#71717A', fontFamily: 'JetBrains Mono, monospace', margin: '2px 0 0' }}>
-                {skill.level}
-              </p>
-            </div>
-          </Html>
-        )}
+        <Html center distanceFactor={7.5} style={{ pointerEvents: 'none' }}>
+          <div
+            className={`px-2 py-0.5 rounded-md text-[10px] font-semibold whitespace-nowrap
+              transition-all duration-200 border
+              ${hovered
+                ? 'bg-[var(--accent)] text-white border-transparent scale-110 shadow-lg'
+                : 'bg-[var(--bg-2)]/90 text-[var(--text)] border-[var(--border)]'
+              }`}
+            style={{ fontFamily: 'Space Grotesk, sans-serif' }}
+          >
+            {skill.name}
+          </div>
+        </Html>
       </group>
     </Float>
   );
@@ -84,35 +70,31 @@ function Core() {
   const ring1  = useRef<THREE.Mesh>(null);
   const ring2  = useRef<THREE.Mesh>(null);
 
-  useFrame((state) => {
-    const t = state.clock.elapsedTime;
-    if (icoRef.current) {
-      icoRef.current.rotation.y += 0.005;
-      icoRef.current.rotation.x = Math.sin(t * 0.3) * 0.07;
-    }
-    if (ring1.current) ring1.current.rotation.z += 0.009;
-    if (ring2.current) ring2.current.rotation.z -= 0.006;
+  useFrame((_, delta) => {
+    if (icoRef.current) icoRef.current.rotation.y += delta * 0.2;
+    if (ring1.current)  ring1.current.rotation.z += delta * 0.15;
+    if (ring2.current)  ring2.current.rotation.x += delta * 0.1;
   });
 
   return (
     <group>
       <mesh ref={icoRef}>
         <icosahedronGeometry args={[0.52, 1]} />
-        <meshStandardMaterial color="#22C55E" emissive="#22C55E" emissiveIntensity={0.7}
+        <meshStandardMaterial color="#F0883E" emissive="#F0883E" emissiveIntensity={0.7}
           wireframe transparent opacity={0.75} />
       </mesh>
       <mesh>
         <sphereGeometry args={[0.4, 16, 16]} />
-        <meshStandardMaterial color="#22C55E" emissive="#22C55E" emissiveIntensity={0.25}
+        <meshStandardMaterial color="#F0883E" emissive="#F0883E" emissiveIntensity={0.25}
           transparent opacity={0.08} />
       </mesh>
       <mesh ref={ring1} rotation={[Math.PI / 2.5, 0, 0]}>
         <ringGeometry args={[0.7, 0.73, 64]} />
-        <meshBasicMaterial color="#22C55E" transparent opacity={0.3} side={THREE.DoubleSide} />
+        <meshBasicMaterial color="#F0883E" transparent opacity={0.3} side={THREE.DoubleSide} />
       </mesh>
       <mesh ref={ring2} rotation={[Math.PI / 1.4, 0.4, 0]}>
         <ringGeometry args={[0.82, 0.85, 64]} />
-        <meshBasicMaterial color="#22D3EE" transparent opacity={0.2} side={THREE.DoubleSide} />
+        <meshBasicMaterial color="#FB923C" transparent opacity={0.2} side={THREE.DoubleSide} />
       </mesh>
     </group>
   );
@@ -153,8 +135,8 @@ export default function SkillsOrbs({ skills }: { skills: Skill[] }) {
       <Canvas camera={{ position: [0, 0, 7], fov: 48 }} dpr={[1, 1.5]}
               gl={{ antialias: true, alpha: true }} style={{ background: 'transparent' }}>
         <ambientLight intensity={0.4} />
-        <pointLight position={[4, 4, 4]}   intensity={25} color="#22C55E" />
-        <pointLight position={[-4, -3, -4]} intensity={12} color="#22D3EE" />
+        <pointLight position={[4, 4, 4]}   intensity={25} color="#F0883E" />
+        <pointLight position={[-4, -3, -4]} intensity={12} color="#FB923C" />
         <OrbitControls enableZoom={false} enablePan={false} autoRotate={false}
           minPolarAngle={Math.PI / 4} maxPolarAngle={Math.PI * 0.75} />
         <OrbitGroup skills={skills} />

@@ -28,7 +28,7 @@ export default function ParticleBackground() {
         vy: (Math.random() - 0.5) * 0.22,
         r: Math.random() * 1.2 + 0.4,
         o: Math.random() * 0.3 + 0.07,
-        hue: Math.random() * 60 + 140, // green-cyan range
+        hue: Math.random() * 30 + 15, // warm sunset orange range
       });
     }
 
@@ -42,7 +42,7 @@ export default function ParticleBackground() {
         if (p.y > canvas.height) p.y = 0;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `hsla(${p.hue},80%,60%,${p.o})`;
+        ctx.fillStyle = `hsla(${p.hue},90%,55%,${p.o})`;
         ctx.fill();
       }
       for (let i = 0; i < particles.length; i++) {
@@ -54,7 +54,7 @@ export default function ParticleBackground() {
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `rgba(34,197,94,${0.04 * (1 - d / 100)})`;
+            ctx.strokeStyle = `rgba(240,136,62,${0.04 * (1 - d / 100)})`;
             ctx.lineWidth = 0.5;
             ctx.stroke();
           }
@@ -72,20 +72,20 @@ export default function ParticleBackground() {
       <div aria-hidden="true" className="fixed inset-0 -z-20 pointer-events-none dark:block hidden"
         style={{
           background: `
-            radial-gradient(ellipse 100% 60% at 10% 0%,   rgba(34,197,94,0.07)  0%, transparent 55%),
-            radial-gradient(ellipse 70%  55% at 90% 90%,  rgba(167,139,250,0.07) 0%, transparent 50%),
-            radial-gradient(ellipse 55%  45% at 50% 50%,  rgba(34,211,238,0.04)  0%, transparent 60%),
-            #0A0F1E
+            radial-gradient(ellipse 100% 60% at 10% 0%,   rgba(240,136,62,0.08) 0%, transparent 55%),
+            radial-gradient(ellipse 70%  55% at 90% 90%,  rgba(234,88,12,0.06)  0%, transparent 50%),
+            radial-gradient(ellipse 55%  45% at 50% 50%,  rgba(251,146,60,0.04) 0%, transparent 60%),
+            #090D16
           `,
         }}
       />
-      {/* Light mode */}
+      {/* Light mode warm linen background */}
       <div aria-hidden="true" className="fixed inset-0 -z-20 pointer-events-none dark:hidden block"
         style={{
           background: `
-            radial-gradient(ellipse 100% 60% at 10% 0%,  rgba(34,197,94,0.05)  0%, transparent 55%),
-            radial-gradient(ellipse 70%  55% at 90% 90%, rgba(124,58,237,0.04) 0%, transparent 50%),
-            #F8FAFC
+            radial-gradient(ellipse 100% 60% at 10% 0%,  rgba(217,119,6,0.06)  0%, transparent 55%),
+            radial-gradient(ellipse 70%  55% at 90% 90%, rgba(234,88,12,0.04) 0%, transparent 50%),
+            #FAF8F5
           `,
         }}
       />
