@@ -31,25 +31,31 @@ export default function ExperienceSection({ experiences }: { experiences: Experi
 
       <div className="grid lg:grid-cols-[240px_1fr] gap-6">
         {/* Sidebar */}
-        <motion.div variants={staggerContainer(0.06)} className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0">
+        <motion.div variants={staggerContainer(0.06)} className="flex lg:flex-col gap-2.5 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0 relative">
+          {/* Vertical Glowing Line for Desktop */}
+          <div className="hidden lg:block absolute left-0 top-3 bottom-3 w-0.5 bg-gradient-to-b from-[var(--accent)] via-[var(--border-accent)] to-transparent" />
           {experiences.map((e, i) => (
             <motion.button key={e.id} variants={fadeLeft} onClick={() => setSel(i)}
-              className={`flex-shrink-0 lg:flex-shrink text-left px-4 py-3 rounded-2xl border
-                          transition-all duration-200 cursor-pointer
+              className={`flex-shrink-0 lg:flex-shrink text-left px-4 py-3.5 rounded-2xl border
+                          transition-all duration-200 cursor-pointer relative lg:pl-6
                           ${sel === i
-                            ? 'bg-[var(--accent-dim)] border-[var(--border-accent)] text-[var(--text)]'
+                            ? 'bg-[var(--accent-glow)] border-[var(--border-accent)] text-[var(--text)] shadow-md'
                             : 'border-[var(--border)] text-[var(--text-muted)] hover:border-[var(--border-accent)] hover:bg-[var(--bg-3)]'
                           }`}>
+              {/* Timeline Indicator Dot */}
+              <span className={`hidden lg:block absolute left-[-4px] top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full border-2 border-[var(--bg)] ${
+                sel === i ? 'bg-[var(--accent)] shadow-[0_0_10px_var(--accent)]' : 'bg-[var(--text-faint)]'
+              }`} />
               <div className="flex items-center justify-between gap-2">
                 <div>
-                  <p className="text-sm font-semibold leading-tight"
+                  <p className="text-sm font-bold leading-tight"
                      style={{ fontFamily: 'Archivo, sans-serif' }}>{e.company}</p>
-                  <p className="text-xs text-[var(--text-faint)] mt-0.5 whitespace-nowrap"
+                  <p className="text-xs text-[var(--text-faint)] mt-1 whitespace-nowrap"
                      style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
                     {fmt(e.startDate)} – {fmt(e.endDate)}
                   </p>
                 </div>
-                {sel === i && <ChevronRight size={13} className="text-[var(--accent)] shrink-0 hidden lg:block" />}
+                {sel === i && <ChevronRight size={14} className="text-[var(--accent)] shrink-0 hidden lg:block" />}
               </div>
             </motion.button>
           ))}

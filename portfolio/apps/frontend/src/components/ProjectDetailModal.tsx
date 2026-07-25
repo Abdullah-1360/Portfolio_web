@@ -245,7 +245,7 @@ export default function ProjectDetailModal({ project, onClose }: Props) {
 
             {/* Highlights for Hiring Managers */}
             {project.highlights && project.highlights.length > 0 && (
-              <div className="space-y-3 p-5 rounded-2xl bg-[rgba(34,197,94,0.04)] border border-[rgba(34,197,94,0.15)]">
+              <div className="space-y-3 p-5 rounded-2xl bg-[var(--accent-glow)] border border-[var(--border-accent)] shadow-md">
                 <h3
                   className="text-sm font-bold text-[var(--accent)] uppercase tracking-wider mono"
                 >

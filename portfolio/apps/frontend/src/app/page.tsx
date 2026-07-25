@@ -11,6 +11,7 @@ import ContactSection from '@/components/ContactSection';
 import InteractiveTerminal from '@/components/InteractiveTerminal';
 import ROICalculator from '@/components/ROICalculator';
 import LLMRouterSimulator from '@/components/LLMRouterSimulator';
+import QuickContactFAB from '@/components/QuickContactFAB';
 import SectionWrapper from '@/components/SectionWrapper';
 import SectionHeader from '@/components/SectionHeader';
 
@@ -69,6 +70,9 @@ export default function Home() {
 
       {/* Contact Section */}
       <ContactSection personalInfo={personalInfo} />
+
+      {/* Sticky Quick Contact FAB */}
+      <QuickContactFAB personalInfo={personalInfo} />
     </main>
   );
 }

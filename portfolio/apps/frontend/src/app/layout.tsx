@@ -6,15 +6,23 @@ import './globals.css';
 const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
 
 export const metadata: Metadata = {
-  title: 'Abdullah Shahid — AI Automation Engineer',
+  title: 'Abdullah Shahid — AI Automation Engineer & LLM Architect',
   description:
-    'AI Automation Engineer specializing in LLM integrations, n8n workflows, self-healing infrastructure, and full-stack development. Reduced operational overhead by 60% at HostBreak.',
-  keywords: ['AI Engineer', 'Automation', 'n8n', 'LLM', 'MCP', 'Node.js', 'NestJS', 'Portfolio'],
+    'AI Automation Engineer specializing in LangGraph, Multi-Agent LLMs, MCP servers, self-healing infrastructure, and full-stack development. Cut operational overhead by 60% at HostBreak.',
+  keywords: ['AI Automation Engineer', 'LLM Architect', 'LangGraph', 'LangChain', 'MCP Server', 'n8n', 'FastAPI', 'Node.js', 'Abdullah Shahid'],
   authors: [{ name: 'Abdullah Shahid' }],
+  themeColor: '#090D16',
   openGraph: {
-    title: 'Abdullah Shahid — AI Automation Engineer',
-    description: 'Building self-healing systems, LLM integrations, and intelligent automations.',
+    title: 'Abdullah Shahid — AI Automation Engineer & LLM Architect',
+    description: 'Building self-healing systems, multi-agent AI workflows, and resilient cloud automations.',
     type: 'website',
+    locale: 'en_US',
+    siteName: 'Abdullah Shahid Portfolio',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Abdullah Shahid — AI Automation Engineer & LLM Architect',
+    description: 'Building self-healing systems, multi-agent AI workflows, and resilient cloud automations.',
   },
 };
 

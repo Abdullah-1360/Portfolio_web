@@ -49,9 +49,9 @@ const ICONS: Record<string, React.ReactNode> = {
 };
 
 const LEVEL_CFG: Record<SkillLevel, { pct: number; bar: string; text: string; label: string }> = {
-  Proficient: { pct: 90, bar: 'bg-[var(--accent)]',  text: 'text-[var(--accent)]',  label: 'Proficient' },
-  Familiar:   { pct: 60, bar: 'bg-[var(--cyan)]',    text: 'text-[var(--cyan)]',    label: 'Familiar'   },
-  Learning:   { pct: 35, bar: 'bg-[var(--purple)]',  text: 'text-[var(--purple)]',  label: 'Learning'   },
+  Proficient: { pct: 90, bar: 'bg-[var(--accent)]',     text: 'text-[var(--accent)]', label: 'Proficient' },
+  Familiar:   { pct: 65, bar: 'bg-[var(--accent)]/70',  text: 'text-[var(--accent)]/80', label: 'Familiar' },
+  Learning:   { pct: 40, bar: 'bg-[var(--accent)]/40',  text: 'text-[var(--accent)]/60', label: 'Learning' },
 };
 
 function SkillCard({ skill, index }: { skill: Skill; index: number }) {
@@ -102,7 +102,7 @@ export default function SkillsSection({ skills }: { skills: Skill[] }) {
               className={`px-4 py-1.5 text-xs font-semibold rounded-xl border
                           transition-all duration-200 cursor-pointer
                           ${active === c
-                            ? 'bg-[var(--accent)] text-[#0A0F1E] border-[var(--accent)]'
+                            ? 'bg-[var(--accent)] text-white border-[var(--accent)] shadow-md'
                             : 'border-[var(--border)] text-[var(--text-faint)] hover:border-[var(--border-accent)] hover:text-[var(--accent)]'
                           }`}
               style={{ fontFamily: 'Space Grotesk, sans-serif' }}>{c}
@@ -114,7 +114,7 @@ export default function SkillsSection({ skills }: { skills: Skill[] }) {
             <button key={v} onClick={() => setView(v as 'grid' | '3d')}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium
                           transition-all duration-200 cursor-pointer
-                          ${view === v ? 'bg-[var(--accent)] text-[#0A0F1E]' : 'text-[var(--text-faint)] hover:text-[var(--text)]'}`}
+                          ${view === v ? 'bg-[var(--accent)] text-white' : 'text-[var(--text-faint)] hover:text-[var(--text)]'}`}
               style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
               {icon}<span className="hidden sm:inline capitalize">{v === '3d' ? '3D' : 'Grid'}</span>
             </button>
