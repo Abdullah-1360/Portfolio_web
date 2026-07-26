@@ -4,10 +4,8 @@ const path = require('path');
 const isProd = process.env.NODE_ENV === 'production';
 const isGithubActions = process.env.GITHUB_ACTIONS === 'true';
 
-// Set basePath to /Portfolio_web when building on GitHub Actions or production build
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH !== undefined
-  ? process.env.NEXT_PUBLIC_BASE_PATH
-  : (isProd || isGithubActions ? '/Portfolio_web' : '');
+// Set basePath for custom domain (abdull1h.qzz.io is a root domain, so basePath is empty)
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
 
 const workspaceModules = path.resolve(__dirname, '..', '..', 'node_modules');
 const localModules     = path.resolve(__dirname, 'node_modules');
@@ -18,7 +16,6 @@ const nextConfig = {
   images: { unoptimized: true },
   
   basePath: basePath, 
-  assetPrefix: basePath ? `${basePath}/` : undefined,
   env: {
     NEXT_PUBLIC_BASE_PATH: basePath,
   },
