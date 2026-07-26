@@ -2,6 +2,12 @@ const path = require('path');
 
 /** @type {import('next').NextConfig} */
 const isProd = process.env.NODE_ENV === 'production';
+const isGithubActions = process.env.GITHUB_ACTIONS === 'true';
+
+// Set basePath to /Portfolio_web when building on GitHub Actions or production build
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH !== undefined
+  ? process.env.NEXT_PUBLIC_BASE_PATH
+  : (isProd || isGithubActions ? '/Portfolio_web' : '');
 
 const workspaceModules = path.resolve(__dirname, '..', '..', 'node_modules');
 const localModules     = path.resolve(__dirname, 'node_modules');
@@ -11,11 +17,10 @@ const nextConfig = {
   trailingSlash: true,
   images: { unoptimized: true },
   
-  // CHANGED: Removed the '/Portfolio_web' subfolder string so it defaults to the root
-  basePath: '', 
-  assetPrefix: '',
+  basePath: basePath, 
+  assetPrefix: basePath ? `${basePath}/` : undefined,
   env: {
-    NEXT_PUBLIC_BASE_PATH: '',
+    NEXT_PUBLIC_BASE_PATH: basePath,
   },
 
   transpilePackages: ['three', '@react-three/fiber', '@react-three/drei'],

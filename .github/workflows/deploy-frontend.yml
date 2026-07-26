@@ -32,6 +32,7 @@ jobs:
         env:
           NODE_ENV: production
           NEXT_PUBLIC_API_URL: https://portfolio-backend-nu-seven.vercel.app/api
+          NEXT_PUBLIC_BASE_PATH: /Portfolio_web
         run: npm run build
 
       - name: Add .nojekyll inside out/
