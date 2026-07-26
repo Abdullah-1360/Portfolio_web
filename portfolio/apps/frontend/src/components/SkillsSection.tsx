@@ -96,6 +96,7 @@ function ProjectLinkedSkillCard({ skill, index }: { skill: Skill; index: number 
           </div>
         </div>
 
+
         {/* Progress Bar Track & Glow Fill */}
         <div className="h-2.5 rounded-full bg-[var(--bg-3)] border border-[var(--border)] overflow-hidden p-0.5 relative">
           <motion.div
