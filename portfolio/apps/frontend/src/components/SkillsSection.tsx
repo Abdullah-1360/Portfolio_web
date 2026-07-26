@@ -50,9 +50,9 @@ const ICONS: Record<string, React.ReactNode> = {
 };
 
 const LEVEL_CFG: Record<SkillLevel, { pct: number; bar: string; text: string; label: string }> = {
-  Proficient: { pct: 90, bar: 'bg-[var(--accent)]',    text: 'text-[var(--accent)]',    label: 'Proficient' },
-  Familiar:   { pct: 65, bar: 'bg-[var(--accent)]/70', text: 'text-[var(--accent)]/80', label: 'Familiar'   },
-  Learning:   { pct: 40, bar: 'bg-[var(--accent)]/40', text: 'text-[var(--accent)]/60', label: 'Learning'   },
+  Proficient: { pct: 95, bar: 'bg-[var(--accent)] shadow-[0_0_8px_rgba(var(--accent-rgb),0.5)]', text: 'text-[var(--accent)]', label: 'Proficient' },
+  Familiar:   { pct: 75, bar: 'bg-[var(--accent)]/85 shadow-[0_0_6px_rgba(var(--accent-rgb),0.3)]', text: 'text-[var(--accent)]/90', label: 'Familiar' },
+  Learning:   { pct: 55, bar: 'bg-[var(--accent)]/60', text: 'text-[var(--accent)]/70', label: 'Learning' },
 };
 
 function ProjectLinkedSkillCard({ skill, index }: { skill: Skill; index: number }) {
@@ -86,13 +86,18 @@ function ProjectLinkedSkillCard({ skill, index }: { skill: Skill; index: number 
             </div>
           </div>
 
-          <span className={`text-xs font-mono font-semibold ${cfg.text}`}>
-            {cfg.label}
-          </span>
+          <div className="text-right">
+            <span className={`text-xs font-mono font-bold ${cfg.text} block`}>
+              {cfg.label}
+            </span>
+            <span className="mono text-[10px] text-[var(--text-faint)] font-semibold">
+              {cfg.pct}%
+            </span>
+          </div>
         </div>
 
-        {/* Progress Bar */}
-        <div className="h-1.5 rounded-full bg-[var(--bg-3)] overflow-hidden">
+        {/* Progress Bar Track & Glow Fill */}
+        <div className="h-2 rounded-full bg-[var(--bg-3)] border border-[var(--border)] overflow-hidden shadow-inner p-0.5">
           <motion.div
             className={`h-full rounded-full ${cfg.bar}`}
             initial={{ width: 0 }}
