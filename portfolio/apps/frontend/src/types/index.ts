@@ -17,6 +17,8 @@ export interface Skill {
   name: string;
   level: SkillLevel;
   category: string;
+  useCase?: string;
+  linkedProject?: string;
 }
 
 export interface KeyInnovation {
