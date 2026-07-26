@@ -101,10 +101,10 @@ function ProjectLinkedSkillCard({ skill, index }: { skill: Skill; index: number 
         <div className="h-2.5 rounded-full bg-[var(--bg-3)] border border-[var(--border)] overflow-hidden p-0.5 relative">
           <motion.div
             className="h-full rounded-full shadow-[0_0_8px_rgba(240,136,62,0.6)]"
-            style={{ backgroundColor: '#F0883E' }}
-            initial={{ width: '0%' }}
-            animate={{ width: `${cfg.pct}%` }}
-            transition={{ duration: 0.8, delay: index * 0.03, ease: 'easeOut' }}
+            style={{ width: `${cfg.pct}%`, backgroundColor: '#F0883E' }}
+            initial={{ opacity: 0.6 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: index * 0.03 }}
           />
         </div>
       </div>
