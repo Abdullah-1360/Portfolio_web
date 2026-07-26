@@ -50,9 +50,9 @@ const ICONS: Record<string, React.ReactNode> = {
 };
 
 const LEVEL_CFG: Record<SkillLevel, { pct: number; bar: string; text: string; label: string }> = {
-  Proficient: { pct: 95, bar: 'bg-[var(--accent)] shadow-[0_0_8px_rgba(var(--accent-rgb),0.5)]', text: 'text-[var(--accent)]', label: 'Proficient' },
-  Familiar:   { pct: 75, bar: 'bg-[var(--accent)]/85 shadow-[0_0_6px_rgba(var(--accent-rgb),0.3)]', text: 'text-[var(--accent)]/90', label: 'Familiar' },
-  Learning:   { pct: 55, bar: 'bg-[var(--accent)]/60', text: 'text-[var(--accent)]/70', label: 'Learning' },
+  Proficient: { pct: 95, bar: 'bg-[var(--accent)] shadow-[0_0_10px_rgba(var(--accent-rgb),0.6)]', text: 'text-[var(--accent)]', label: 'Proficient' },
+  Familiar:   { pct: 75, bar: 'bg-[var(--accent)] shadow-[0_0_8px_rgba(var(--accent-rgb),0.45)]',  text: 'text-[var(--accent)]', label: 'Familiar'   },
+  Learning:   { pct: 55, bar: 'bg-[var(--accent)] shadow-[0_0_6px_rgba(var(--accent-rgb),0.3)]',   text: 'text-[var(--accent)]', label: 'Learning'   },
 };
 
 function ProjectLinkedSkillCard({ skill, index }: { skill: Skill; index: number }) {
