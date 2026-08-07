@@ -15,16 +15,10 @@ async function bootstrap() {
   });
 
   app.enableCors({
-    origin: process.env.FRONTEND_URL
-      ? process.env.FRONTEND_URL.split(',').map((u) => u.trim())
-      : [
-          'https://abdullah-1360.github.io',
-          'https://portfolio-backend-nu-seven.vercel.app',
-          'http://localhost:3000',
-        ],
-    methods: ['GET', 'POST', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: false,
+    origin: true,
+    methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE', 'PATCH'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
+    credentials: true,
   });
 
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));

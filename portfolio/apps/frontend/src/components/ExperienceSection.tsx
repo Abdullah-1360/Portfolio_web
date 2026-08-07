@@ -13,8 +13,8 @@ const fmt = (d: string | null) =>
 
 function duration(start: string, end: string | null) {
   const s = new Date(start);
-  const e = end ? new Date(end) : new Date();
-  const months = (e.getFullYear() - s.getFullYear()) * 12 + (e.getMonth() - s.getMonth());
+  const e = end ? new Date(end) : new Date('2026-08-01');
+  const months = Math.max(1, (e.getFullYear() - s.getFullYear()) * 12 + (e.getMonth() - s.getMonth()));
   if (months < 12) return `${months}mo`;
   const y = Math.floor(months / 12), m = months % 12;
   return m > 0 ? `${y}y ${m}mo` : `${y}y`;

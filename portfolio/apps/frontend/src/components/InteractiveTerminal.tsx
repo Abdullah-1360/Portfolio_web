@@ -29,7 +29,7 @@ export default function InteractiveTerminal() {
         'Type "help" or click any shortcut button below to execute automated workflows.',
       ],
       status: 'info',
-      timestamp: new Date().toLocaleTimeString(),
+      timestamp: 'LIVE',
     },
   ]);
   const [isExecuting, setIsExecuting] = useState(false);
