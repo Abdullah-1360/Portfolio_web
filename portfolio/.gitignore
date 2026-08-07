@@ -7,5 +7,5 @@ dist/
 *.env.production
 *.log
 .env.*
-.py
+*.py
 *.pyc
