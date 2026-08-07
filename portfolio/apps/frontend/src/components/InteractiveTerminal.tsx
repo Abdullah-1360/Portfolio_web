@@ -231,7 +231,7 @@ export default function InteractiveTerminal() {
             onKeyDown={handleKeyDown}
             disabled={isExecuting}
             placeholder="Type 'help' or any command..."
-            className="flex-1 bg-transparent text-[var(--text)] outline-none border-none font-mono text-xs md:text-sm focus:ring-0"
+                className="flex-1 bg-transparent text-[var(--text)] outline-none border-none font-mono text-xs md:text-sm"
           />
         </div>
       </div>

@@ -111,10 +111,14 @@ export default function LLMRouterSimulator() {
         {providers.map((p) => {
           const isOllama = p.id === 'ollama';
           return (
-            <div
+            <button
+              type="button"
               key={p.id}
               onClick={() => !isOllama && toggleStatus(p.id)}
-              className={`p-3.5 rounded-2xl border transition-all cursor-pointer select-none ${
+              disabled={isOllama}
+              aria-pressed={p.status !== 'healthy'}
+              aria-label={`${p.name}: ${p.status === 'healthy' ? 'Healthy' : p.status === 'outage' ? 'Outage' : 'Rate limited'}. ${isOllama ? 'Fallback provider, cannot toggle.' : 'Click to cycle status.'}`}
+              className={`p-3.5 rounded-2xl border transition-all cursor-pointer select-none text-left ${
                 p.status === 'healthy'
                   ? 'bg-[var(--bg-2)] border-green-500/40 hover:border-green-500'
                   : p.status === 'outage'
@@ -141,7 +145,7 @@ export default function LLMRouterSimulator() {
                 </span>
                 <span className="text-[var(--text-muted)]">{p.avgLatency}</span>
               </div>
-            </div>
+            </button>
           );
         })}
       </div>

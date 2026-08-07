@@ -36,7 +36,7 @@ export default function QuickContactFAB({ personalInfo }: { personalInfo: Person
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="fixed bottom-22 right-6 z-40 w-80 rounded-2xl border border-[var(--border-accent)]
+                   className="fixed bottom-20 right-6 z-40 w-80 rounded-2xl border border-[var(--border-accent)]
                        bg-[var(--bg-2)]/95 backdrop-blur-2xl p-5 shadow-2xl space-y-4"
           >
             <div className="flex items-center justify-between pb-3 border-b border-[var(--border)]">

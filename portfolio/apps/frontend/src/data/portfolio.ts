@@ -49,7 +49,7 @@ export const portfolioData: PortfolioData = {
       technologies: ['LangGraph', 'LangChain', 'FastAPI', 'Python', 'PostgreSQL', 'Redis', 'Multi-LLM Routing', 'Git Automation', 'Linux Cron', 'Docker'],
       category: 'AI & LLMs',
       githubUrl: 'https://github.com/Abdullah-1360/HR_AI',
-      liveUrl: '/404',
+      liveUrl: 'https://binarystudio.dpdns.org/router',
       featured: true,
       longDescription: `HR_AI is an enterprise-grade AI Hiring & Candidate Evaluation Platform engineered to automate and optimize recruitment workflows. Built upon a LangGraph multi-agent architecture, HR_AI transitions away from naive single-LLM implementations to an autonomous, resilient multi-provider orchestration system.
 
