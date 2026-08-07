@@ -4,7 +4,7 @@ import { RouterReservationService } from './router-reservation.service';
 import { RouterHealthService } from './router-health.service';
 import { RouterLoggerService } from './router-logger.service';
 import { ProviderDispatcherService, ChatMessage } from './provider-dispatcher.service';
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'crypto';
 
 export interface RouteResult {
   content: string;
@@ -35,7 +35,7 @@ export class RouterGraphService {
     estimatedTokens: number = 600,
     requiredTags: string[] | null = null,
   ): Promise<RouteResult> {
-    const requestUuid = uuidv4();
+    const requestUuid = randomUUID();
     const failedModels: string[] = [];
 
     for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {

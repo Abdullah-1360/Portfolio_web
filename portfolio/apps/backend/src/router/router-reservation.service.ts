@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { RouterDbService } from './router-db.service';
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'crypto';
 
 interface InMemoryQuotaUsage {
   usedTokens: number;
@@ -105,7 +105,7 @@ export class RouterReservationService {
                 id, request_uuid, model_id, quota_definition_id, reserved_amount, state, expires_at
               ) VALUES ($1, $2, $3, $4, $5, 'pending', NOW() + INTERVAL '60 seconds')
             `,
-              [uuidv4(), requestUuid, modelKey, row.definition_id, row.amount],
+              [randomUUID(), requestUuid, modelKey, row.definition_id, row.amount],
             );
           }
 
