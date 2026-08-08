@@ -31,7 +31,7 @@ jobs:
         working-directory: portfolio/apps/frontend
         env:
           NODE_ENV: production
-          NEXT_PUBLIC_API_URL: https://portfolio-backend-nu-seven.vercel.app/api
+          NEXT_PUBLIC_API_URL: https://portfolio-web-tau-ten-80.vercel.app/api
           NEXT_PUBLIC_BASE_PATH: ""
         run: npm run build
 
