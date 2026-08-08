@@ -28,6 +28,16 @@ const SYSTEM_PROMPT = `You are Abdullah Shahid's digital twin — speak in first
 ${RESUME_GROUND_TRUTH}
 `;
 
+const SUGGEST_SYSTEM_PROMPT = `You generate 3 short, specific follow-up question suggestions for a portfolio chat about Abdullah Shahid (AI Automation Engineer).
+
+Rules:
+- Each question must be under 8 words
+- Questions must be directly relevant to what was just discussed
+- Return ONLY a raw JSON array of 3 strings, nothing else, no markdown, no explanation
+- Example output: ["How does the HR_AI router work?","What's your Ansible EDA setup?","Are you open to freelance?"]
+- Questions should naturally continue the conversation thread
+- Never repeat questions from conversation history`;
+
 @Injectable()
 export class AgentService {
   private readonly logger = new Logger(AgentService.name);
@@ -38,11 +48,7 @@ export class AgentService {
     const history = dto.history || [];
     const messages: ChatMessage[] = [
       { role: 'system', content: SYSTEM_PROMPT },
-      // Sliding window: last 6 turns for context
-      ...history.slice(-6).map((h) => ({
-        role: h.role,
-        content: h.content,
-      })),
+      ...history.slice(-6).map((h) => ({ role: h.role, content: h.content })),
       { role: 'user', content: dto.message },
     ];
 
@@ -55,5 +61,34 @@ export class AgentService {
       tier: result.tier,
       latencyMs: result.latencyMs,
     };
+  }
+
+  async suggest(lastUserMessage: string, lastAssistantReply: string): Promise<string[]> {
+    const messages: ChatMessage[] = [
+      { role: 'system', content: SUGGEST_SYSTEM_PROMPT },
+      {
+        role: 'user',
+        content: `User asked: "${lastUserMessage}"\nAssistant replied: "${lastAssistantReply.slice(0, 300)}"\n\nGenerate 3 follow-up questions as a JSON array.`,
+      },
+    ];
+
+    try {
+      const result = await this.routerGraph.execute(messages, 120);
+      // Strip markdown code fences if any model wraps in ```json
+      const raw = result.content.replace(/```json|```/g, '').trim();
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        return parsed.slice(0, 3).map((q: unknown) => String(q));
+      }
+    } catch (err) {
+      this.logger.warn(`Suggest parse failed: ${err}`);
+    }
+
+    // Deterministic fallback
+    return [
+      'Tell me about HR_AI.',
+      'What stack do you use at HostBreak?',
+      'Are you open to new roles?',
+    ];
   }
 }

@@ -30,7 +30,7 @@ interface Message {
   tier?: string;
 }
 
-const QUICK_PROMPTS = [
+const INITIAL_PROMPTS = [
   'What systems did you build at HostBreak?',
   'Explain the HR_AI router architecture',
   'What is your experience with Ansible EDA?',
@@ -42,6 +42,8 @@ export default function QuickContactFAB({ personalInfo }: { personalInfo: Person
   const [tab, setTab] = useState<'chat' | 'contact'>('chat');
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const [suggestedQuestions, setSuggestedQuestions] = useState<string[]>([]);
+  const [suggestLoading, setSuggestLoading] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 'welcome',
@@ -88,7 +90,6 @@ export default function QuickContactFAB({ personalInfo }: { personalInfo: Person
         (typeof window !== 'undefined' && window.location.hostname === 'localhost'
           ? 'http://localhost:4000/api'
           : 'https://portfolio-web-tau-ten-80.vercel.app/api');
-        
 
       const res = await fetch(`${apiBase}/agent/chat`, {
         method: 'POST',
@@ -96,9 +97,7 @@ export default function QuickContactFAB({ personalInfo }: { personalInfo: Person
         body: JSON.stringify({ message: query, history }),
       });
 
-      if (!res.ok) {
-        throw new Error(`HTTP ${res.status}`);
-      }
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
       const data = await res.json();
       const botMsg: Message = {
@@ -112,6 +111,24 @@ export default function QuickContactFAB({ personalInfo }: { personalInfo: Person
       };
 
       setMessages((prev) => [...prev, botMsg]);
+
+      // Fire-and-forget: generate AI follow-up suggestions
+      setSuggestLoading(true);
+      setSuggestedQuestions([]);
+      fetch(`${apiBase}/agent/suggest`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          lastUserMessage: query.slice(0, 500),
+          lastAssistantReply: data.response.slice(0, 1000),
+        }),
+      })
+        .then((r) => r.json())
+        .then((d) => {
+          if (Array.isArray(d.suggestions)) setSuggestedQuestions(d.suggestions.slice(0, 3));
+        })
+        .catch(() => {})
+        .finally(() => setSuggestLoading(false));
     } catch {
       // Graceful offline fallback grounded strictly in resume data
       const botMsg: Message = {
@@ -274,19 +291,38 @@ export default function QuickContactFAB({ personalInfo }: { personalInfo: Person
                   <div ref={messagesEndRef} />
                 </div>
 
-                {/* Quick Prompts */}
-                {messages.length < 3 && (
+                {/* Question Chips: initial static → AI-generated after first reply */}
+                {!loading && (suggestedQuestions.length > 0 || messages.length < 3) && (
                   <div className="p-2 border-t border-[var(--border)] flex gap-1.5 overflow-x-auto shrink-0 scrollbar-none">
-                    {QUICK_PROMPTS.map((prompt) => (
-                      <button
-                        key={prompt}
-                        type="button"
-                        onClick={() => handleSend(prompt)}
-                        className="px-2.5 py-1 rounded-lg border border-[var(--border)] bg-[var(--card)] hover:border-[var(--border-accent)] hover:text-[var(--accent)] text-[11px] whitespace-nowrap text-[var(--text-muted)] transition-colors shrink-0"
-                      >
-                        {prompt}
-                      </button>
-                    ))}
+                    {suggestLoading ? (
+                      <div className="flex items-center gap-1.5 px-2.5 py-1 text-[11px] text-[var(--text-faint)]">
+                        <Loader2 size={11} className="animate-spin text-[var(--accent)]" />
+                        Thinking of follow-ups…
+                      </div>
+                    ) : suggestedQuestions.length > 0 ? (
+                      suggestedQuestions.map((prompt) => (
+                        <button
+                          key={prompt}
+                          type="button"
+                          onClick={() => { setSuggestedQuestions([]); handleSend(prompt); }}
+                          className="px-2.5 py-1 rounded-lg border border-[var(--border-accent)]/50 bg-[var(--accent)]/5 hover:bg-[var(--accent)]/15 hover:border-[var(--border-accent)] hover:text-[var(--accent)] text-[11px] whitespace-nowrap text-[var(--text-muted)] transition-all shrink-0 flex items-center gap-1"
+                        >
+                          <Sparkles size={9} className="text-[var(--accent)] shrink-0" />
+                          {prompt}
+                        </button>
+                      ))
+                    ) : (
+                      INITIAL_PROMPTS.map((prompt) => (
+                        <button
+                          key={prompt}
+                          type="button"
+                          onClick={() => handleSend(prompt)}
+                          className="px-2.5 py-1 rounded-lg border border-[var(--border)] bg-[var(--card)] hover:border-[var(--border-accent)] hover:text-[var(--accent)] text-[11px] whitespace-nowrap text-[var(--text-muted)] transition-colors shrink-0"
+                        >
+                          {prompt}
+                        </button>
+                      ))
+                    )}
                   </div>
                 )}
 
